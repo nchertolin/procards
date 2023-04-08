@@ -1,117 +1,120 @@
 import './index.scss';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthContext } from './context/index';
-import { token, testUser } from './testData';
-import { isAuth } from './util.js';
-import Layout from './Layout';
-import Loading from './Loading/Loading';
+import { AuthContext } from './providers/AuthProvider';
+import { testData } from './testData';
+import Layout from './components/Layout';
+import Loading from './components/Loading/Loading';
 import { v4 } from 'uuid';
+import Recovery from './components/Recovery';
+import { UserService } from './services/userService';
 
-const Main = lazy(() => import('./Main'));
-const Content = lazy(() => import('./Content'));
-const ErrorPage = lazy(() => import('./ErrorPage/ErrorPage'));
-const Account = lazy(() => import('./Account'));
-const AccountEdit = lazy(() => import('./AccountEdit'));
-const DeckInfo = lazy(() => import('./DeckInfo'));
-const Training = lazy(() => import('./Training'));
-const SignIn = lazy(() => import('./SignIn'));
-const SignUp = lazy(() => import('./SignUp'));
+const Main = lazy(() => import('./components/Main'));
+const CardList = lazy(() => import('./components/CardList'));
+const LearningDecks = lazy(() => import('./components/LearningDecks'));
+const EditorDecks = lazy(() => import('./components/EditorDecks'));
+const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
+const Account = lazy(() => import('./components/Account'));
+const AccountEdit = lazy(() => import('./components/AccountEdit'));
+const DeckInfo = lazy(() => import('./components/DeckInfo'));
+const Training = lazy(() => import('./components/Training'));
+const SignIn = lazy(() => import('./components/SignIn'));
+const SignUp = lazy(() => import('./components/SignUp'));
 
-function App() {
-  localStorage.setItem('token', token);
-  const [user, setUser] = useState(testUser)
-  const [decks, setDecks] = useState(testUser.decks);
+export default function App() {
+   const { setUser } = useContext(AuthContext);
+   const [decks, setDecks] = useState(testData.decks);
 
-  return (
-    <div className="App">
-      <AuthContext.Provider value={{ user, setUser }}>
-        <Router>
-          <Routes>
-            <Route path='/signin' element={
-              <Suspense fallback={<Loading />}>
-                <SignIn />
-              </Suspense>
-            } />
+   useEffect(() => {
+      const fetchData = async () => setUser(await UserService.getInfo())
+      fetchData();
+   }, [setUser])
+
+   return (
+      <Router>
+         <Routes>
+
+            <Route path='/signin'>
+               <Route index element={
+                  <Suspense fallback={<Loading />}>
+                     <SignIn />
+                  </Suspense>
+               } />
+
+               <Route path='forgot' element={
+                  <Suspense fallback={<Loading />}>
+                     <Recovery />
+                  </Suspense>
+               } />
+            </Route>
+
             <Route path='/signup' element={
-              <Suspense fallback={<Loading />}>
-                <SignUp />
-              </Suspense>
+               <Suspense fallback={<Loading />}>
+                  <SignUp />
+               </Suspense>
             } />
 
             <Route path='/' element={<Layout />}>
 
-              <Route index element={
-                <Suspense fallback={<Loading />}>
-                  <Main />
-                </Suspense>
-              } />
+               <Route index element={
+                  <Suspense fallback={<Loading />}>
+                     <Main />
+                  </Suspense>
+               } />
 
-              {isAuth &&
-                <>
-                  <Route path='editor' element={
-                    <Suspense fallback={<Loading />}>
-                      <Content title='Редактор колод' decks={decks} />
-                    </Suspense>
-                  } />
+               <Route path='editor' element={
+                  <Suspense fallback={<Loading />}>
+                     <EditorDecks />
+                  </Suspense>
+               } />
 
-                  {decks.map(info =>
-                    <Route key={v4()} path={`editor/${info.to}`} element={
-                      <Suspense fallback={<Loading />}>
-                        <Content title={info.title}
-                          decks={info.content} />
-                      </Suspense>
-                    }
-                    />)}
+               <Route path='editor/:deckId' element={
+                  <Suspense fallback={<Loading />}>
+                     <CardList />
+                  </Suspense>
+               }
+               />
 
-                  <Route path='learn' element={
-                    <Suspense fallback={<Loading />}>
-                      <Content title='Выберите колоду' decks={decks} />
-                    </Suspense>
-                  } />
+               <Route path='learn' element={
+                  <Suspense fallback={<Loading />}>
+                     <LearningDecks />
+                  </Suspense>
+               } />
 
-                  {decks.map(info =>
-                    <Route key={v4()} path={`learn/${info.to}`} element={
-                      <Suspense fallback={<Loading />}>
-                        <DeckInfo info={info} />
-                      </Suspense>
-                    }
-                    />)}
+               <Route path='learn/:deckId' element={
+                  <Suspense fallback={<Loading />}>
+                     <DeckInfo />
+                  </Suspense>
+               } />
 
-                  {decks.map(info =>
-                    <Route key={v4()} path={`learn/${info.to}/training`} element={
-                      <Suspense fallback={<Loading />}>
+               {decks.map(info =>
+                  <Route key={v4()} path={`learn/${info.id}/training`} element={
+                     <Suspense fallback={<Loading />}>
                         <Training info={info} />
-                      </Suspense>
-                    }
-                    />)}
+                     </Suspense>
+                  }
+                  />)}
 
-                  <Route path='account' element={
-                    <Suspense fallback={<Loading />}>
-                      <Account />
-                    </Suspense>
-                  } />
+               <Route path='account' element={
+                  <Suspense fallback={<Loading />}>
+                     <Account />
+                  </Suspense>
+               } />
 
-                  <Route path='account/edit' element={
-                    <Suspense fallback={<Loading />}>
-                      <AccountEdit />
-                    </Suspense>
-                  } />
-                </>
-              }
+               <Route path='account/edit' element={
+                  <Suspense fallback={<Loading />}>
+                     <AccountEdit />
+                  </Suspense>
+               } />
 
-              <Route path='*' element={
-                <Suspense fallback={<Loading />}>
-                  <ErrorPage />
-                </Suspense>
-              } />
+               <Route path='*' element={
+                  <Suspense fallback={<Loading />}>
+                     <ErrorPage />
+                  </Suspense>
+               } />
 
             </Route>
-          </Routes>
-        </Router>
-      </AuthContext.Provider>
-    </div >
-  );
+         </Routes>
+      </Router>
+   );
 }
-
-export default App;

@@ -1,6 +1,6 @@
 import React from 'react';
-import pattern from './assets/pictures/pattern.png';
-import arrow from './assets/icons/arrow-icon.svg';
+import pattern from '../assets/pictures/pattern.png';
+import arrow from '../assets/icons/arrow-icon.svg';
 
 export default function Main() {
   return (

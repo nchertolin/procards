@@ -1,19 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
+import { AuthService } from '../services/authService';
 
 export default function SignIn() {
-  const { register, formState: { errors, }, handleSubmit } = useForm({ mode: "onBlur" });
+  const { register, formState: { errors, }, handleSubmit } = useForm();
+  const signIn = async (data) => await AuthService.signIn(data)
+
   return (
     <div className='signin'>
-      <form onSubmit={handleSubmit()}>
+      <form onSubmit={handleSubmit(signIn)}>
         <h1>Вход</h1>
         <label>
-          Электронная почта
-          <input type="email"
-            className={errors?.email ? 'invalid' : ''}
-            {...register('email', { required: 'Обязательноe поле.' })} />
-          {errors?.email && <p className='error'>{errors?.email.message}</p>}
+          Логин или эл. почта
+          <input type="text"
+            className={errors?.login ? 'invalid' : ''}
+            {...register('login', { required: 'Обязательноe поле.' })} />
+          {errors?.login && <p className='error'>{errors?.login.message}</p>}
         </label>
         <label>
           Пароль

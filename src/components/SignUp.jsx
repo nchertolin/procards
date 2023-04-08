@@ -1,6 +1,5 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 
 export default function SignUp() {
   const { register, watch, formState: { errors, }, handleSubmit } = useForm({ mode: "onBlur" });
@@ -8,6 +7,13 @@ export default function SignUp() {
     <div className='signin'>
       <form onSubmit={handleSubmit()}>
         <h1>Регистрация</h1>
+        <label>
+          Логин
+          <input type="text"
+            className={errors?.login ? 'invalid' : ''}
+            {...register('login', { required: 'Обязательноe поле.' })} />
+          {errors?.login && <p className='error'>{errors?.login.message}</p>}
+        </label>
         <label>
           Электронная почта
           <input type="email"
