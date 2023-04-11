@@ -6,14 +6,13 @@ const url = axios.create({ baseURL: `${SERVER_URL}cards/` });
 
 const LearningCardsService = {
    async getCards(id) {
-      return await url.get('', { userId, deckId: id })
-         .then(response => response.data.cards)
-         .catch(error => console.error(error))
+      const response = await url.get('', { userId, deckId: id })
+
+      return response.data.cards;
    },
 
    async postGrade({ deckId, cardId, grade, timeInSeconds }) {
-      return await url.post('', { userId, deckId, cardId, grade, timeInSeconds })
-         .catch(error => console.error(error))
+      return await url.post('grade', { userId, deckId, cardId, grade, timeInSeconds })
    },
 
 }

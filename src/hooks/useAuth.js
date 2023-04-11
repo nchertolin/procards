@@ -1,0 +1,56 @@
+import { useMutation } from '@tanstack/react-query'
+import { AuthService } from '../services/authService';
+import { redirectToMainPage, redirectToSignInPage } from '../util';
+
+const setId = (id) => localStorage.setItem('id', id);
+const onSuccess = (id) => {
+   setId(id);
+   redirectToMainPage();
+};
+const onError = (error) => {
+   setId('test-id');
+   alert(error.message);
+}
+
+const useSignIn = () => {
+   const { isLoading, mutate: signIn } = useMutation(
+      async (data) => await AuthService.signIn(data),
+      { onSuccess, onError }
+   );
+
+   return { isLoading, signIn };
+};
+
+const useSignUp = () => {
+   const { isLoading, mutate: signUp } = useMutation(
+      async (data) => await AuthService.signUp(data),
+      { onSuccess, onError }
+   );
+
+   return { isLoading, signUp };
+};
+
+const useRecovery = () => {
+   const { isLoading, mutate: recovery } = useMutation(
+      async (data, isEmailSended) => await AuthService.recovery(data, isEmailSended),
+      {
+         onError: error => alert(error.message),
+      }
+   );
+
+   return { isLoading, recovery };
+};
+
+const useNewPassword = () => {
+   const { isLoading: isLoading1, mutate: setNewPassword } = useMutation(
+      async (data) => await AuthService.setNewPassword(data),
+      {
+         onSuccess: () => redirectToSignInPage(),
+         onError: error => alert(error.message),
+      }
+   );
+
+   return { isLoading: isLoading1, setNewPassword };
+};
+
+export { useSignIn, useSignUp, useRecovery, useNewPassword }

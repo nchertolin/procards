@@ -1,30 +1,37 @@
-import React, { useContext } from 'react'
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthContext } from '../providers/AuthProvider';
-import { WithAuth } from '../HOC/WithAuth';
+import { WithAuth } from '../hoc/withAuth';
+import { useUser } from '../hooks/useUser';
+import Loading from './Loading/Loading';
 
 function AccountEdit() {
-   const { user } = useContext(AuthContext);
-   const { register, formState: { errors, }, handleSubmit } =
-      useForm({
+   const { isLoading, data: user } = useUser();
+   const {
+      register,
+      formState: { errors, },
+      handleSubmit } = useForm({
          defaultValues: {
             firstName: user.firstName,
             lastName: user.lastName,
+            login: user.login,
             email: user.email,
             location: user.location,
          }
       });
-   const { register: register2, watch, formState: { errors: errors2, }, handleSubmit: handleSubmit2 } =
-      useForm({
-         mode: "onSubmit",
-         defaultValues: {
-            oldPassword: '',
-            password: '',
-            confirmPassword: ''
-         }
-      });
+   const {
+      register: register2,
+      watch,
+      formState: { errors: errors2, },
+      handleSubmit: handleSubmit2 } = useForm();
+
+   const editUser = async () => {
+
+   }
+
+   if (isLoading) return <Loading />
+
    return (
-      <div className='account-wrapper'>
+      <div className='account__wrapper'>
          <form autoComplete='off' onSubmit={handleSubmit()}>
             <div id='account-edit-name-wrapper'>
                <label>
@@ -43,14 +50,21 @@ function AccountEdit() {
                </label>
             </div>
             <label>
+               Логин
+               <input type="text" autoComplete='on'
+                  className={errors?.login ? 'invalid' : ''}
+                  {...register('login', { required: 'Обязательноe поле.' })} />
+               {errors?.login && <p className='error'>{errors?.login.message}</p>}
+            </label>
+            <label>
                Электронная почта
-               <input type="email"
+               <input type="email" autoComplete='on'
                   className={errors?.email ? 'invalid' : ''}
                   {...register('email', { required: 'Обязательноe поле.' })} />
                {errors?.email && <p className='error'>{errors?.email.message}</p>}
             </label>
             <label>
-               Город
+               Населенный пункт
                <input type="text"
                   className={errors?.location ? 'invalid' : ''}
                   {...register('location', { required: 'Обязательноe поле.' })} />
@@ -79,9 +93,7 @@ function AccountEdit() {
                   className={errors2?.confirmPassword ? 'invalid' : ''}
                   {...register2('confirmPassword', {
                      required: 'Обязательноe поле.',
-                     validate: (value) => {
-                        return watch('password') === value || "Пароли не совпадают.";
-                     }
+                     validate: (value) => watch('password') === value || "Пароли не совпадают."
                   })}
                />
                {errors2?.confirmPassword && <p className='error'>{errors2?.confirmPassword.message}</p>}

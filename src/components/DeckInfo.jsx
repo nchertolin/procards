@@ -1,31 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import cardsIcon from '../assets/icons/cards-icon.svg';
 import { v4 } from 'uuid';
 import { Link, useParams } from 'react-router-dom';
-import { LearningDeckService } from '../services/learningDecksService';
-import { useState } from 'react';
 import Loading from './Loading/Loading';
+import { useDeck } from '../hooks/useDeck';
+import { WithAuth } from '../hoc/withAuth';
 
-export default function DeckInfo() {
+function DeckInfo() {
    const { deckId } = useParams();
-   const [deck, setDeck] = useState(null);
+   const { isLoading, data } = useDeck(deckId);
 
-   useEffect(() => {
-      const fetchData = async () => setDeck(await LearningDeckService.getDeck(deckId));
-      fetchData();
-   }, [deckId]);
-
-   if (!deck) return <Loading />
+   if (isLoading) return <Loading />
 
    return (
       <div className='deck-info__wrapper'>
-         <h1>{deck.title}</h1>
+         <h1>{data.name}</h1>
          <h2>Таблица лидеров</h2>
          <ul className='deck-info__leaderboard'>
             {
-               deck.leaders.map(({ firstName, lastName, score }) =>
+               data.statistics.map(({ userId, login, score }) =>
                   <li key={v4()}>
-                     <h2>{firstName} {lastName}</h2>
+                     <Link className='leader__name' to={`/user/${userId}`}>@{login}</Link>
                      <p>{score} очков</p>
                   </li>
                )
@@ -33,17 +28,17 @@ export default function DeckInfo() {
          </ul>
          <section className='deck-info__row'>
             <h2>Описание</h2>
-            <p>{deck.description}</p>
+            <p>{data.description}</p>
          </section>
          <section className='deck-info__row'>
             <h2>Автор колоды</h2>
-            <p>{deck.author.firstName} {deck.author.lastName}</p>
+            <p>{data.author.firstName} {data.author.lastName}</p>
          </section>
          <div className='deck-info__cards-amount'>
             <img src={cardsIcon} alt="" />
             <section>
                <p>Количество карточек</p>
-               <h4>{deck.cardsCount}</h4>
+               <h4>{data.cardsCount}</h4>
             </section>
          </div>
          <div className='deck-info__actions'>
@@ -53,3 +48,5 @@ export default function DeckInfo() {
       </div>
    )
 }
+
+export default WithAuth(DeckInfo)
