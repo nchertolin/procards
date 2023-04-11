@@ -1,9 +1,9 @@
 import React from 'react';
 import { clickOutsideHandler } from '../../util';
 import { useForm } from 'react-hook-form';
-import { EditorDeckService } from '../../services/editorDecksService';
 import { useContext } from 'react';
 import { FormsContext } from '../../providers/FormsProvider';
+import { useDeleteDeck, useEditDeck } from '../../hooks/useEditorDecks';
 
 export default function EditDeckForm() {
    const { setEditFormOpened, selectedDeck } = useContext(FormsContext);
@@ -15,26 +15,27 @@ export default function EditDeckForm() {
          description: selectedDeck.description,
       }
    });
+   const { isLoading, editDeck } = useEditDeck(setEditFormOpened);
+   const { isLoading: isLoading1, deleteDeck } = useDeleteDeck(setEditFormOpened);
 
-   const editDeck = async (data) => {
-      const obj = {
-         deckId: selectedDeck.deckId,
-         isPrivate: data.isPrivate === 'true',
-         ...data,
-      }
-      await EditorDeckService.editDeck(obj);
-   };
+   //TODO compapare edit password with edit deck info
+   const onSubmit = data => editDeck({
+      deckId: selectedDeck.deckId,
+      isPrivate: data.isPrivate === 'true',
+      ...data,
+   });
 
-   const deleteDeck = async () => await EditorDeckService.deleteDeck(selectedDeck.deckId);
+   const onDelete = () => deleteDeck(selectedDeck.deckId);
 
    return (
       <div className='new-deck-modal'
          onClick={e => clickOutsideHandler(e, '.new-deck-modal_wrapper', setEditFormOpened)}>
          <div className='new-deck-modal_wrapper'>
             <h3>Редактировать колоду</h3>
-            <form onSubmit={handleSubmit(editDeck)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
                <label>
                   <input type="text" placeholder='Название колоды'
+                     className={errors?.name ? 'invalid' : ''}
                      {...register('name', { required: 'Обязательноe поле.' })} />
                   {errors?.name && <p className='error'>{errors?.name.message}</p>}
                </label>
@@ -52,6 +53,7 @@ export default function EditDeckForm() {
                </div>
                <label>
                   <input type="text" placeholder='Пароль колоды'
+                     className={errors?.password ? 'invalid' : ''}
                      {...register('password', {
                         required: 'Обязательноe поле.',
                         disabled: watch('isPrivate') === 'true'
@@ -60,9 +62,13 @@ export default function EditDeckForm() {
                </label>
                <textarea {...register('description')} placeholder='Описание' />
                <div className='modal_buttons'>
-                  <button type="submit" className='modal_submit'>Сохранить</button>
+                  <button type="submit" className='modal_submit'
+                     disabled={isLoading}>
+                     Сохранить
+                  </button>
                   <button type="button" className='modal_submit delete'
-                     onClick={deleteDeck}>
+                     onClick={onDelete}
+                     disabled={isLoading1}>
                      Удалить
                   </button>
                </div>

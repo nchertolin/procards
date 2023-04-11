@@ -1,13 +1,16 @@
-import { useContext } from 'react'
-import { AuthContext } from '../providers/AuthProvider'
+import { isAuth } from '../util';
+import ErrorPage from '../components/ErrorPage/ErrorPage';
 
 export const WithAuth = Component => {
-  const AuthHOC = (props) => {
-    const { user } = useContext(AuthContext);
-    if (!user || !localStorage.getItem('id')) {
-      return <p>Вы не авторизованы.</p>
-    }
-    return <Component {...props} />
-  }
-  return AuthHOC;
+   const AuthHOC = (props) => {
+      if (!isAuth) {
+         return <ErrorPage code='401' link='/signin' labelText='Войти'
+            message='Для просмотра этой страница требуется авторизация. 
+         Войдите в существуйщий аккаунт или зарегистрируйтесь.'
+         />
+      }
+
+      return <Component {...props} />
+   }
+   return AuthHOC;
 }

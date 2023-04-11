@@ -35,6 +35,11 @@ button {
    &:hover {
       cursor: pointer;
    }
+
+   &:disabled {
+      cursor: default;
+      background-color: grey;
+   }
 }
 
 h1 {
@@ -125,6 +130,9 @@ textarea {
 }
 
 .page-main {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    min-height: calc(100vh - 200px);
    width: 100%;
    padding-top: 30px;
@@ -137,11 +145,12 @@ textarea {
    }
 }
 
-.main-hero {
+#main__hero {
    color: white;
    display: flex;
    justify-content: space-between;
    align-items: center;
+   width: 100%;
    height: 280px;
    background: linear-gradient(113.35deg, rgba(36, 111, 204, 1) 3.29%, #163152 100%);
    margin-bottom: 60px;
@@ -155,26 +164,34 @@ textarea {
          text-decoration: none;
       }
    }
+
+   img {
+      height: 100%;
+   }
 }
 
-.main-description {
+#main__description {
    margin-bottom: 60px;
 }
 
-.main-about {
+#main__about {
+   display: flex;
+   flex-direction: column;
    color: white;
-   height: 280px;
+   height: 380px;
    background: linear-gradient(113.35deg, rgba(36, 111, 204, 1) 3.29%, #163152 100%);
+   margin-bottom: 50px;
 
    h2 {
       text-align: center;
-      padding: 50px 0 80px;
+      padding: 100px 0 80px;
    }
 
    div {
       display: flex;
       justify-content: center;
       column-gap: 100px;
+      align-items: center;
 
       p {
          width: 30%;
@@ -185,11 +202,20 @@ textarea {
 
 .card-list {
    width: 100%;
+}
+
+.cards-list__wrapper {
+   height: 590px;
 
    ul {
-      display: grid;
-      grid-template-columns: repeat(5, 216px);
+      display: flex;
+      flex-wrap: wrap;
       gap: 30px;
+      max-height: 100%;
+
+      li {
+         height: 125px;
+      }
 
       li.editor {
          position: relative;
@@ -223,7 +249,8 @@ textarea {
    justify-content: center;
    background: $light-user-card;
    width: 216px;
-   height: 125px;
+   height: 100%;
+   padding: 7%;
    border-radius: 10px;
 
    &.other {
@@ -242,8 +269,8 @@ textarea {
    display: flex;
    align-items: center;
    justify-content: center;
-   width: 80%;
-   height: 80%;
+   width: 100%;
+   height: 100%;
 }
 
 .card-settings {
@@ -258,7 +285,7 @@ textarea {
    flex-direction: column;
    row-gap: 100px;
    align-items: center;
-   margin-top: 50px;
+   margin: 80px 0;
 }
 
 .training__score-list {
@@ -349,20 +376,11 @@ textarea {
    }
 }
 
-.account-wrapper {
+.account__wrapper {
    display: flex;
    flex-direction: column;
    align-items: center;
-
-   #account__name {
-      text-decoration: none;
-      margin-bottom: 10px;
-   }
-
-   #account__location {
-      margin-bottom: 50px;
-   }
-
+   margin: 50px 0;
 
    label {
       display: flex;
@@ -387,6 +405,19 @@ textarea {
    form {
       margin-bottom: 30px;
    }
+}
+
+.account__info {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   row-gap: 5px;
+   margin-bottom: 50px;
+}
+
+#account__name {
+   text-decoration: none;
+   margin-bottom: 5px;
 }
 
 #account-edit-name-wrapper {
@@ -433,6 +464,11 @@ textarea {
       font-weight: 600;
       margin-bottom: 10px;
    }
+}
+
+.leader__name {
+   font-size: 16px;
+   font-weight: 600;
 }
 
 .deck-info__row {
@@ -643,6 +679,18 @@ textarea {
       font-weight: 600;
    }
 
+}
+
+.pagination {
+   display: flex;
+   justify-content: center;
+   column-gap: 30px;
+   margin: 50px 0;
+
+   p {
+      font-weight: bold;
+      font-size: 16px;
+   }
 }
 
 .error {

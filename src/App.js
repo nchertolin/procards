@@ -1,17 +1,13 @@
 import './index.scss';
-import { lazy, Suspense, useContext, useEffect, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthContext } from './providers/AuthProvider';
-import { testData } from './testData';
 import Layout from './components/Layout';
 import Loading from './components/Loading/Loading';
-import { v4 } from 'uuid';
 import Recovery from './components/Recovery';
-import { UserService } from './services/userService';
 
 const Main = lazy(() => import('./components/Main'));
-const CardList = lazy(() => import('./components/CardList'));
-const LearningDecks = lazy(() => import('./components/LearningDecks'));
+const Cards = lazy(() => import('./components/Cards'));
+const Decks = lazy(() => import('./components/Decks'));
 const EditorDecks = lazy(() => import('./components/EditorDecks'));
 const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
 const Account = lazy(() => import('./components/Account'));
@@ -22,14 +18,6 @@ const SignIn = lazy(() => import('./components/SignIn'));
 const SignUp = lazy(() => import('./components/SignUp'));
 
 export default function App() {
-   const { setUser } = useContext(AuthContext);
-   const [decks, setDecks] = useState(testData.decks);
-
-   useEffect(() => {
-      const fetchData = async () => setUser(await UserService.getInfo())
-      fetchData();
-   }, [setUser])
-
    return (
       <Router>
          <Routes>
@@ -70,14 +58,14 @@ export default function App() {
 
                <Route path='editor/:deckId' element={
                   <Suspense fallback={<Loading />}>
-                     <CardList />
+                     <Cards />
                   </Suspense>
                }
                />
 
                <Route path='learn' element={
                   <Suspense fallback={<Loading />}>
-                     <LearningDecks />
+                     <Decks />
                   </Suspense>
                } />
 
@@ -87,13 +75,11 @@ export default function App() {
                   </Suspense>
                } />
 
-               {decks.map(info =>
-                  <Route key={v4()} path={`learn/${info.id}/training`} element={
-                     <Suspense fallback={<Loading />}>
-                        <Training info={info} />
-                     </Suspense>
-                  }
-                  />)}
+               <Route path='learn/:deckId/training' element={
+                  <Suspense fallback={<Loading />}>
+                     <Training />
+                  </Suspense>
+               } />
 
                <Route path='account' element={
                   <Suspense fallback={<Loading />}>
