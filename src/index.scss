@@ -11,6 +11,7 @@ body {
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    background-color: $light-background;
+
    font-size: 14px;
    width: 1200px;
    margin: 0 auto;
@@ -34,6 +35,10 @@ button {
 
    &:hover {
       cursor: pointer;
+   }
+
+   &.delete {
+      background-color: red;
    }
 
    &:disabled {
@@ -206,6 +211,7 @@ textarea {
 
 .cards-list__wrapper {
    height: 590px;
+   margin: 50px 0 100px;
 
    ul {
       display: flex;
@@ -248,6 +254,8 @@ textarea {
    align-items: center;
    justify-content: center;
    background: $light-user-card;
+   box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
+
    width: 216px;
    height: 100%;
    padding: 7%;
@@ -337,11 +345,34 @@ textarea {
 }
 
 .training__card {
-   width: 550px;
-   height: 350px;
+   width: 600px;
+   height: 400px;
    color: $light-background;
    background: $light-user-card;
    border-radius: 20px;
+   perspective: 1000px;
+   transform-style: preserve-3d;
+   transition: transform 0.5s;
+   padding: 5%;
+
+   &.flipped {
+      transform: rotateX(180deg);
+      background: $light-other-card;
+
+      .card__text {
+         transform: rotateX(180deg);
+      }
+   }
+}
+
+.training__rating {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+   p {
+      margin-bottom: 30px;
+   }
 }
 
 .training__rating__list {
@@ -524,13 +555,13 @@ textarea {
       border-radius: 10px;
    }
 
-   .delete,
-   .logout {
+   .logout,
+   .delete {
       background-color: red;
    }
 }
 
-.new-deck-modal {
+.modal {
    width: 100vw;
    height: 100vh;
    position: absolute;
@@ -542,12 +573,13 @@ textarea {
    background-color: rgba(0, 0, 0, .6);
 }
 
-.new-deck-modal_wrapper {
+.modal__wrapper {
+   width: 40vw;
    display: flex;
    flex-direction: column;
    padding: 80px 80px;
    background-color: $light-background;
-   border-radius: 20px;
+   border-radius: 15px;
 
    h3 {
       margin-bottom: 20px;
@@ -559,6 +591,10 @@ textarea {
       row-gap: 30px;
    }
 
+   input {
+      width: 100%;
+   }
+
    input[type='radio'] {
       width: 10px;
       height: 10px;
@@ -567,6 +603,12 @@ textarea {
    .privacy {
       display: flex;
       column-gap: 50px;
+
+      label {
+         flex-direction: row;
+         column-gap: 10px;
+         align-items: center;
+      }
    }
 
    label {
@@ -575,25 +617,26 @@ textarea {
       row-gap: 10px;
    }
 
-   .privacy {
-      label {
-         display: flex;
-         flex-direction: row;
-         column-gap: 10px;
-         align-items: center;
-      }
+   textarea {
+      width: 100%;
+      height: 160px;
+      padding-top: 10px;
    }
 
-   textarea {
-      height: 100px;
-      padding-top: 10px;
+   .file {
+      border: 0;
+      border-radius: 0;
+      padding: 0;
    }
 }
 
-.modal_buttons {
+.modal__buttons {
    display: flex;
-   flex-direction: column;
-   row-gap: 15px;
+   column-gap: 5%;
+
+   button {
+      width: 50%;
+   }
 }
 
 .modal_submit {
@@ -603,10 +646,6 @@ textarea {
    font-weight: 600;
    background-color: $light-text;
    border-radius: 10px;
-
-   &.delete {
-      background-color: red
-   }
 }
 
 .page-footer {

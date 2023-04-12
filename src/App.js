@@ -12,6 +12,7 @@ const EditorDecks = lazy(() => import('./components/EditorDecks'));
 const ErrorPage = lazy(() => import('./components/ErrorPage/ErrorPage'));
 const Account = lazy(() => import('./components/Account'));
 const AccountEdit = lazy(() => import('./components/AccountEdit'));
+const User = lazy(() => import('./components/User'));
 const DeckInfo = lazy(() => import('./components/DeckInfo'));
 const Training = lazy(() => import('./components/Training'));
 const SignIn = lazy(() => import('./components/SignIn'));
@@ -90,6 +91,12 @@ export default function App() {
                <Route path='account/edit' element={
                   <Suspense fallback={<Loading />}>
                      <AccountEdit />
+                  </Suspense>
+               } />
+
+               <Route path='user/:userId' element={
+                  <Suspense fallback={<Loading />}>
+                     <User />
                   </Suspense>
                } />
 

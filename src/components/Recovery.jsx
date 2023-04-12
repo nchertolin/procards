@@ -11,10 +11,7 @@ export default function Recovery() {
 
    const onSubmit = (data) => {
       if (isCodeSended) {
-         console.log(data);
          delete data.сpassword;
-         console.log(data);
-
          setNewPassword(data);
          return;
       }

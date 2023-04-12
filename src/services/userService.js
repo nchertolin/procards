@@ -5,13 +5,13 @@ import { SERVER_URL, userId } from '../util';
 const url = axios.create({ baseURL: `${SERVER_URL}/users/` });
 
 const UserService = {
-   async getStatistic() {
-      const response = await url.get('preview', { userId });
+   async getStatistic(id) {
+      const response = await url.get('preview', { userId: id });
       return response.data;
    },
 
-   async getInfo() {
-      const response = await url.get('profile', { userId });
+   async getInfo(id) {
+      const response = await url.get('profile', { userId: id });
 
       return response.data;
    },

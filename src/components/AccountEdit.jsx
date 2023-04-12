@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { WithAuth } from '../hoc/withAuth';
-import { useUser } from '../hooks/useUser';
+import { useEditInfo, useEditPassword, useUser } from '../hooks/useUser';
 import Loading from './Loading/Loading';
 
 function AccountEdit() {
@@ -24,15 +24,21 @@ function AccountEdit() {
       formState: { errors: errors2, },
       handleSubmit: handleSubmit2 } = useForm();
 
-   const editUser = async () => {
+   const { isLoading: isLoading1, editUser } = useEditInfo();
+   const { isLoading: isLoading2, editPassword } = useEditPassword();
 
-   }
+   const onSubmitInfo = (data) => editUser(data);
+
+   const onSubmitPassword = (data) => {
+      delete data.confirmPassword
+      editPassword(data);
+   };
 
    if (isLoading) return <Loading />
 
    return (
       <div className='account__wrapper'>
-         <form autoComplete='off' onSubmit={handleSubmit()}>
+         <form autoComplete='off' onSubmit={handleSubmit(onSubmitInfo)}>
             <div id='account-edit-name-wrapper'>
                <label>
                   Имя
@@ -50,13 +56,6 @@ function AccountEdit() {
                </label>
             </div>
             <label>
-               Логин
-               <input type="text" autoComplete='on'
-                  className={errors?.login ? 'invalid' : ''}
-                  {...register('login', { required: 'Обязательноe поле.' })} />
-               {errors?.login && <p className='error'>{errors?.login.message}</p>}
-            </label>
-            <label>
                Электронная почта
                <input type="email" autoComplete='on'
                   className={errors?.email ? 'invalid' : ''}
@@ -70,9 +69,9 @@ function AccountEdit() {
                   {...register('location', { required: 'Обязательноe поле.' })} />
                {errors?.location && <p className='error'>{errors?.location.message}</p>}
             </label>
-            <button className='submit'>Сохранить</button>
+            <button className='submit' disabled={isLoading1}>Сохранить</button>
          </form>
-         <form onSubmit={handleSubmit2()}>
+         <form onSubmit={handleSubmit2(onSubmitPassword)}>
             <label>
                Старый пароль
                <input type="password"
@@ -98,7 +97,7 @@ function AccountEdit() {
                />
                {errors2?.confirmPassword && <p className='error'>{errors2?.confirmPassword.message}</p>}
             </label>
-            <button className='submit'>Сохранить</button>
+            <button className='submit' disabled={isLoading2}>Сохранить</button>
          </form>
       </div>
    )

@@ -13,9 +13,9 @@ export default function AddDeckForm() {
    const { isLoading, createDeck } = useCreateDeck(reset, setAddFormOpened);
 
    return (
-      <div className='new-deck-modal'
-         onClick={(e) => clickOutsideHandler(e, '.new-deck-modal_wrapper', setAddFormOpened)}>
-         <div className='new-deck-modal_wrapper'>
+      <div className='modal'
+         onClick={(e) => clickOutsideHandler(e, '.modal__wrapper', setAddFormOpened)}>
+         <div className='modal__wrapper'>
             <h3>Новая колода</h3>
             <form onSubmit={handleSubmit(createDeck)} autoComplete='off'>
                <label>
@@ -36,15 +36,18 @@ export default function AddDeckForm() {
                      Приватная
                   </label>
                </div>
-               <label>
-                  <input type="text" placeholder='Пароль колоды'
-                     className={errors?.password ? 'invalid' : ''}
-                     {...register('password', {
-                        required: 'Обязательноe поле.',
-                        disabled: watch('isPrivate') === 'true'
-                     })} />
-                  {errors?.password && <p className='error'>{errors?.password.message}</p>}
-               </label>
+               {
+                  watch('isPrivate') === 'false' &&
+                  <label>
+                     <input type="text" placeholder='Пароль колоды'
+                        className={errors?.password ? 'invalid' : ''}
+                        {...register('password', {
+                           required: 'Обязательноe поле.',
+                           disabled: watch('isPrivate') === 'true'
+                        })} />
+                     {errors?.password && <p className='error'>{errors?.password.message}</p>}
+                  </label>
+               }
                <label>
                   <textarea placeholder='Описание'
                      {...register('description')} />

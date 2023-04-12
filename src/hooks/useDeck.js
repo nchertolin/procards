@@ -17,7 +17,7 @@ export const useDeck = id => {
          initialData: testDeck.cards
       },
    );
-
+   //TODO deckName get with cards in one entpoint
    const { isLoading2, data: deck } = useQuery(
       ['deck-name', id],
       async () => await LearningDeckService.getDeck(id),

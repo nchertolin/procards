@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SERVER_URL, reloadPage, userId } from '../util';
+import { SERVER_URL, userId } from '../util';
 
 
 const url = axios.create({ baseURL: `${SERVER_URL}/decks/` });
@@ -15,7 +15,6 @@ const LearningDeckService = {
 
    async getDeck(id) {
       const response = await url.get('deck', { userId, deckId: id });
-
       return response.data
    },
 
@@ -24,9 +23,7 @@ const LearningDeckService = {
    },
 
    async deleteDeck(deckId) {
-      return await url.delete('deck', { userId, deckId })
-      // .then(() => reloadPage())
-      // .catch(error => alert(error.message))
+      return await url.delete('remove', { userId, deckId })
    },
 
 }

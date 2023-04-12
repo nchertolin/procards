@@ -13,6 +13,7 @@ const clickOutsideHandler = (e, className, stateSetter, removeSelectedObj) => {
 
 const redirectToMainPage = () => window.location.href = '/';
 const redirectToSignInPage = () => window.location.href = '/signin';
+const redirectToLearn = () => window.location.href = '/learn';
 const reloadPage = () => window.location.reload();
 
 const getPagesAmount = (length, count = 20) => Math.ceil(length / count);
@@ -25,5 +26,6 @@ export {
    redirectToMainPage,
    redirectToSignInPage,
    reloadPage,
+   redirectToLearn,
    getPagesAmount,
 }

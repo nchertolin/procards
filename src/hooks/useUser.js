@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { testUser } from '../testData'
 import { UserService } from '../services/userService';
+import { userId } from '../util';
 
 const getTestStatistic = () => ({
    login: testUser.login,
@@ -19,19 +20,19 @@ const getTestInfo = () => ({
    location: testUser.location,
 });
 
-export const useUser = () => {
-   const { isLoading1, data: statistic } = useQuery(
-      ['user statistic'],
-      async () => await UserService.getStatistic(),
+const useUser = (id = userId) => {
+   const { isLoading: isLoading1, data: statistic } = useQuery(
+      ['user-statistic', id],
+      async () => await UserService.getStatistic(id),
       {
          onError: error => alert(error.message),
          initialData: getTestStatistic()
       },
    );
 
-   const { isLoading2, data: info } = useQuery(
-      ['user info'],
-      async () => await UserService.getInfo(),
+   const { isLoading: isLoading2, data: info } = useQuery(
+      ['user-info', id],
+      async () => await UserService.getInfo(id),
       {
          onError: error => alert(error.message),
          initialData: getTestInfo()
@@ -39,4 +40,46 @@ export const useUser = () => {
    );
 
    return { isLoading: isLoading1 || isLoading2, data: { ...statistic, ...info } }
-}
+};
+
+const useUserStatistic = (id) => {
+   const { isLoading, data } = useQuery(
+      ['user-statistic', id],
+      async () => await UserService.getStatistic(id),
+      {
+         onError: error => alert(error.message),
+         initialData: getTestStatistic()
+      },
+   );
+
+   return { isLoading, data };
+};
+
+const useEditInfo = () => {
+   const { isLoading, mutate: editInfo } = useMutation(
+      async (data) => await UserService.editInfo(data),
+      {
+         onError: (error) => alert(error.message),
+      }
+   );
+
+   return { isLoading, editInfo };
+};
+
+const useEditPassword = () => {
+   const { isLoading, mutate: editPassword } = useMutation(
+      async (data) => await UserService.editPassword(data),
+      {
+         onError: (error) => alert(error.message),
+      }
+   );
+
+   return { isLoading, editPassword };
+};
+
+export {
+   useUser,
+   useUserStatistic,
+   useEditInfo,
+   useEditPassword
+};

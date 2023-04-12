@@ -11,10 +11,9 @@ const LearningCardsService = {
       return response.data.cards;
    },
 
-   async postGrade({ deckId, cardId, grade, timeInSeconds }) {
-      return await url.post('grade', { userId, deckId, cardId, grade, timeInSeconds })
+   async postGrade(data) {
+      return await url.post('grade', { userId, ...data })
    },
-
 }
 
 export { LearningCardsService }

@@ -29,38 +29,55 @@ export default function EditCardForm() {
 
 
    return (
-      <div className='new-deck-modal'
-         onClick={e => clickOutsideHandler(e, '.new-deck-modal_wrapper',
+      <div className='modal'
+         onClick={e => clickOutsideHandler(e, '.modal__wrapper',
             setCardFormOpened, () => setCardSelected(null))
          }>
-         <div className='new-deck-modal_wrapper'>
-            <h3>{selectedCard ? 'Редактировать карточку' : 'Новая карточка'}</h3>
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-               <label>
-                  <textarea placeholder='Лицевая сторона'
-                     className={errors?.frontSide ? 'invalid' : ''}
-                     {...register('frontSide', { required: 'Обязательноe поле.' })} />
-                  {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
-               </label>
-               <label>
-                  <textarea placeholder='Обратная сторона'
-                     className={errors?.backSide ? 'invalid' : ''}
-                     {...register('backSide', { required: 'Обязательноe поле.' })} />
-                  {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
-               </label>
-               <div className='modal_buttons'>
-                  <button type='submit' className='modal_submit'
-                     disabled={isLoading || isLoading1}>
-                     Сохранить
-                  </button>
-                  {selectedCard &&
-                     <button type='button' className='modal_submit delete'
-                        disabled={isLoading2}
-                        onClick={onDelete}>
-                        Удалить
+         <div className='modal__wrapper'>
+            <div className=''>
+               <h3>{selectedCard ? 'Редактировать карточку' : 'Новая карточка'}</h3>
+               <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+                  <label>
+                     <textarea placeholder='Лицевая сторона'
+                        className={errors?.frontSide ? 'invalid' : ''}
+                        {...register('frontSide', { required: 'Обязательноe поле.' })} />
+                     {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
+                  </label>
+                  <label>
+                     Прикрепите изображение к лицевой стороне если требуется
+                     <input type="file" className='file'
+                        {...register('image-1')} />
+                  </label>
+                  <label>
+                     <textarea placeholder='Обратная сторона'
+                        className={errors?.backSide ? 'invalid' : ''}
+                        {...register('backSide', { required: 'Обязательноe поле.' })} />
+                     {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
+                  </label>
+                  <label>
+                     Прикрепите изображение к обратной стороне если требуется
+                     <input type="file" className='file'
+                        {...register('image-2')} />
+                  </label>
+                  {selectedCard
+                     ? <div className='modal__buttons'>
+                        <button type='submit' className='modal_submit'
+                           disabled={isLoading || isLoading1}>
+                           Сохранить
+                        </button>
+
+                        <button type='button' className='modal_submit delete'
+                           disabled={isLoading2}
+                           onClick={onDelete}>
+                           Удалить
+                        </button>
+                     </div>
+                     : <button type='submit' className='modal_submit'
+                        disabled={isLoading || isLoading1}>
+                        Сохранить
                      </button>}
-               </div>
-            </form>
+               </form>
+            </div>
          </div>
       </div>
    )

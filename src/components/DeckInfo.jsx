@@ -5,12 +5,19 @@ import { Link, useParams } from 'react-router-dom';
 import Loading from './Loading/Loading';
 import { useDeck } from '../hooks/useDeck';
 import { WithAuth } from '../hoc/withAuth';
+import { useRemoveDeckFromLatest } from '../hooks/useDecks';
+import { useUserStatistic } from '../hooks/useUser';
 
 function DeckInfo() {
    const { deckId } = useParams();
    const { isLoading, data } = useDeck(deckId);
+   const { isLoading: isLoading2, data: user } = useUserStatistic(data.ownerId);
+   const { isLoading: isLoading1, removeDeckFromLatest } = useRemoveDeckFromLatest();
 
-   if (isLoading) return <Loading />
+
+   const onDelete = () => removeDeckFromLatest(deckId);
+
+   if (isLoading || isLoading2) return <Loading />
 
    return (
       <div className='deck-info__wrapper'>
@@ -32,7 +39,7 @@ function DeckInfo() {
          </section>
          <section className='deck-info__row'>
             <h2>Автор колоды</h2>
-            <p>{data.author.firstName} {data.author.lastName}</p>
+            <Link to={`/user/${data.ownerId}`}>@{user.login}</Link>
          </section>
          <div className='deck-info__cards-amount'>
             <img src={cardsIcon} alt="" />
@@ -43,7 +50,10 @@ function DeckInfo() {
          </div>
          <div className='deck-info__actions'>
             <Link className='start' to='training'>Развернуть колоду</Link>
-            <button className='delete'>Удалить колоду</button>
+            <button className='delete' disabled={isLoading1}
+               onClick={onDelete}>
+               Удалить колоду
+            </button>
          </div>
       </div>
    )
