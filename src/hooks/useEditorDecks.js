@@ -51,6 +51,23 @@ const useEditDeck = (setOpened) => {
    return { isLoading, editDeck };
 };
 
+const useEditDeckPassword = (setOpened) => {
+   const queryClient = useQueryClient();
+
+   const { isLoading, mutate: editPassword } = useMutation(
+      async (data) => await EditorDeckService.editDeckPassword(data),
+      {
+         onSuccess: () => {
+            queryClient.invalidateQueries('editor-decks');
+            setOpened(false);
+         },
+         onError: error => alert(error.message)
+      }
+   );
+
+   return { isLoading, editPassword };
+};
+
 const useDeleteDeck = (setOpened) => {
    const queryClient = useQueryClient();
 
@@ -68,4 +85,4 @@ const useDeleteDeck = (setOpened) => {
    return { isLoading, deleteDeck };
 };
 
-export { useEditorDecks, useCreateDeck, useEditDeck, useDeleteDeck };
+export { useEditorDecks, useCreateDeck, useEditDeck, useDeleteDeck, useEditDeckPassword };

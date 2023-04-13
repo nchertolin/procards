@@ -3,7 +3,7 @@ import { clickOutsideHandler } from '../../util';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { FormsContext } from '../../providers/FormsProvider';
-import { useDeleteDeck, useEditDeck } from '../../hooks/useEditorDecks';
+import { useDeleteDeck, useEditDeck, useEditDeckPassword } from '../../hooks/useEditorDecks';
 
 export default function EditDeckForm() {
    const { setEditFormOpened, selectedDeck } = useContext(FormsContext);
@@ -16,14 +16,15 @@ export default function EditDeckForm() {
       }
    });
    const { isLoading, editDeck } = useEditDeck(setEditFormOpened);
+   const { isLoading: isLoading2, editPassword } = useEditDeckPassword(setEditFormOpened);
    const { isLoading: isLoading1, deleteDeck } = useDeleteDeck(setEditFormOpened);
 
-   //TODO delete password of data and post password in other entpoint
-   const onSubmit = data => editDeck({
-      deckId: selectedDeck.deckId,
-      isPrivate: data.isPrivate === 'true',
-      ...data,
-   });
+   const onSubmit = ({ name, isPrivate, password, description }) => {
+      if (watch('password') !== '' || watch('isPrivate') !== selectedDeck.isPrivate.toString()) {
+         editPassword({ newPassword: password, isPrivate });
+      }
+      editDeck({ name, description });
+   };
 
    const onDelete = () => deleteDeck(selectedDeck.deckId);
 
@@ -67,7 +68,7 @@ export default function EditDeckForm() {
                <textarea {...register('description')} placeholder='Описание' />
                <div className='modal__buttons'>
                   <button type="submit" className='modal_submit'
-                     disabled={isLoading}>
+                     disabled={isLoading || isLoading2}>
                      Сохранить
                   </button>
                   <button type="button" className='modal_submit delete'
