@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SERVER_URL, redirectToMainPage, reloadPage } from '../util'
+import { SERVER_URL, redirectToSignInPage, reloadPage } from '../util'
 
 const url = axios.create({ baseURL: `${SERVER_URL}/account/` });
 
@@ -26,7 +26,7 @@ const AuthService = {
    logout() {
       localStorage.removeItem('id');
       reloadPage();
-      redirectToMainPage();
+      redirectToSignInPage();
    },
 };
 

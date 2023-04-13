@@ -32,7 +32,9 @@ const useSignUp = () => {
 
 const useRecovery = () => {
    const { isLoading, mutate: recovery } = useMutation(
-      async (data, isEmailSended) => await AuthService.recovery(data, isEmailSended),
+      async ({ data, isEmailSended }) => {
+         await AuthService.recovery(data, isEmailSended)
+      },
       {
          onError: error => alert(error.message),
       }

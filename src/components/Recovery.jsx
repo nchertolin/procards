@@ -3,24 +3,27 @@ import { useForm } from 'react-hook-form';
 import { useNewPassword, useRecovery } from '../hooks/useAuth';
 
 export default function Recovery() {
-   const [isEmailSended, setEmailSended] = useState();
-   const [isCodeSended, setCodeSended] = useState();
+   const [isEmailSended, setEmailSended] = useState(false);
+   const [isCodeSended, setCodeSended] = useState(false);
    const { register, formState: { errors, }, handleSubmit, watch } = useForm();
    const { isLoading, recovery } = useRecovery();
    const { isLoading1, setNewPassword } = useNewPassword();
 
-   const onSubmit = (data) => {
+   const onSubmit = data => {
       if (isCodeSended) {
          delete data.сpassword;
          setNewPassword(data);
          return;
       }
-      recovery(data, isEmailSended);
+
       if (isEmailSended) {
+         recovery({ data, isEmailSended });
          setCodeSended(true);
       } else {
+         recovery({ data, isEmailSended });
          setEmailSended(true);
       }
+
    }
 
    return (
