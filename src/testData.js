@@ -7,7 +7,7 @@ const testUser = {
    location: 'Екатеринбург',
    cardsViewed: 6723,
    score: 7012,
-   cardsCreatedCount: 107,
+   cardsCreated: 107,
    hours: 325,
 }
 

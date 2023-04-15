@@ -3,7 +3,6 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Loading from './components/Loading/Loading';
-import Recovery from './components/Recovery';
 
 const Main = lazy(() => import('./components/Main'));
 const Cards = lazy(() => import('./components/Cards'));
@@ -17,6 +16,7 @@ const DeckInfo = lazy(() => import('./components/DeckInfo'));
 const Training = lazy(() => import('./components/Training'));
 const SignIn = lazy(() => import('./components/SignIn'));
 const SignUp = lazy(() => import('./components/SignUp'));
+const Recovery = lazy(() => import('./components/Recovery'));
 
 export default function App() {
    return (
@@ -107,6 +107,7 @@ export default function App() {
                } />
 
             </Route>
+
          </Routes>
       </Router>
    );

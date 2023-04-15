@@ -40,7 +40,7 @@ function Account() {
                <img src={decksIcon} alt="" />
                <section>
                   <p>Карточек создано</p>
-                  <h4>{user.cardsCreatedCount}</h4>
+                  <h4>{user.cardsCreated}</h4>
                </section>
             </li>
             <li>

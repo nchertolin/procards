@@ -8,7 +8,7 @@ const getTestStatistic = () => ({
    location: testUser.location,
    cardsViewed: testUser.cardsViewed,
    hours: testUser.hours,
-   cardsCreatedCount: testUser.cardsCreatedCount,
+   cardsCreated: testUser.cardsCreated,
    score: testUser.score,
 });
 

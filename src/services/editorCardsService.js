@@ -2,13 +2,18 @@ import axios from 'axios';
 import { SERVER_URL, userId } from '../util';
 
 
-const url = axios.create({ baseURL: `${SERVER_URL}/editing/cards/` });
+const url = axios.create({
+   baseURL: `${SERVER_URL}/editing/cards/`,
+   withCredentials: true,
+   headers: {
+      'Access-Control-Allow-Origin': '*'
+   }
+});
 
 const EditorCardsService = {
    async getCards(id, searchQuery) {
       const response = await url.get('', {
-         data: { userId, deckId: id },
-         params: { searchQuery }
+         params: { userId, deckId: id, searchQuery }
       })
       return response.data.cards
    },
