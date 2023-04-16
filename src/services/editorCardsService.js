@@ -3,7 +3,7 @@ import { SERVER_URL, userId } from '../util';
 
 
 const url = axios.create({
-   baseURL: `${SERVER_URL}/editing/cards/`,
+   baseURL: `${SERVER_URL}/editing/cards`,
    withCredentials: true,
    headers: {
       'Access-Control-Allow-Origin': '*'

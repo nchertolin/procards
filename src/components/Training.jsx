@@ -44,7 +44,7 @@ function Training() {
 
    return (
       <>
-         <h1>{data.name}</h1>
+         <h1>{data.deckName}</h1>
          <div className='training-wrapper'>
             <ul className='training__score-list'>
                <li className='worst'>{scores[0]}</li>

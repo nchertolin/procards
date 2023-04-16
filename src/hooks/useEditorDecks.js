@@ -9,7 +9,8 @@ const useEditorDecks = (searchQuery) => {
       async () => await EditorDeckService.getDecks(searchQuery),
       {
          onError: error => alert(error.message),
-         initialData: testData.decks.filter(deck => deck.name.toLowerCase().includes(searchQuery.toLowerCase())),
+         initialData: testData.decks.filter(({ deckName }) =>
+            deckName.toLowerCase().includes(searchQuery.toLowerCase())),
       },
    );
 

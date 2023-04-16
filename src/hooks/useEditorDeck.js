@@ -11,7 +11,7 @@ const useEditorDeck = (id, searchQuery) => {
       {
          onError: error => alert(error.message),
          initialData: {
-            name: testDeck.deckName,
+            deckName: testDeck.deckName,
             cards: testDeck.cards.filter(card =>
                card.frontSide.toLowerCase().includes(searchQuery.toLowerCase()))
          }
@@ -28,7 +28,7 @@ const useCreateCard = (reset, setOpened) => {
       async (data) => await EditorCardsService.createCard(data),
       {
          onSuccess: () => {
-            queryClient.invalidateQueries('deck-cards');
+            queryClient.invalidateQueries('editor-deck');
             setOpened(false)
             reset();
          },
@@ -46,7 +46,7 @@ const useEditCard = (setOpened) => {
       async (data) => await EditorCardsService.editCard(data),
       {
          onSuccess: () => {
-            queryClient.invalidateQueries('deck-cards');
+            queryClient.invalidateQueries('editor-deck');
             setOpened(false)
          },
          onError: error => alert(error.message)
@@ -63,7 +63,7 @@ const useDeleteCard = (setOpened) => {
       async (data) => await EditorCardsService.deleteCard(data),
       {
          onSuccess: () => {
-            queryClient.invalidateQueries('deck-cards');
+            queryClient.invalidateQueries('editor-deck');
             setOpened(false);
          },
          onError: error => alert(error.message)

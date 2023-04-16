@@ -1,4 +1,4 @@
-const SERVER_URL = '';
+const SERVER_URL = 'http://localhost:7046';
 const isAuth = localStorage.getItem('id') != null;
 const userId = localStorage.getItem('id');
 

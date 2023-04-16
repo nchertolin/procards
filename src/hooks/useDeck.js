@@ -10,7 +10,7 @@ export const useDeck = id => {
    delete testDeckWithoutCards.cards
 
    const { isLoading1, data: cards } = useQuery(
-      ['deck-cards', id],
+      ['deck', id],
       async () => await LearningCardsService.getCards(id),
       {
          onError: error => alert(error.message),

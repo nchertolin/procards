@@ -7,7 +7,7 @@ export default function Card({ content, isDecksEditor, isCardsEditor }) {
    const { setCardFormOpened, setCardSelected, setDeckSelected,
       setEditFormOpened } = useContext(FormsContext);
    const [isSettingVisible, setSettingsVisible] = useState();
-   const { name, isOwner, deckId } = content;
+   const { deckName, isOwner, deckId } = content;
 
    const openCardForm = () => {
       setCardSelected(content);
@@ -45,7 +45,7 @@ export default function Card({ content, isDecksEditor, isCardsEditor }) {
             }
             <Link to={deckId} className='card'>
                <div className='card-wrapper'>
-                  <h3>{name}</h3>
+                  <h3>{deckName}</h3>
                </div>
             </Link>
          </li>
@@ -56,7 +56,7 @@ export default function Card({ content, isDecksEditor, isCardsEditor }) {
       <li>
          <Link to={deckId} className={`card ${isOwner ? 'other' : ''}`}>
             <div className='card-wrapper'>
-               <h3>{name}</h3>
+               <h3>{deckName}</h3>
             </div>
          </Link>
       </li>
