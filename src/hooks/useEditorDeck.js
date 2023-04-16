@@ -1,30 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { testData } from '../testData'
 import { EditorCardsService } from '../services/editorCardsService';
-import { LearningDeckService } from '../services/learningDecksService';
 
 
 const useEditorDeck = (id, searchQuery) => {
    const testDeck = testData.decks.find(({ deckId }) => deckId === id);
-   const { isLoading: isLoading1, data: cards } = useQuery(
-      ['editor-deck-cards', id, searchQuery],
+   const { isLoading, data } = useQuery(
+      ['editor-deck', id, searchQuery],
       async () => await EditorCardsService.getCards(id, searchQuery),
       {
          onError: error => alert(error.message),
-         initialData: testDeck.cards.filter(card => card.frontSide.toLowerCase().includes(searchQuery.toLowerCase()))
+         initialData: {
+            name: testDeck.name,
+            cards: testDeck.cards.filter(card =>
+               card.frontSide.toLowerCase().includes(searchQuery.toLowerCase()))
+         }
       },
    );
 
-   const { isLoading: isLoading2, data: name } = useQuery(
-      ['deck-name', id],
-      async () => await LearningDeckService.getDeck(id),
-      {
-         onError: error => alert(error.message),
-         initialData: testDeck.name
-      },
-   );
-
-   return { isLoading: isLoading1 || isLoading2, data: { name, cards } }
+   return { isLoading, data }
 };
 
 const useCreateCard = (reset, setOpened) => {

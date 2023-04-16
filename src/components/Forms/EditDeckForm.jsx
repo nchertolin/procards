@@ -21,7 +21,7 @@ export default function EditDeckForm() {
 
    const onSubmit = ({ name, isPrivate, password, description }) => {
       if (watch('password') !== '' || watch('isPrivate') !== selectedDeck.isPrivate.toString()) {
-         editPassword({ newPassword: password, isPrivate });
+         editPassword({ password: watch('isPrivate') === 'true' ? 'valid' : password, isPrivate });
       }
       editDeck({ name, description });
    };
