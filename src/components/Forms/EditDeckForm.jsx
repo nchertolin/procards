@@ -21,9 +21,13 @@ export default function EditDeckForm() {
 
    const onSubmit = ({ name, isPrivate, password, description }) => {
       if (watch('password') !== '' || watch('isPrivate') !== selectedDeck.isPrivate.toString()) {
-         editPassword({ password: watch('isPrivate') === 'true' ? 'valid' : password, isPrivate });
+         editPassword({
+            password: watch('isPrivate') === 'true' ? 'aa' : password,
+            isPrivate,
+            deckId: selectedDeck.deckId
+         });
       }
-      editDeck({ name, description });
+      editDeck({ name, description, deckId: selectedDeck.deckId });
    };
 
    const onDelete = () => deleteDeck(selectedDeck.deckId);

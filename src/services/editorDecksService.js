@@ -14,7 +14,7 @@ const EditorDeckService = {
    async getDecks(searchQuery) {
       const response = await url.get('', { params: { userId, searchQuery } });
 
-      return response.data.decks;
+      return response.data.deckPreviews;
    },
 
    async editDeck(data) {
