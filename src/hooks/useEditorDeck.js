@@ -11,7 +11,7 @@ const useEditorDeck = (id, searchQuery) => {
       {
          onError: error => alert(error.message),
          initialData: {
-            name: testDeck.name,
+            name: testDeck.deckName,
             cards: testDeck.cards.filter(card =>
                card.frontSide.toLowerCase().includes(searchQuery.toLowerCase()))
          }

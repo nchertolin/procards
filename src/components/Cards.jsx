@@ -22,7 +22,7 @@ function Cards() {
 
    return (
       <div className='card-list'>
-         <h1>{data.name}</h1>
+         <h1>{data.deckName}</h1>
          <div className='card-list_search'>
             <input type="text" placeholder='Поиск' value={searchQuery}
                onChange={(e) => setSearchQuery(e.target.value)} />

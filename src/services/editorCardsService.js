@@ -15,7 +15,7 @@ const EditorCardsService = {
       const response = await url.get('', {
          params: { userId, deckId: id, searchQuery }
       })
-      return response.data.cards
+      return response.data
    },
 
    async editCard(data) {
