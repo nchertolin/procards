@@ -11,7 +11,7 @@ const url = axios.create({
 });
 
 const UserService = {
-   async getStatistic(id) {
+   async getStatistics(id) {
       const response = await url.get('preview', { params: { userId: id } });
       return response.data;
    },

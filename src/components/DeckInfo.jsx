@@ -6,22 +6,21 @@ import Loading from './Loading/Loading';
 import { useDeck } from '../hooks/useDeck';
 import { WithAuth } from '../hoc/withAuth';
 import { useRemoveDeckFromLatest } from '../hooks/useDecks';
-import { useUserStatistic } from '../hooks/useUser';
 
 function DeckInfo() {
    const { deckId } = useParams();
    const { isLoading, data } = useDeck(deckId);
-   const { isLoading: isLoading2, data: user } = useUserStatistic(data.ownerId);
+   // const { isLoading: isLoading2, data: user } = useUserStatistic(data.ownerId);
    const { isLoading: isLoading1, removeDeckFromLatest } = useRemoveDeckFromLatest();
 
 
    const onDelete = () => removeDeckFromLatest(deckId);
 
-   if (isLoading || isLoading2) return <Loading />
+   if (isLoading) return <Loading />
 
    return (
       <div className='deck-info__wrapper'>
-         <h1>{data.name}</h1>
+         <h1>{data.deckName}</h1>
          <h2>Таблица лидеров</h2>
          <ul className='deck-info__leaderboard'>
             {
@@ -39,7 +38,7 @@ function DeckInfo() {
          </section>
          <section className='deck-info__row'>
             <h2>Автор колоды</h2>
-            <Link to={`/user/${data.ownerId}`}>@{user.login}</Link>
+            <Link to={`/user/${data.ownerId}`}>@{data.ownerLogin}</Link>
          </section>
          <div className='deck-info__cards-amount'>
             <img src={cardsIcon} alt="" />

@@ -23,7 +23,7 @@ const getTestInfo = () => ({
 const useUser = (id = userId) => {
    const { isLoading: isLoading1, data: statistic } = useQuery(
       ['user-statistic', id],
-      async () => await UserService.getStatistic(id),
+      async () => await UserService.getStatistics(id),
       {
          onError: error => alert(error.message),
          initialData: getTestStatistic()
@@ -45,7 +45,7 @@ const useUser = (id = userId) => {
 const useUserStatistic = (id) => {
    const { isLoading, data } = useQuery(
       ['user-statistic', id],
-      async () => await UserService.getStatistic(id),
+      async () => await UserService.getStatistics(id),
       {
          onError: error => alert(error.message),
          initialData: getTestStatistic()

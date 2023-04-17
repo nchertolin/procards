@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { useDeck } from '../hooks/useDeck';
+import { useCards } from '../hooks/useDeck';
 import Loading from './Loading/Loading';
 import { WithAuth } from '../hoc/withAuth';
 import { useGrade } from '../hooks/useCard';
 
 function Training() {
    const { deckId } = useParams();
-   const { isLoading, data } = useDeck(deckId);
+   const { isLoading, data } = useCards(deckId);
    const [curentIndex, setCurrentIndex] = useState(0);
    const [card, setCard] = useState(data.cards[curentIndex]);
    const [currentSide, setCurrentSide] = useState(0);

@@ -9,12 +9,40 @@ const testUser = {
    score: 7012,
    cardsCreated: 107,
    hours: 325,
-}
+};
+
+const testGlobalStatictics = [
+   {
+      userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      login: 'steve',
+      score: 10000
+   },
+   {
+      userId: '907fa85345345-345',
+      login: 'alex',
+      score: 9000
+   },
+   {
+      userId: '568a85f64-5717-4562-b3fc-2c963f66afa6',
+      login: 'victor',
+      score: 8000
+   },
+   {
+      userId: '667fa85f64-5717-4562-b3fc-2c963f66afa6',
+      login: 'anna',
+      score: 7000
+   },
+   {
+      userId: '4364536fa85f64-5717-4562-b3fc-2c963f66afa6',
+      login: 'olya',
+      score: 6000
+   }
+];
 
 const statistics = [
-   { userId: 'isdf-o123sd', login: 'ivanzolo2003', score: 8000 },
+   { userId: 'isdf-o123sd', login: 'ivanzolo2003', score: 10000 },
    { userId: 'fgd-sdfw213123', login: 'nurminsiy', score: 9000 },
-   { userId: 'dgdfgsdhksf', login: 'anya_mirnaya', score: 10000 },
+   { userId: 'dgdfgsdhksf', login: 'anya_mirnaya', score: 8000 },
 ];
 const description = `Многие программы электронной вёрстки и редакторы HTML используют 
 Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам "lorem 
@@ -77,6 +105,7 @@ const generateDecks = () => decksNames.map(info => ({
    statistics,
    description,
    ownerId: 'test-owner-id',
+   ownerLogin: 'nchertolin',
    cardsCount: cards.length,
    cards
 }));
@@ -88,4 +117,4 @@ const testData = {
    decks: generateDecks()
 };
 
-export { testUser, testData };
+export { testUser, testData, testGlobalStatictics };

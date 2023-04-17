@@ -13,8 +13,7 @@ const url = axios.create({
 const LearningCardsService = {
    async getCards(id) {
       const response = await url.get('', { params: { userId, deckId: id } })
-
-      return response.data.cards;
+      return response.data;
    },
 
    async postGrade(data) {

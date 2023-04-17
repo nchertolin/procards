@@ -6,6 +6,7 @@ import hoursIcon from '../assets/icons/hours-icon.svg';
 import { useParams } from 'react-router-dom';
 import { useUserStatistic } from '../hooks/useUser';
 import Loading from './Loading/Loading';
+import { WithAuth } from '../hoc/withAuth';
 
 function User() {
    const userId = useParams();
@@ -52,4 +53,4 @@ function User() {
       </div>
    )
 }
-export default User
+export default WithAuth(User);
