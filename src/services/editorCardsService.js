@@ -10,6 +10,14 @@ const url = axios.create({
    }
 });
 
+const imagesUrl = axios.create({
+   baseURL: `${SERVER_URL}/images`,
+   withCredentials: true,
+   headers: {
+      'Access-Control-Allow-Origin': '*'
+   }
+});
+
 const EditorCardsService = {
    async getCards(id, searchQuery) {
       const response = await url.get('', {
@@ -28,6 +36,16 @@ const EditorCardsService = {
 
    async deleteCard(cardId) {
       return await url.delete('', { userId, cardId })
+   },
+
+   async addImage({ cardId, formData, side }) {
+      return await imagesUrl.post('', formData, {
+         params: { userId, cardId, side: side ? 'Front' : 'Back' }
+      })
+   },
+
+   async deleteImage({ cardId, side }) {
+      return await imagesUrl.delete('', { userId, cardId, side: side ? 'Front' : 'Back' })
    },
 }
 

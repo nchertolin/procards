@@ -30,6 +30,7 @@ a {
 
 button {
    background-color: transparent;
+   color: $light-text;
    font-family: 'Montserrat', sans-serif;
    border: 0;
 
@@ -247,8 +248,6 @@ textarea {
       text-align: center;
 
       a {
-         font-size: 16px;
-         font-weight: 600;
          display: block;
          margin-bottom: 10px;
       }
@@ -402,8 +401,8 @@ textarea {
    background: $light-user-card;
    border-radius: 20px;
    perspective: 1000px;
-   transform-style: preserve-3d;
-   transition: transform 0.5s;
+   transform-style: flat;
+   transition: .5s;
    padding: 5%;
 
    &.flipped {
@@ -626,8 +625,7 @@ textarea {
 
 .modal__wrapper {
    width: 40vw;
-   display: flex;
-   flex-direction: column;
+   max-width: 1600px;
    padding: 80px 80px;
    background-color: $light-background;
    border-radius: 15px;
@@ -678,6 +676,24 @@ textarea {
       border: 0;
       border-radius: 0;
       padding: 0;
+   }
+
+   &.card__modal {
+      display: flex;
+      align-items: center;
+      width: 80vw;
+
+      &>div {
+         width: 50%;
+      }
+
+      .card {
+         height: 25vh;
+         min-height: 250px;
+         width: 90%;
+         max-width: 500px;
+         margin: 0 auto;
+      }
    }
 }
 
@@ -780,6 +796,15 @@ textarea {
    p {
       font-weight: bold;
       font-size: 16px;
+   }
+}
+
+.add__image__btn {
+   font-style: italic;
+   width: 170px;
+
+   &:hover {
+      text-decoration: underline;
    }
 }
 

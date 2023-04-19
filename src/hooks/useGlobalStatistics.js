@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { GlobalService } from '../services/globalService';
 import { testGlobalStatictics } from '../testData';
+import { notifyError } from '../util';
 
 
 
@@ -9,7 +10,7 @@ export const useGlobalStatistics = (id) => {
       ['global-statistic', id],
       async () => await GlobalService.getStatistics(id),
       {
-         onError: error => alert(error.message),
+         onError: notifyError,
          initialData: testGlobalStatictics
       },
    );

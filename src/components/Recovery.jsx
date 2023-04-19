@@ -3,25 +3,25 @@ import { useForm } from 'react-hook-form';
 import { useNewPassword, useRecovery } from '../hooks/useAuth';
 
 export default function Recovery() {
-   const [isEmailSended, setEmailSended] = useState(false);
-   const [isCodeSended, setCodeSended] = useState(false);
+   const [isEmailSent, setEmailSent] = useState(false);
+   const [isCodeSent, setCodeSent] = useState(false);
    const { register, formState: { errors, }, handleSubmit, watch } = useForm();
    const { isLoading, recovery } = useRecovery();
    const { isLoading1, setNewPassword } = useNewPassword();
 
    const onSubmit = data => {
-      if (isCodeSended) {
+      if (isCodeSent) {
          delete data.сpassword;
          setNewPassword(data);
          return;
       }
 
-      if (isEmailSended) {
-         recovery({ data, isEmailSended });
-         setCodeSended(true);
+      if (isEmailSent) {
+         recovery({ data, isEmailSent });
+         setCodeSent(true);
       } else {
-         recovery({ data, isEmailSended });
-         setEmailSended(true);
+         recovery({ data, isEmailSent });
+         setEmailSent(true);
       }
 
    }
@@ -33,7 +33,7 @@ export default function Recovery() {
             <h2>Введите адрес электронной почты, связанный с вашей учетной записью и мы вышлем вам код для смены пароля.</h2>
             <label>
                Электронная почта
-               <input type="email" disabled={isEmailSended}
+               <input type="email" disabled={isEmailSent}
                   className={errors?.email ? 'invalid' : ''}
                   {...register('email', {
                      required: 'Обязательноe поле.'
@@ -42,11 +42,11 @@ export default function Recovery() {
             </label>
             <label>
                Код из письма
-               <input type="tel" disabled={isCodeSended} autoComplete='off'
+               <input type="tel" disabled={isCodeSent} autoComplete='off'
                   className={errors?.code ? 'invalid' : ''}
                   {...register('code', {
                      required: 'Обязательноe поле.',
-                     disabled: !isEmailSended,
+                     disabled: !isEmailSent,
                   })} />
                {errors?.code && <p className='error'>{errors?.code.message}</p>}
             </label>
@@ -56,7 +56,7 @@ export default function Recovery() {
                   className={errors?.password ? 'invalid' : ''}
                   {...register('password', {
                      required: 'Обязательноe поле.',
-                     disabled: !isCodeSended
+                     disabled: !isCodeSent
                   })} />
                {errors?.password && <p className='error'>{errors?.password.message}</p>}
             </label>
@@ -66,7 +66,7 @@ export default function Recovery() {
                   className={errors?.сpassword ? 'invalid' : ''}
                   {...register('сpassword', {
                      required: 'Обязательноe поле.',
-                     disabled: !isCodeSended,
+                     disabled: !isCodeSent,
                      validate: (value) => {
                         return watch('password') === value || "Пароли не совпадают.";
                      }

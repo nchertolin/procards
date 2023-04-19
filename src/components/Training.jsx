@@ -10,17 +10,17 @@ function Training() {
    const { isLoading, data } = useCards(deckId);
    const [curentIndex, setCurrentIndex] = useState(0);
    const [card, setCard] = useState(data.cards[curentIndex]);
-   const [currentSide, setCurrentSide] = useState(0);
+   const [side, setSide] = useState(true);
    const [previousTimestamp, setPreviousTimestamp] = useState(Date.now() / 1000);
    const [scores] = useState([0, 0, 0, 0, 0]);
    const cardRef = useRef(null);
 
-   const reverseCard = () => setCurrentSide(1);
+   const reverseCard = () => setSide(!side);
 
    const nextCard = () => {
       setCurrentIndex(curentIndex === data.cards.length - 1 ? 0 : curentIndex + 1);
       setCard(data.cards[curentIndex])
-      setCurrentSide(0);
+      setSide(!side);
    };
 
    const { isLoading: isLoading1, postGrade } = useGrade(nextCard);
@@ -54,20 +54,19 @@ function Training() {
                <li className='best'>{scores[4]}</li>
             </ul>
 
-            <button ref={cardRef} className='training__card' disabled={currentSide === 1}
+            <button ref={cardRef} className='training__card'
                onClick={() => {
                   reverseCard();
                   cardRef.current.classList.toggle('flipped')
                }}>
-               <div className='card__text'>{currentSide === 0 ? card.frontSide : card.backSide}</div>
+               <div className='card__text'>{side ? card.frontSide : card.backSide}</div>
             </button>
 
             <div className='training__rating'>
                {
-                  currentSide === 0
+                  side
                      ? <p>Нажатие на карточку перевернет ее.</p>
-                     :
-                     <>
+                     : <>
                         <p>Оцените насколько хорошо вы знали содержимое.</p>
                         <ul className='training__rating__list'>
                            <li>

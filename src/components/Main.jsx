@@ -26,7 +26,7 @@ export default function Main() {
             <ul>
                {data.map(leader =>
                   <li key={v4()}>
-                     <Link to={`user/${leader.userId}`}>@{leader.login}</Link>
+                     <Link to={`user/${leader.userId}`} className='leader__name'>@{leader.login}</Link>
                      <p>{leader.score} очков</p>
                   </li>
                )}

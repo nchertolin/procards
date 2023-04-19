@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { testData } from '../testData'
 import { EditorDeckService } from '../services/editorDecksService';
+import { notifyError } from '../util';
 
 
 const useEditorDecks = (searchQuery) => {
@@ -8,7 +9,7 @@ const useEditorDecks = (searchQuery) => {
       ['editor-decks', searchQuery],
       async () => await EditorDeckService.getDecks(searchQuery),
       {
-         onError: error => alert(error.message),
+         onError: notifyError,
          initialData: testData.decks.filter(({ deckName }) =>
             deckName.toLowerCase().includes(searchQuery.toLowerCase())),
       },
@@ -28,7 +29,7 @@ const useCreateDeck = (reset, setOpened) => {
             setOpened(false)
             reset();
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 
@@ -45,7 +46,7 @@ const useEditDeck = (setOpened) => {
             queryClient.invalidateQueries('editor-decks');
             setOpened(false);
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 
@@ -62,7 +63,7 @@ const useEditDeckPassword = (setOpened) => {
             queryClient.invalidateQueries('editor-decks');
             setOpened(false);
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 
@@ -79,7 +80,7 @@ const useDeleteDeck = (setOpened) => {
             queryClient.invalidateQueries('editor-decks');
             setOpened(false);
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 

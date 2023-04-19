@@ -21,8 +21,8 @@ const AuthService = {
       return response.data.id
    },
 
-   async recovery(data, isEmailSended) {
-      return await url.post(`recovery${isEmailSended ? '/code' : ''}`, data)
+   async recovery(data, isEmailSent) {
+      return await url.post(`recovery${isEmailSent ? '/code' : ''}`, data)
    },
 
    async setNewPassword(data) {

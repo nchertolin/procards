@@ -4,14 +4,14 @@ import { FormsContext } from '../providers/FormsProvider';
 import settingsIcon from '../assets/icons/settings-icon.svg';
 
 export default function Card({ content, isDecksEditor, isCardsEditor }) {
-   const { setCardFormOpened, setCardSelected, setDeckSelected,
+   const { setEditCardFormOpened, setCardSelected, setDeckSelected,
       setEditFormOpened } = useContext(FormsContext);
    const [isSettingVisible, setSettingsVisible] = useState();
    const { deckName, isOwner, deckId } = content;
 
    const openCardForm = () => {
       setCardSelected(content);
-      setCardFormOpened(true)
+      setEditCardFormOpened(true)
    };
 
    const openEditDeckForm = () => {

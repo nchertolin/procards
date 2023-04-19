@@ -1,4 +1,6 @@
-const SERVER_URL = 'http://localhost:7046';
+import { toast } from 'react-toastify';
+
+const SERVER_URL = 'https://localhost:7046';
 const isAuth = localStorage.getItem('id') != null;
 const userId = localStorage.getItem('id');
 
@@ -11,12 +13,17 @@ const clickOutsideHandler = (e, className, stateSetter, removeSelectedObj) => {
    }
 };
 
+const stopPropagation = e => e.stopPropagation();
+
 const redirectToMainPage = () => window.location.href = '/';
 const redirectToSignInPage = () => window.location.href = '/signin';
 const redirectToLearn = () => window.location.href = '/learn';
 const reloadPage = () => window.location.reload();
 
 const getPagesAmount = (length, count = 20) => Math.ceil(length / count);
+
+
+const notifyError = error => toast.error(error.title);
 
 export {
    SERVER_URL,
@@ -28,4 +35,6 @@ export {
    reloadPage,
    redirectToLearn,
    getPagesAmount,
+   stopPropagation,
+   notifyError,
 }

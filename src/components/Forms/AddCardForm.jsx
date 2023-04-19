@@ -1,37 +1,42 @@
 import React, { useState } from 'react';
-import { clickOutsideHandler, stopPropagation } from '../../util';
+import { clickOutsideHandler } from '../../util';
 import { useContext } from 'react';
 import { FormsContext } from '../../providers/FormsProvider';
 import { useForm } from 'react-hook-form';
-import { useDeleteCard, useEditCard } from '../../hooks/useEditorDeck';
+import { useCreateCard, useImage } from '../../hooks/useEditorDeck';
 
-export default function EditCardForm() {
-   const { setEditCardFormOpened, selectedCard, setCardSelected } = useContext(FormsContext);
-   const { register, formState: { errors, }, handleSubmit, watch } = useForm({
-      defaultValues: {
-         frontSide: selectedCard?.frontSide,
-         backSide: selectedCard?.backSide
-      }
-   });
-   const { isLoading, editCard } = useEditCard(setEditCardFormOpened);
-   const { isLoading: isLoading2, deleteCard } = useDeleteCard(setEditCardFormOpened);
+export default function AddCardForm() {
+   const { setAddCardFormOpened } = useContext(FormsContext);
+   const { register, formState: { errors, }, handleSubmit, reset, watch } = useForm();
+   const { isLoading, createCard, data: cardId } = useCreateCard(reset, setAddCardFormOpened);
+   const { isLoading: isLoading1, addImage } = useImage();
    const [side, setSide] = useState(true);
    const [hasFrontImage, setFrontImage] = useState(false);
    const [hasBackImage, setBackImage] = useState(false);
 
-   const onSubmit = (data) => editCard(data);
-
-   const onDelete = () => deleteCard(selectedCard.id);
-
-
+   const onSubmit = (data) => {
+      createCard(data);
+      if (cardId) {
+         if (hasFrontImage) {
+            const formData = new FormData();
+            formData.append('file', watch('image-1'))
+            addImage({ cardId, formData, side: true });
+         }
+         if (hasBackImage) {
+            const formData = new FormData();
+            formData.append('file', watch('image-2'));
+            addImage({ cardId, formData, side: false })
+         }
+      }
+   }
    return (
       <div className='modal'
          onClick={e => clickOutsideHandler(e, '.modal__wrapper',
-            setEditCardFormOpened, () => setCardSelected(null))
+            setAddCardFormOpened)
          }>
          <div className='modal__wrapper card__modal'>
             <div>
-               <h3>Редактировать карточку</h3>
+               <h3>Новая карточка</h3>
                <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
                   <label>
                      <textarea placeholder='Лицевая сторона'
@@ -57,18 +62,10 @@ export default function EditCardForm() {
                         Добавить изображение
                      </button>
                   }
-                  <div className='modal__buttons'>
-                     <button type='submit' className='modal_submit'
-                        disabled={isLoading}>
-                        Сохранить
-                     </button>
-
-                     <button type='button' className='modal_submit delete'
-                        disabled={isLoading2}
-                        onClick={onDelete}>
-                        Удалить
-                     </button>
-                  </div>
+                  <button type='submit' className='modal_submit'
+                     disabled={isLoading || isLoading1}>
+                     Сохранить
+                  </button>
                </form>
             </div>
             <div>
@@ -77,9 +74,7 @@ export default function EditCardForm() {
                      setSide(!side);
                      e.target.classList.toggle('flipped')
                   }}>
-                  <p className='card__text' onClick={stopPropagation}>
-                     {watch(side ? 'frontSide' : 'backSide')}
-                  </p>
+                  <p className='card__text'>{watch(side ? 'frontSide' : 'backSide')}</p>
                </button>
             </div>
          </div>

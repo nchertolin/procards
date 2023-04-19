@@ -1,15 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { testData } from '../testData'
 import { EditorCardsService } from '../services/editorCardsService';
+import { notifyError } from '../util';
 
 
 const useEditorDeck = (id, searchQuery) => {
-   const testDeck = testData.decks.find(({ deckId }) => deckId === id);
+   const testDeck = testData.decks[0];
    const { isLoading, data } = useQuery(
       ['editor-deck', id, searchQuery],
       async () => await EditorCardsService.getCards(id, searchQuery),
       {
-         onError: error => alert(error.message),
+         onError: notifyError,
          initialData: {
             deckName: testDeck.deckName,
             cards: testDeck.cards.filter(card =>
@@ -24,7 +25,7 @@ const useEditorDeck = (id, searchQuery) => {
 const useCreateCard = (reset, setOpened) => {
    const queryClient = useQueryClient();
 
-   const { isLoading, mutate: createCard } = useMutation(
+   const { isLoading, mutate: createCard, data } = useMutation(
       async (data) => await EditorCardsService.createCard(data),
       {
          onSuccess: () => {
@@ -32,11 +33,11 @@ const useCreateCard = (reset, setOpened) => {
             setOpened(false)
             reset();
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 
-   return { isLoading, createCard };
+   return { isLoading, createCard, data };
 };
 
 const useEditCard = (setOpened) => {
@@ -49,7 +50,7 @@ const useEditCard = (setOpened) => {
             queryClient.invalidateQueries('editor-deck');
             setOpened(false)
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 
@@ -66,11 +67,40 @@ const useDeleteCard = (setOpened) => {
             queryClient.invalidateQueries('editor-deck');
             setOpened(false);
          },
-         onError: error => alert(error.message)
+         onError: notifyError
       }
    );
 
    return { isLoading, deleteCard };
 };
 
-export { useEditorDeck, useCreateCard, useEditCard, useDeleteCard };
+const useImage = () => {
+   const { isLoading, mutate: addImage } = useMutation(
+      async (data) => await EditorCardsService.addImage(data),
+      {
+         onError: notifyError,
+      }
+   );
+
+   return { isLoading, addImage };
+};
+
+const useImageDelete = () => {
+   const { isLoading, mutate: deleteImage } = useMutation(
+      async (data) => await EditorCardsService.deleteImage(data),
+      {
+         onError: notifyError,
+      }
+   );
+
+   return { isLoading, deleteImage };
+};
+
+export {
+   useEditorDeck,
+   useCreateCard,
+   useEditCard,
+   useDeleteCard,
+   useImage,
+   useImageDelete
+};

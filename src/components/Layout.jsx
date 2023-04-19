@@ -7,9 +7,12 @@ import { FormsContext } from '../providers/FormsProvider';
 import AddDeckForm from './Forms/AddDeckForm';
 import EditDeckForm from './Forms/EditDeckForm';
 import EditCardForm from './Forms/EditCardForm';
+import AddCardForm from './Forms/AddCardForm';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Layout() {
-   const { isAddFormOpened, isEditFormOpened, isCardFormOpened } =
+   const { isAddFormOpened, isEditFormOpened, isEditCardFormOpened, isAddCardFormOpened } =
       useContext(FormsContext);
 
    return (
@@ -19,9 +22,11 @@ export default function Layout() {
             <Outlet />
             {isAddFormOpened && <AddDeckForm />}
             {isEditFormOpened && <EditDeckForm />}
-            {isCardFormOpened && <EditCardForm />}
+            {isEditCardFormOpened && <EditCardForm />}
+            {isAddCardFormOpened && <AddCardForm />}
          </main>
          <Footer />
+         <ToastContainer closeOnClick pauseOnHover theme='colored' />
       </>
    )
 }

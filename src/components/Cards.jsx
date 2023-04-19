@@ -13,7 +13,7 @@ import { getPagesAmount } from '../util';
 
 function Cards() {
    const { deckId } = useParams();
-   const { setCardFormOpened } = useContext(FormsContext);
+   const { setAddCardFormOpened } = useContext(FormsContext);
    const [searchQuery, setSearchQuery] = useState('');
    const { isLoading, data } = useEditorDeck(deckId, searchQuery);
    const [page, setPage] = useState(1);
@@ -31,7 +31,7 @@ function Cards() {
          <div className='cards-list__wrapper'>
             <ul>
                <li>
-                  <button className='card' onClick={() => setCardFormOpened(true)}>
+                  <button className='card' onClick={() => setAddCardFormOpened(true)}>
                      <h3>+</h3>
                   </button>
                </li>

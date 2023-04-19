@@ -5,7 +5,8 @@ export const FormsContext = createContext(null);
 export default function FormsProvider({ children }) {
    const [isAddFormOpened, setAddFormOpened] = useState(false);
    const [isEditFormOpened, setEditFormOpened] = useState(false);
-   const [isCardFormOpened, setCardFormOpened] = useState(false);
+   const [isEditCardFormOpened, setEditCardFormOpened] = useState(false);
+   const [isAddCardFormOpened, setAddCardFormOpened] = useState(false);
    const [selectedDeck, setDeckSelected] = useState(null);
    const [selectedCard, setCardSelected] = useState(null);
 
@@ -13,7 +14,8 @@ export default function FormsProvider({ children }) {
       <FormsContext.Provider value={{
          isAddFormOpened, setAddFormOpened,
          isEditFormOpened, setEditFormOpened,
-         isCardFormOpened, setCardFormOpened,
+         isEditCardFormOpened, setEditCardFormOpened,
+         isAddCardFormOpened, setAddCardFormOpened,
          selectedDeck, setDeckSelected,
          selectedCard, setCardSelected,
       }}>
