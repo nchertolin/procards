@@ -26,7 +26,7 @@ export default function Layout() {
             {isAddCardFormOpened && <AddCardForm />}
          </main>
          <Footer />
-         <ToastContainer closeOnClick pauseOnHover theme='colored' />
+         <ToastContainer closeOnClick pauseOnHover theme='colored' pauseOnFocusLoss={false} />
       </>
    )
 }

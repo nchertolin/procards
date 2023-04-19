@@ -51,9 +51,9 @@ ipsum" сразу показывает, как много веб-страниц 
 некоторые - намеренно (например, юмористические варианты`;
 
 const cards = [
-   { id: Math.random().toString(24).slice(-6), frontSide: 'Первый вопрос карточки', backSide: 'Первый ответ карточки' },
-   { id: Math.random().toString(24).slice(-6), frontSide: 'Второй вопрос карточки', backSide: 'Второй ответ карточки' },
-   { id: Math.random().toString(24).slice(-6), frontSide: 'Третий вопрос карточки', backSide: 'Третий ответ карточки' },
+   { id: Math.random().toString(24).slice(-6), frontSide: 'Первый вопрос карточки', backSide: 'Первый ответ карточки', hasFrontImage: true, hasBackImage: false },
+   { id: Math.random().toString(24).slice(-6), frontSide: 'Третий вопрос карточки', backSide: 'Третий ответ карточки', hasFrontImage: true, hasBackImage: false },
+   { id: Math.random().toString(24).slice(-6), frontSide: 'Второй вопрос карточки', backSide: 'Второй ответ карточки', hasFrontImage: true, hasBackImage: false },
 ];
 
 const decksNames = [

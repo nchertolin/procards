@@ -403,13 +403,17 @@ textarea {
    perspective: 1000px;
    transform-style: flat;
    transition: .5s;
-   padding: 5%;
+   padding: 20px;
 
    &.flipped {
       transform: rotateX(180deg);
       background: $light-other-card;
 
       .card__text {
+         transform: rotateX(180deg);
+      }
+
+      img {
          transform: rotateX(180deg);
       }
    }
@@ -541,6 +545,8 @@ textarea {
 }
 
 .deck-info__wrapper {
+   width: 100%;
+
    h2 {
       font-weight: 600;
       margin-bottom: 10px;
@@ -806,6 +812,12 @@ textarea {
    &:hover {
       text-decoration: underline;
    }
+}
+
+.card__image {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
 }
 
 .error {

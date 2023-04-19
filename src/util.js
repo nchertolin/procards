@@ -23,7 +23,13 @@ const reloadPage = () => window.location.reload();
 const getPagesAmount = (length, count = 20) => Math.ceil(length / count);
 
 
-const notifyError = error => toast.error(error.title);
+const notifyError = error => {
+   if (error.response?.data) {
+      toast.error(error.response.data.title);
+      return;
+   }
+   toast.error(error.message);
+}
 
 export {
    SERVER_URL,

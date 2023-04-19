@@ -22,22 +22,22 @@ const useEditorDeck = (id, searchQuery) => {
    return { isLoading, data }
 };
 
-const useCreateCard = (reset, setOpened) => {
+const useCreateCard = (setOpened) => {
    const queryClient = useQueryClient();
 
-   const { isLoading, mutate: createCard, data } = useMutation(
+   const { isLoading, mutateAsync: createCard } = useMutation(
       async (data) => await EditorCardsService.createCard(data),
       {
-         onSuccess: () => {
+         onSuccess: cardId => {
             queryClient.invalidateQueries('editor-deck');
             setOpened(false)
-            reset();
+            return cardId;
          },
          onError: notifyError
       }
    );
 
-   return { isLoading, createCard, data };
+   return { isLoading, createCard };
 };
 
 const useEditCard = (setOpened) => {
@@ -86,9 +86,12 @@ const useImage = () => {
 };
 
 const useImageDelete = () => {
+   const queryClient = useQueryClient();
+
    const { isLoading, mutate: deleteImage } = useMutation(
       async (data) => await EditorCardsService.deleteImage(data),
       {
+         onSuccess: () => queryClient.invalidateQueries('editor-deck'),
          onError: notifyError,
       }
    );

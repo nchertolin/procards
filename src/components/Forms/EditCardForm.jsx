@@ -3,7 +3,8 @@ import { clickOutsideHandler, stopPropagation } from '../../util';
 import { useContext } from 'react';
 import { FormsContext } from '../../providers/FormsProvider';
 import { useForm } from 'react-hook-form';
-import { useDeleteCard, useEditCard } from '../../hooks/useEditorDeck';
+import { useDeleteCard, useEditCard, useImage, useImageDelete } from '../../hooks/useEditorDeck';
+import { useImages } from '../../hooks/useCard';
 
 export default function EditCardForm() {
    const { setEditCardFormOpened, selectedCard, setCardSelected } = useContext(FormsContext);
@@ -14,15 +15,37 @@ export default function EditCardForm() {
       }
    });
    const { isLoading, editCard } = useEditCard(setEditCardFormOpened);
-   const { isLoading: isLoading2, deleteCard } = useDeleteCard(setEditCardFormOpened);
+   const { isLoading: isLoading1, deleteCard } = useDeleteCard(setEditCardFormOpened);
+   const { isLoading: isLoading2, addImage } = useImage();
+   const { isLoading: isLoading3, deleteImage } = useImageDelete();
+   const { isLoading: isLoading4, images } = useImages();
    const [side, setSide] = useState(true);
    const [hasFrontImage, setFrontImage] = useState(false);
    const [hasBackImage, setBackImage] = useState(false);
 
-   const onSubmit = (data) => editCard(data);
+   const onSubmit = (data) => {
+      editCard(data);
+      if (hasFrontImage) {
+         const formData = new FormData();
+         formData.append('file', watch('image-1')[0])
+         addImage({ cardId: selectedCard.id, formData, side: true });
+      }
+      if (hasBackImage) {
+         const formData = new FormData();
+         formData.append('file', watch('image-2')[0]);
+         addImage({ cardId: selectedCard.id, formData, side: false })
+      }
+   }
 
    const onDelete = () => deleteCard(selectedCard.id);
+   const onImageDelete = (isFront) => deleteImage({ cardId: selectedCard.id, side: isFront })
 
+   const flip = (e) => {
+      setSide(!side);
+      e.target.parentElement.classList.toggle('flipped')
+   }
+
+   if (isLoading4) return <isLoading />
 
    return (
       <div className='modal'
@@ -39,11 +62,19 @@ export default function EditCardForm() {
                         {...register('frontSide', { required: 'Обязательноe поле.' })} />
                      {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                   </label>
-                  {hasFrontImage
-                     ? <input type="file" className='file'{...register('image-1')} />
-                     : <button type='button' onClick={() => setFrontImage(true)} className='add__image__btn'>
-                        Добавить изображение
+                  {selectedCard.hasFrontImage
+                     ? <button type='button' className='add__image__btn' disabled={isLoading3}
+                        onClick={() => onImageDelete(true)}>
+                        Удалить изображение
                      </button>
+                     : <>
+                        {hasFrontImage
+                           ? <input type="file" className='file'{...register('image-1')} />
+                           : <button type='button' onClick={() => setFrontImage(true)} className='add__image__btn'>
+                              Добавить изображение
+                           </button>
+                        }
+                     </>
                   }
                   <label>
                      <textarea placeholder='Обратная сторона'
@@ -51,20 +82,28 @@ export default function EditCardForm() {
                         {...register('backSide', { required: 'Обязательноe поле.' })} />
                      {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                   </label>
-                  {hasBackImage
-                     ? <input type="file" className='file'{...register('image-2')} />
-                     : <button type='button' onClick={() => setBackImage(true)} className='add__image__btn'>
-                        Добавить изображение
+                  {selectedCard.hasBackImage
+                     ? <button type='button' className='add__image__btn' disabled={isLoading3}
+                        onClick={() => onImageDelete(false)}>
+                        Удалить изображение
                      </button>
+                     : <>
+                        {hasBackImage
+                           ? <input type="file" className='file'{...register('image-2')} />
+                           : <button type='button' onClick={() => setBackImage(true)} className='add__image__btn'>
+                              Добавить изображение
+                           </button>
+                        }
+                     </>
                   }
                   <div className='modal__buttons'>
                      <button type='submit' className='modal_submit'
-                        disabled={isLoading}>
+                        disabled={isLoading || isLoading2}>
                         Сохранить
                      </button>
 
                      <button type='button' className='modal_submit delete'
-                        disabled={isLoading2}
+                        disabled={isLoading1}
                         onClick={onDelete}>
                         Удалить
                      </button>
@@ -77,9 +116,19 @@ export default function EditCardForm() {
                      setSide(!side);
                      e.target.classList.toggle('flipped')
                   }}>
-                  <p className='card__text' onClick={stopPropagation}>
-                     {watch(side ? 'frontSide' : 'backSide')}
-                  </p>
+                  {
+                     side
+                        ?
+                        images[0]
+                           ? <img className='card__image' src={images[0]} alt={watch('frontSide')}
+                              onClick={flip} />
+                           : <p className='card__text' onClick={stopPropagation}>{watch('frontSide')}</p>
+                        :
+                        images[1]
+                           ? <img className='card__image' src={images[1]} alt={watch('backSide')}
+                              onClick={flip} />
+                           : <p className='card__text' onClick={stopPropagation}>{watch('backSide')}</p>
+                  }
                </button>
             </div>
          </div>

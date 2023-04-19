@@ -4,31 +4,35 @@ import { useContext } from 'react';
 import { FormsContext } from '../../providers/FormsProvider';
 import { useForm } from 'react-hook-form';
 import { useCreateCard, useImage } from '../../hooks/useEditorDeck';
+import { useParams } from 'react-router-dom';
 
 export default function AddCardForm() {
+   const { deckId } = useParams();
    const { setAddCardFormOpened } = useContext(FormsContext);
    const { register, formState: { errors, }, handleSubmit, reset, watch } = useForm();
-   const { isLoading, createCard, data: cardId } = useCreateCard(reset, setAddCardFormOpened);
+   const { isLoading, createCard } = useCreateCard(setAddCardFormOpened);
    const { isLoading: isLoading1, addImage } = useImage();
    const [side, setSide] = useState(true);
    const [hasFrontImage, setFrontImage] = useState(false);
    const [hasBackImage, setBackImage] = useState(false);
 
-   const onSubmit = (data) => {
-      createCard(data);
+   const onSubmit = async (data) => {
+      const cardId = await createCard({ ...data, deckId });
       if (cardId) {
          if (hasFrontImage) {
             const formData = new FormData();
-            formData.append('file', watch('image-1'))
+            formData.append('file', watch('image-1')[0])
             addImage({ cardId, formData, side: true });
          }
          if (hasBackImage) {
             const formData = new FormData();
-            formData.append('file', watch('image-2'));
+            formData.append('file', watch('image-2')[0]);
             addImage({ cardId, formData, side: false })
          }
       }
-   }
+      reset();
+   };
+
    return (
       <div className='modal'
          onClick={e => clickOutsideHandler(e, '.modal__wrapper',
