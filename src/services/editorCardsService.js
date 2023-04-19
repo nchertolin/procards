@@ -36,7 +36,7 @@ export const EditorCardsService = {
    },
 
    async deleteCard(cardId) {
-      return await url.delete('', { userId, cardId })
+      return await url.delete('', { data: { userId, cardId } })
    },
 
    async getImage({ deckId, cardId, side }) {
@@ -45,10 +45,12 @@ export const EditorCardsService = {
             userId,
             deckId,
             cardId,
-            side
-         }
+            side: side ? 'Front' : 'Back',
+         },
+         responseType: 'blob'
       });
-      return response.image
+
+      return URL.createObjectURL(response.data)
    },
 
    async addImage({ cardId, formData, side }) {
@@ -62,6 +64,6 @@ export const EditorCardsService = {
    },
 
    async deleteImage({ cardId, side }) {
-      return await imagesUrl.delete('', { userId, cardId, side: side ? 'Front' : 'Back' })
+      return await imagesUrl.delete('', { data: { userId, cardId, side: side ? 'Front' : 'Back' } })
    },
 };

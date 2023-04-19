@@ -75,9 +75,12 @@ const useDeleteCard = (setOpened) => {
 };
 
 const useImage = () => {
+   const queryClient = useQueryClient();
+
    const { isLoading, mutate: addImage } = useMutation(
       async (data) => await EditorCardsService.addImage(data),
       {
+         onSuccess: () => queryClient.invalidateQueries('editor-deck'),
          onError: notifyError,
       }
    );
@@ -91,7 +94,7 @@ const useImageDelete = () => {
    const { isLoading, mutate: deleteImage } = useMutation(
       async (data) => await EditorCardsService.deleteImage(data),
       {
-         onSuccess: () => queryClient.invalidateQueries('editor-deck'),
+         onSuccess: () => queryClient.invalidateQueries('editor-deck', 'front', 'back'),
          onError: notifyError,
       }
    );

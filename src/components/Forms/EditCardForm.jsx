@@ -5,8 +5,11 @@ import { FormsContext } from '../../providers/FormsProvider';
 import { useForm } from 'react-hook-form';
 import { useDeleteCard, useEditCard, useImage, useImageDelete } from '../../hooks/useEditorDeck';
 import { useImages } from '../../hooks/useCard';
+import { useParams } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 
 export default function EditCardForm() {
+   const { deckId } = useParams();
    const { setEditCardFormOpened, selectedCard, setCardSelected } = useContext(FormsContext);
    const { register, formState: { errors, }, handleSubmit, watch } = useForm({
       defaultValues: {
@@ -18,13 +21,13 @@ export default function EditCardForm() {
    const { isLoading: isLoading1, deleteCard } = useDeleteCard(setEditCardFormOpened);
    const { isLoading: isLoading2, addImage } = useImage();
    const { isLoading: isLoading3, deleteImage } = useImageDelete();
-   const { isLoading: isLoading4, images } = useImages();
+   const { isLoading: isLoading4, images } = useImages(deckId, selectedCard);
    const [side, setSide] = useState(true);
    const [hasFrontImage, setFrontImage] = useState(false);
    const [hasBackImage, setBackImage] = useState(false);
 
    const onSubmit = (data) => {
-      editCard(data);
+      editCard({ ...data, cardId: selectedCard.id });
       if (hasFrontImage) {
          const formData = new FormData();
          formData.append('file', watch('image-1')[0])
@@ -38,14 +41,14 @@ export default function EditCardForm() {
    }
 
    const onDelete = () => deleteCard(selectedCard.id);
-   const onImageDelete = (isFront) => deleteImage({ cardId: selectedCard.id, side: isFront })
+   const onImageDelete = (isFront) => deleteImage({ cardId: selectedCard.id, side: isFront });
 
    const flip = (e) => {
       setSide(!side);
       e.target.parentElement.classList.toggle('flipped')
-   }
+   };
 
-   if (isLoading4) return <isLoading />
+   if (isLoading4) return <Loading />
 
    return (
       <div className='modal'
