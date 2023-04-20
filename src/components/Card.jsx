@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FormsContext } from '../providers/FormsProvider';
-import settingsIcon from '../assets/icons/settings-icon.svg';
 
 export default function Card({ content, isDecksEditor, isCardsEditor }) {
    const { setEditCardFormOpened, setCardSelected, setDeckSelected,

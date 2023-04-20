@@ -589,6 +589,10 @@ textarea {
    border-radius: 20px;
    padding: 20px;
    margin: 50px 0;
+
+   svg {
+      fill: $light-text
+   }
 }
 
 .deck-info__actions,

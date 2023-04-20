@@ -86,4 +86,10 @@ body.dark {
          fill: $dark-background;
       }
    }
+
+   .deck-info__cards-amount {
+      svg {
+         fill: $dark-text
+      }
+   }
 }
