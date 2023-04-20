@@ -102,12 +102,12 @@ export default function EditCardForm() {
                      </>
                   }
                   <div className='modal__buttons'>
-                     <button type='submit' className='modal_submit'
+                     <button type='submit' className='modal_submit main__btn'
                         disabled={isLoading || isLoading2}>
                         Сохранить
                      </button>
 
-                     <button type='button' className='modal_submit delete'
+                     <button type='button' className='modal_submit delete__btn'
                         disabled={isLoading1}
                         onClick={onDelete}>
                         Удалить

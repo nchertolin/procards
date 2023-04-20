@@ -66,7 +66,7 @@ export default function AddCardForm() {
                         Добавить изображение
                      </button>
                   }
-                  <button type='submit' className='modal_submit'
+                  <button type='submit' className='modal_submit main__btn'
                      disabled={isLoading || isLoading1}>
                      Сохранить
                   </button>

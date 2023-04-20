@@ -52,7 +52,7 @@ export default function AddDeckForm() {
                   <textarea placeholder='Описание'
                      {...register('description')} />
                </label>
-               <button type='submit' className='modal_submit' disabled={isLoading}>Добавить</button>
+               <button type='submit' className='modal_submit main__btn' disabled={isLoading}>Добавить</button>
             </form>
          </div>
       </div>

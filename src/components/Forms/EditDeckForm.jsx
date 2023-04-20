@@ -71,11 +71,11 @@ export default function EditDeckForm() {
                }
                <textarea {...register('description')} placeholder='Описание' />
                <div className='modal__buttons'>
-                  <button type="submit" className='modal_submit'
+                  <button type="submit" className='modal_submit main__btn'
                      disabled={isLoading || isLoading2}>
                      Сохранить
                   </button>
-                  <button type="button" className='modal_submit delete'
+                  <button type="button" className='modal_submit delete__btn'
                      onClick={onDelete}
                      disabled={isLoading1}>
                      Удалить
