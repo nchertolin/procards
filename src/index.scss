@@ -431,6 +431,7 @@ textarea {
 
       .card__text {
          transform: rotateX(180deg);
+         word-break: normal;
       }
 
       img {
