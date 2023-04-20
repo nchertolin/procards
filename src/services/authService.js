@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SERVER_URL, redirectToSignInPage, reloadPage } from '../util'
+import { SERVER_URL, redirectToSignInPage, reloadPage, userId } from '../util'
 
 const url = axios.create({
    baseURL: `${SERVER_URL}/account/`,
@@ -9,6 +9,12 @@ const url = axios.create({
    }
 });
 
+const tryRefreshToken = error => {
+   if (error.response?.status === 401) {
+      AuthService.refresh();
+      return;
+   }
+}
 
 const AuthService = {
    async signIn(data) {
@@ -29,6 +35,13 @@ const AuthService = {
       return await url.post('recovery/newpass', data)
    },
 
+   async refresh() {
+      const response = await url.post('refresh', userId)
+      if (response.status === 401) {
+         redirectToSignInPage();
+      }
+   },
+
    logout() {
       localStorage.removeItem('id');
       reloadPage();
@@ -36,4 +49,4 @@ const AuthService = {
    },
 };
 
-export { AuthService };
+export { AuthService, tryRefreshToken };

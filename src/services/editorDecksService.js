@@ -30,7 +30,7 @@ const EditorDeckService = {
    },
 
    async deleteDeck(id) {
-      return await url.delete('', { userId, deckId: id })
+      return await url.delete('', { data: { userId, deckId: id } })
    },
 }
 

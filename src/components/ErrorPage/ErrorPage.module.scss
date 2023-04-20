@@ -1,4 +1,5 @@
-@import '../../colors.scss';
+@import '../../colors/light-colors.scss';
+@import '../../colors/dark-colors.scss';
 
 .wrapper {
    min-height: calc(100vh - 200px);
@@ -21,7 +22,7 @@
    }
 
    p {
-      color: $light-second-text;
+      // color: $light-second-text;
       text-align: center;
       line-height: 22px;
    }
@@ -36,4 +37,11 @@
    font-weight: 600;
    border-radius: 10px;
    padding: 12px 50px;
+}
+
+.dark {
+   .button {
+      color: $dark-background;
+      background-color: $dark-text;
+   }
 }

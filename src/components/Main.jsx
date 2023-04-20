@@ -19,7 +19,7 @@ export default function Main() {
                   <p>Сервис для быстрого создания карточек, которые помогут запомнить любой материал.</p>
                </div>
             </section>
-            <video video id='video' src={video} playsInline autoPlay loop muted />
+            <video id='video' src={video} playsInline autoPlay loop muted />
          </div>
          <section id='main__leaders__wrapper'>
             <h2>Лучшие ученики</h2>

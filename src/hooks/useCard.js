@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { LearningCardsService } from '../services/learningCardsService';
-import { notifyError } from '../util';
 import { EditorCardsService } from '../services/editorCardsService';
+import { onError } from './useUser'
 
 
 
@@ -12,8 +12,9 @@ const useGrade = nextCard => {
       {
          onSuccess: () => nextCard(),
          onError: error => {
-            notifyError(error);
+            //FIXME remove nextCard call on deploy
             nextCard();
+            onError(error);
          }
       }
    );
@@ -25,7 +26,6 @@ const useImages = (deckId, card) => {
    const images = [];
    let isLoading1 = false;
    let isLoading2 = false;
-
    if (card.hasFrontImage) {
       const { isLoading, data: frontImage } = useQuery(
          ['front', deckId, card],

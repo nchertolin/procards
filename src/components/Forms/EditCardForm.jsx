@@ -41,7 +41,9 @@ export default function EditCardForm() {
    }
 
    const onDelete = () => deleteCard(selectedCard.id);
-   const onImageDelete = (isFront) => deleteImage({ cardId: selectedCard.id, side: isFront });
+   const onImageDelete = (isFront) => {
+      deleteImage({ cardId: selectedCard.id, side: isFront });
+   }
 
    const flip = (e) => {
       setSide(!side);
@@ -120,14 +122,12 @@ export default function EditCardForm() {
                      e.target.classList.toggle('flipped')
                   }}>
                   {
-                     side
-                        ?
+                     side ?
                         images[0]
                            ? <img className='card__image' src={images[0]} alt={watch('frontSide')}
                               onClick={flip} />
                            : <p className='card__text' onClick={stopPropagation}>{watch('frontSide')}</p>
-                        :
-                        images[1]
+                        : images[1]
                            ? <img className='card__image' src={images[1]} alt={watch('backSide')}
                               onClick={flip} />
                            : <p className='card__text' onClick={stopPropagation}>{watch('backSide')}</p>

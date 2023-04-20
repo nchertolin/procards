@@ -1,8 +1,9 @@
 import './index.scss';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Loading from './components/Loading/Loading';
+import { setSavedTheme } from './util';
 
 const Main = lazy(() => import('./components/Main'));
 const Cards = lazy(() => import('./components/Cards'));
@@ -19,6 +20,8 @@ const SignUp = lazy(() => import('./components/SignUp'));
 const Recovery = lazy(() => import('./components/Recovery'));
 
 export default function App() {
+   useEffect(setSavedTheme, []);
+
    return (
       <Router>
          <Routes>

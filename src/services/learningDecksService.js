@@ -27,7 +27,7 @@ const LearningDeckService = {
    },
 
    async deleteDeck(deckId) {
-      return await url.delete('remove', { userId, deckId })
+      return await url.delete('remove', { data: { userId, deckId } })
    },
 
 }

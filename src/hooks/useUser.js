@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { testUser } from '../testData'
 import { UserService } from '../services/userService';
 import { notifyError, userId } from '../util';
+import { tryRefreshToken } from '../services/authService';
 
 const getTestStatistic = () => ({
    login: testUser.login,
@@ -20,12 +21,17 @@ const getTestInfo = () => ({
    location: testUser.location,
 });
 
+const onError = error => {
+   tryRefreshToken(error);
+   notifyError(error);
+};
+
 const useUser = (id = userId) => {
    const { isLoading: isLoading1, data: statistic } = useQuery(
       ['user-statistic', id],
       async () => await UserService.getStatistics(id),
       {
-         onError: notifyError,
+         onError,
          initialData: getTestStatistic()
       },
    );
@@ -34,7 +40,7 @@ const useUser = (id = userId) => {
       ['user-info', id],
       async () => await UserService.getInfo(id),
       {
-         onError: notifyError,
+         onError,
          initialData: getTestInfo()
       },
    );
@@ -47,7 +53,7 @@ const useUserStatistic = (id) => {
       ['user-statistic', id],
       async () => await UserService.getStatistics(id),
       {
-         onError: notifyError,
+         onError,
          initialData: getTestStatistic()
       },
    );
@@ -59,7 +65,7 @@ const useEditInfo = () => {
    const { isLoading, mutate: editInfo } = useMutation(
       async (data) => await UserService.editInfo(data),
       {
-         onError: notifyError,
+         onError,
       }
    );
 
@@ -70,7 +76,7 @@ const useEditPassword = () => {
    const { isLoading, mutate: editPassword } = useMutation(
       async (data) => await UserService.editPassword(data),
       {
-         onError: notifyError,
+         onError,
       }
    );
 
@@ -78,6 +84,7 @@ const useEditPassword = () => {
 };
 
 export {
+   onError,
    useUser,
    useUserStatistic,
    useEditInfo,

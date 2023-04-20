@@ -63,7 +63,7 @@ export default function SignUp() {
                   })} />
                {errors?.confirmPassword && <p className='error'>{errors?.confirmPassword.message}</p>}
             </label>
-            <button type='submit ' className='modal_submit' disabled={isLoading}>Зарегистрироваться</button>
+            <button type='submit ' className='modal_submit main__btn' disabled={isLoading}>Зарегистрироваться</button>
          </form>
       </div>
    )

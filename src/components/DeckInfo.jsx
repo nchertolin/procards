@@ -48,8 +48,8 @@ function DeckInfo() {
             </section>
          </div>
          <div className='deck-info__actions'>
-            <Link className='start' to='training'>Развернуть колоду</Link>
-            <button className='delete' disabled={isLoading1}
+            <Link className='main__btn' to='training'>Развернуть колоду</Link>
+            <button className='delete__btn' disabled={isLoading1}
                onClick={onDelete}>
                Удалить колоду
             </button>

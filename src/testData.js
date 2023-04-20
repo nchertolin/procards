@@ -44,6 +44,7 @@ const statistics = [
    { userId: 'fgd-sdfw213123', login: 'nurminsiy', score: 9000 },
    { userId: 'dgdfgsdhksf', login: 'anya_mirnaya', score: 8000 },
 ];
+
 const description = `Многие программы электронной вёрстки и редакторы HTML используют 
 Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам "lorem 
 ipsum" сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. 
@@ -52,8 +53,8 @@ ipsum" сразу показывает, как много веб-страниц 
 
 const cards = [
    { id: Math.random().toString(24).slice(-6), frontSide: 'Первый вопрос карточки', backSide: 'Первый ответ карточки', hasFrontImage: true, hasBackImage: false },
-   { id: Math.random().toString(24).slice(-6), frontSide: 'Третий вопрос карточки', backSide: 'Третий ответ карточки', hasFrontImage: true, hasBackImage: false },
    { id: Math.random().toString(24).slice(-6), frontSide: 'Второй вопрос карточки', backSide: 'Второй ответ карточки', hasFrontImage: true, hasBackImage: false },
+   { id: Math.random().toString(24).slice(-6), frontSide: 'Третий вопрос карточки', backSide: 'Третий ответ карточки', hasFrontImage: true, hasBackImage: false },
 ];
 
 const decksNames = [
@@ -109,8 +110,6 @@ const generateDecks = () => decksNames.map(info => ({
    cardsCount: cards.length,
    cards
 }));
-
-
 
 const testData = {
    ...testUser,

@@ -1,4 +1,5 @@
-@import './colors.scss';
+@import './colors/light-colors.scss';
+@import 'dark-theme.scss';
 
 * {
    margin: 0;
@@ -30,22 +31,26 @@ a {
 
 button {
    background-color: transparent;
-   color: $light-text;
+   color: $light-background;
    font-family: 'Montserrat', sans-serif;
    border: 0;
-
-   &:hover {
-      cursor: pointer;
-   }
-
-   &.delete {
-      background-color: red;
-   }
 
    &:disabled {
       cursor: default;
       background-color: grey;
    }
+
+   &:hover {
+      cursor: pointer;
+   }
+}
+
+.main__btn {
+   background-color: $light-text;
+}
+
+.delete__btn {
+   background-color: red;
 }
 
 h1 {
@@ -129,6 +134,10 @@ textarea {
       border: 1px solid $light-line;
       border-radius: 50%;
    }
+
+   a svg {
+      stroke: $light-text;
+   }
 }
 
 .header-logo {
@@ -157,7 +166,7 @@ textarea {
    justify-content: center;
    width: 100vw;
    height: 100vh;
-   margin-top: -30px;
+   margin-top: -32px;
 }
 
 #video {
@@ -204,7 +213,6 @@ textarea {
    flex-direction: column;
    color: $light-text;
    height: 380px;
-   background-color: $light-background;
    margin-bottom: 50px;
 
    h2 {
@@ -336,6 +344,10 @@ textarea {
    top: 0;
    right: 0;
    padding: 10px;
+
+   svg {
+      fill: $light-background;
+   }
 }
 
 .training-wrapper {
@@ -481,9 +493,7 @@ textarea {
    .submit {
       width: 100%;
       height: 40px;
-      color: $light-background;
       font-weight: 600;
-      background-color: $light-text;
       border-radius: 10px;
    }
 
@@ -529,19 +539,11 @@ textarea {
       background-color: $light-search;
       border-radius: 10px;
       padding: 20px;
-   }
-}
 
-.account-edit-button {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   width: 580px;
-   height: 40px;
-   font-weight: 600;
-   color: $light-background;
-   background-color: $light-text;
-   border-radius: 10px;
+      svg {
+         fill: $light-text
+      }
+   }
 }
 
 .deck-info__wrapper {
@@ -596,25 +598,21 @@ textarea {
    row-gap: 10px;
    margin-bottom: 50px;
 
-   .start,
-   .edit,
-   .logout,
-   .delete {
+   button,
+   a {
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 600;
       color: $light-background;
-      background-color: $light-text;
       height: 40px;
       width: 280px;
       border-radius: 10px;
    }
 
-   .logout,
-   .delete {
-      background-color: red;
-   }
+   // .delete {
+   //    background-color: red;
+   // }
 }
 
 .modal {
@@ -631,7 +629,7 @@ textarea {
 
 .modal__wrapper {
    width: 40vw;
-   max-width: 1600px;
+   max-width: 1300px;
    padding: 80px 80px;
    background-color: $light-background;
    border-radius: 15px;
@@ -715,9 +713,7 @@ textarea {
 .modal_submit {
    width: 100%;
    height: 40px;
-   color: $light-background;
    font-weight: 600;
-   background-color: $light-text;
    border-radius: 10px;
 }
 
@@ -802,6 +798,10 @@ textarea {
    p {
       font-weight: bold;
       font-size: 16px;
+   }
+
+   svg {
+      fill: $light-text;
    }
 }
 

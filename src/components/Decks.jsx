@@ -22,7 +22,10 @@ function Decks() {
          <h1>Выберите колоду</h1>
          <div className='card-list_search'>
             <input type="text" placeholder='Поиск' value={searchQuery}
-               onChange={(e) => setSearchQuery(e.target.value)} />
+               onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setPage(1)
+               }} />
             <img src={searchIcon} alt="" />
          </div>
          <div className='cards-list__wrapper'>

@@ -73,7 +73,7 @@ export default function Recovery() {
                   })} />
                {errors?.сpassword && <p className='error'>{errors?.сpassword.message}</p>}
             </label>
-            <button className='modal_submit' disabled={isLoading || isLoading1}>Отправить</button>
+            <button className='modal_submit main__btn' disabled={isLoading || isLoading1}>Отправить</button>
          </form>
       </div>
    )

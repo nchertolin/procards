@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useCards } from '../hooks/useDeck';
 import Loading from './Loading/Loading';
 import { WithAuth } from '../hoc/withAuth';
-import { useGrade } from '../hooks/useCard';
+import { useGrade, useImages } from '../hooks/useCard';
+import { stopPropagation } from '../util';
 
 function Training() {
    const { deckId } = useParams();
-   const { isLoading, data } = useCards(deckId);
-   const [curentIndex, setCurrentIndex] = useState(0);
-   const [card, setCard] = useState(data.cards[curentIndex]);
+   const { isLoading, data: { deckName, cards } } = useCards(deckId);
+   const [i, setIndex] = useState(0);
+   const card = cards[i];
+   const { isLoading: isLoading2, images } = useImages(deckId, card);
    const [side, setSide] = useState(true);
    const [previousTimestamp, setPreviousTimestamp] = useState(Date.now() / 1000);
    const [scores] = useState([0, 0, 0, 0, 0]);
@@ -18,20 +20,24 @@ function Training() {
    const reverseCard = () => setSide(!side);
 
    const nextCard = () => {
-      setCurrentIndex(curentIndex === data.cards.length - 1 ? 0 : curentIndex + 1);
-      setCard(data.cards[curentIndex])
-      setSide(!side);
+      setIndex((i + 1) % cards.length);
+      reverseCard();
    };
 
    const { isLoading: isLoading1, postGrade } = useGrade(nextCard);
 
    const increaseScore = grade => scores[grade - 1]++;
 
+   const flip = (e) => {
+      reverseCard();
+      e.target.parentElement.classList.toggle('flipped')
+   };
+
    const onSubmit = grade => {
       const currentTimestamp = Date.now() / 1000;
       postGrade({
          deckId,
-         cardId: card.id,
+         cardId: cards.id,
          grade,
          timeInSeconds: +(currentTimestamp - previousTimestamp).toFixed(3)
       });
@@ -40,11 +46,13 @@ function Training() {
       cardRef.current.classList.toggle('flipped');
    };
 
-   if (isLoading) return <Loading />
+   const isGradeSubmitDisabled = isLoading1 || isLoading2;
+
+   if (isLoading || isLoading2) return <Loading />
 
    return (
       <>
-         <h1>{data.deckName}</h1>
+         <h1>{deckName}</h1>
          <div className='training-wrapper'>
             <ul className='training__score-list'>
                <li className='worst'>{scores[0]}</li>
@@ -59,7 +67,17 @@ function Training() {
                   reverseCard();
                   cardRef.current.classList.toggle('flipped')
                }}>
-               <div className='card__text'>{side ? card.frontSide : card.backSide}</div>
+               {
+                  side ?
+                     images[0]
+                        ? <img className='card__image' src={images[0]} alt={card.frontSide}
+                           onClick={flip} />
+                        : <p className='card__text' onClick={stopPropagation}>{card.frontSide}</p>
+                     : images[1]
+                        ? <img className='card__image' src={images[1]} alt={card.backSide}
+                           onClick={flip} />
+                        : <p className='card__text' onClick={stopPropagation}>{card.backSide}</p>
+               }
             </button>
 
             <div className='training__rating'>
@@ -68,38 +86,28 @@ function Training() {
                      ? <p>Нажатие на карточку перевернет ее.</p>
                      : <>
                         <p>Оцените насколько хорошо вы знали содержимое.</p>
-                        <ul className='training__rating__list'>
-                           <li>
-                              <button className='worst' disabled={isLoading1}
-                                 onClick={() => onSubmit(1)}>
-                                 1
-                              </button>
-                           </li>
-                           <li>
-                              <button className='bad' disabled={isLoading1}
-                                 onClick={() => onSubmit(2)}>
-                                 2
-                              </button>
-                           </li>
-                           <li>
-                              <button className='normal' disabled={isLoading1}
-                                 onClick={() => onSubmit(3)}>
-                                 3
-                              </button>
-                           </li>
-                           <li>
-                              <button className='good' disabled={isLoading1}
-                                 onClick={() => onSubmit(4)}>
-                                 4
-                              </button>
-                           </li>
-                           <li>
-                              <button className='best' disabled={isLoading1}
-                                 onClick={() => onSubmit(5)}>
-                                 5
-                              </button>
-                           </li>
-                        </ul>
+                        <div className='training__rating__list'>
+
+                           <button className='worst' disabled={isGradeSubmitDisabled}
+                              onClick={() => onSubmit(1)}>1
+                           </button>
+
+                           <button className='bad' disabled={isGradeSubmitDisabled}
+                              onClick={() => onSubmit(2)}>2
+                           </button>
+
+                           <button className='normal' disabled={isGradeSubmitDisabled}
+                              onClick={() => onSubmit(3)}>3
+                           </button>
+
+                           <button className='good' disabled={isGradeSubmitDisabled}
+                              onClick={() => onSubmit(4)}>4
+                           </button>
+
+                           <button className='best' disabled={isGradeSubmitDisabled}
+                              onClick={() => onSubmit(5)}>5
+                           </button>
+                        </div>
                      </>
                }
             </div>

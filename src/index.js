@@ -17,11 +17,9 @@ const queryClient = new QueryClient({
 });
 
 root.render(
-   <>
-      <FormsProvider>
-         <QueryClientProvider client={queryClient}>
-            <App />
-         </QueryClientProvider>
-      </FormsProvider>
-   </>
+   <FormsProvider>
+      <QueryClientProvider client={queryClient}>
+         <App />
+      </QueryClientProvider>
+   </FormsProvider>
 );

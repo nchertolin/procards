@@ -69,7 +69,7 @@ function AccountEdit() {
                   {...register('location', { required: 'Обязательноe поле.' })} />
                {errors?.location && <p className='error'>{errors?.location.message}</p>}
             </label>
-            <button className='submit' disabled={isLoading1}>Сохранить</button>
+            <button className='submit main__btn' disabled={isLoading1}>Сохранить</button>
          </form>
          <form onSubmit={handleSubmit2(onSubmitPassword)}>
             <label>
@@ -97,7 +97,7 @@ function AccountEdit() {
                />
                {errors2?.confirmPassword && <p className='error'>{errors2?.confirmPassword.message}</p>}
             </label>
-            <button className='submit' disabled={isLoading2}>Сохранить</button>
+            <button className='submit main__btn' disabled={isLoading2}>Сохранить</button>
          </form>
       </div>
    )

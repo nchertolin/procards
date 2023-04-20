@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { testData } from '../testData'
 import { EditorDeckService } from '../services/editorDecksService';
-import { notifyError } from '../util';
+import { onError } from './useUser'
 
 
 const useEditorDecks = (searchQuery) => {
@@ -9,7 +9,7 @@ const useEditorDecks = (searchQuery) => {
       ['editor-decks', searchQuery],
       async () => await EditorDeckService.getDecks(searchQuery),
       {
-         onError: notifyError,
+         onError,
          initialData: testData.decks.filter(({ deckName }) =>
             deckName.toLowerCase().includes(searchQuery.toLowerCase())),
       },
@@ -29,7 +29,7 @@ const useCreateDeck = (reset, setOpened) => {
             setOpened(false)
             reset();
          },
-         onError: notifyError
+         onError
       }
    );
 
@@ -46,7 +46,7 @@ const useEditDeck = (setOpened) => {
             queryClient.invalidateQueries('editor-decks');
             setOpened(false);
          },
-         onError: notifyError
+         onError
       }
    );
 
@@ -63,7 +63,7 @@ const useEditDeckPassword = (setOpened) => {
             queryClient.invalidateQueries('editor-decks');
             setOpened(false);
          },
-         onError: notifyError
+         onError
       }
    );
 
@@ -80,7 +80,7 @@ const useDeleteDeck = (setOpened) => {
             queryClient.invalidateQueries('editor-decks');
             setOpened(false);
          },
-         onError: notifyError
+         onError
       }
    );
 

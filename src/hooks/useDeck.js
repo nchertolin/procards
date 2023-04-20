@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { testData } from '../testData'
 import { LearningDeckService } from '../services/learningDecksService';
 import { LearningCardsService } from '../services/learningCardsService';
-import { notifyError } from '../util';
+import { onError } from './useUser'
 
 
 const useDeck = id => {
@@ -14,7 +14,7 @@ const useDeck = id => {
       ['deck-name', id],
       async () => await LearningDeckService.getDeck(id),
       {
-         onError: notifyError,
+         onError,
          initialData: testDeckWithoutCards
       },
    );
@@ -28,7 +28,7 @@ const useCards = id => {
       ['deck', id],
       async () => await LearningCardsService.getCards(id),
       {
-         onError: notifyError,
+         onError,
          initialData: {
             deckName: testDeck.deckName,
             cards: testDeck.cards

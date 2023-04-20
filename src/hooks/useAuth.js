@@ -7,6 +7,7 @@ const onSuccess = (id) => {
    setId(id);
    redirectToMainPage();
 };
+
 const onError = (error) => {
    setId('test-id');
    notifyError(error);

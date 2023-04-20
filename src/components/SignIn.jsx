@@ -28,7 +28,7 @@ export default function SignIn() {
             <div className='sign-in__forgot'>
                <Link to='forgot'>Забыли пароль?</Link>
             </div>
-            <button type='submit' className='modal_submit' disabled={isLoading}>Войти</button>
+            <button type='submit' className='modal_submit main__btn' disabled={isLoading}>Войти</button>
             <div className='sign-in__signup'>
                <p>Нет аккаунта?</p>
                <Link to='/signup'>Зарегистрироваться</Link>

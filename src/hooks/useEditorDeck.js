@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { testData } from '../testData'
 import { EditorCardsService } from '../services/editorCardsService';
-import { notifyError } from '../util';
+import { onError } from './useUser'
 
 
 const useEditorDeck = (id, searchQuery) => {
@@ -10,7 +10,7 @@ const useEditorDeck = (id, searchQuery) => {
       ['editor-deck', id, searchQuery],
       async () => await EditorCardsService.getCards(id, searchQuery),
       {
-         onError: notifyError,
+         onError,
          initialData: {
             deckName: testDeck.deckName,
             cards: testDeck.cards.filter(card =>
@@ -33,7 +33,7 @@ const useCreateCard = (setOpened) => {
             setOpened(false)
             return cardId;
          },
-         onError: notifyError
+         onError
       }
    );
 
@@ -50,7 +50,7 @@ const useEditCard = (setOpened) => {
             queryClient.invalidateQueries('editor-deck');
             setOpened(false)
          },
-         onError: notifyError
+         onError
       }
    );
 
@@ -67,7 +67,7 @@ const useDeleteCard = (setOpened) => {
             queryClient.invalidateQueries('editor-deck');
             setOpened(false);
          },
-         onError: notifyError
+         onError
       }
    );
 
@@ -81,7 +81,7 @@ const useImage = () => {
       async (data) => await EditorCardsService.addImage(data),
       {
          onSuccess: () => queryClient.invalidateQueries('editor-deck'),
-         onError: notifyError,
+         onError
       }
    );
 
@@ -94,8 +94,8 @@ const useImageDelete = () => {
    const { isLoading, mutate: deleteImage } = useMutation(
       async (data) => await EditorCardsService.deleteImage(data),
       {
-         onSuccess: () => queryClient.invalidateQueries('editor-deck', 'front', 'back'),
-         onError: notifyError,
+         onSuccess: () => queryClient.invalidateQueries('editor-deck'),
+         onError
       }
    );
 

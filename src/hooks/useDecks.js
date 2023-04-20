@@ -1,7 +1,8 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { LearningDeckService } from '../services/learningDecksService'
 import { testData } from '../testData'
-import { notifyError, redirectToLearn } from '../util';
+import { redirectToLearn } from '../util';
+import { onError } from './useUser'
 
 
 const useDecks = (searchQuery) => {
@@ -9,7 +10,7 @@ const useDecks = (searchQuery) => {
       ['decks', searchQuery],
       async () => await LearningDeckService.getDecks(searchQuery),
       {
-         onError: notifyError,
+         onError,
          initialData: testData.decks.filter(({ deckName }) => deckName.toLowerCase().includes(searchQuery.toLowerCase())),
       },
    );
@@ -26,10 +27,7 @@ const useRemoveDeckFromLatest = () => {
             queryClient.invalidateQueries('decks');
             redirectToLearn();
          },
-         onError: error => {
-            notifyError(error)
-            redirectToLearn();
-         },
+         onError,
       },
    );
 
