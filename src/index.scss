@@ -116,11 +116,11 @@ textarea {
    column-gap: 70px;
 
    :hover{
-    color: $light-second-text
+    color: $light-hover-text
    }
 
    :active{
-    color: $light-third-text;
+    color: $light-active-text;
    }
 
    a.active {

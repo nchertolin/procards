@@ -33,11 +33,11 @@ body.dark {
 
    .header-nav__list {
     :hover{
-     color: $dark-second-text
+     color: $dark-hover-text
     }
  
     :active{
-     color: $dark-third-text;
+     color: $dark-active-text;
     }
  
     a.active {
