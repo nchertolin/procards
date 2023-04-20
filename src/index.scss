@@ -115,6 +115,14 @@ textarea {
    display: flex;
    column-gap: 70px;
 
+   :hover{
+    color: $light-second-text
+   }
+
+   :active{
+    color: $light-third-text;
+   }
+
    a.active {
       font-weight: 700;
    }

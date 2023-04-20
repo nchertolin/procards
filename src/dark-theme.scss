@@ -31,6 +31,20 @@ body.dark {
       }
    }
 
+   .header-nav__list {
+    :hover{
+     color: $dark-second-text
+    }
+ 
+    :active{
+     color: $dark-third-text;
+    }
+ 
+    a.active {
+       font-weight: 700;
+    }
+ }
+
    .page-main {
       h1 {
          text-decoration-color: $dark-line;
@@ -66,11 +80,16 @@ body.dark {
 
    .account-stat {
       li {
+        background-color: $dark-input;
          svg {
             fill: $dark-text
          }
       }
    }
+
+   .main__btn {
+    color: $light-text;
+ }
 
    .footer-wrapper {
       border-color: $dark-border;
@@ -88,8 +107,94 @@ body.dark {
    }
 
    .deck-info__cards-amount {
+      background-color: $dark-input;
       svg {
          fill: $dark-text
       }
    }
+
+   .modal__wrapper {
+      .main__btn{
+        color: $dark-text;
+        background-color: $dark-input;
+      }
+
+      h3 {
+        color: $light-text;
+      }
+   }
+
+  .modal__buttons {
+   .main__btn{
+    color: $dark-text;
+    background-color: $dark-input;
+    }
+  }
+
+  .training__rating__list { 
+    button {
+       color: $dark-background;
+ 
+       &.worst {
+          background: $dark-worst;
+       }
+ 
+       &.bad {
+          background: $dark-bad;
+       }
+ 
+       &.normal {
+          background: $dark-normal;
+       }
+ 
+       &.good {
+          background: $dark-good;
+       }
+ 
+       &.best {
+          background: $dark-best;
+       }
+     }
+   }
+
+   .training__score-list {
+    li {
+       &::before {
+          background: $dark-worst;
+       }
+    }
+ 
+    .bad {
+       &::before {
+          background: $dark-bad;
+       }
+    }
+ 
+    .normal {
+       &::before {
+          background: $dark-normal;
+       }
+    }
+
+    .good {
+       &::before {
+          background: $dark-good;
+       }
+    }
+ 
+    .best {
+       &::before {
+          background: $dark-best;
+       }
+    }
+   }
+ 
+   .training__card {
+    color: $dark-background;
+    background: $dark-user-card;
+    
+    &.flipped {
+       background: $dark-other-card;
+    }
+ }
 }
