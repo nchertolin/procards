@@ -2,7 +2,6 @@ import React from 'react';
 import video from '../assets/videos/hero.mp4';
 import { useGlobalStatistics } from '../hooks/useGlobalStatistics';
 import Loading from './Loading/Loading';
-import { v4 } from 'uuid';
 import { Link } from 'react-router-dom';
 
 export default function Main() {
@@ -25,7 +24,7 @@ export default function Main() {
             <h2>Лучшие ученики</h2>
             <ul>
                {data.map(leader =>
-                  <li key={v4()}>
+                  <li key={leader.userId}>
                      <Link to={`user/${leader.userId}`} className='leader__name'>@{leader.login}</Link>
                      <p>{leader.score} очков</p>
                   </li>

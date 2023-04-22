@@ -1,57 +1,36 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { LearningCardsService } from '../services/learningCardsService';
-import { EditorCardsService } from '../services/editorCardsService';
-import { onError } from './useUser'
-
-
+import {useMutation, useQuery} from '@tanstack/react-query';
+import {LearningCardsService} from '../services/learningCardsService';
+import {EditorCardsService} from '../services/editorCardsService';
+import {onError} from './useUser'
 
 const useGrade = nextCard => {
-   const { isLoading, mutate: postGrade } = useMutation(
-      async (data) => await LearningCardsService.postGrade(data),
-      {
-         onSuccess: () => nextCard(),
-         onError: error => {
-            //FIXME remove nextCard call on deploy
-            nextCard();
-            onError(error);
-         }
-      }
-   );
+    const {isLoading, mutate: postGrade} = useMutation(
+        async data => await LearningCardsService.postGrade(data),
+        {
+            onSuccess: () => nextCard(),
+            onError: error => {
+                //FIXME remove nextCard call on deploy
+                nextCard();
+                onError(error);
+            }
+        }
+    );
 
-   return { isLoading, postGrade };
+    return {isLoading, postGrade};
 };
 
 const useImages = (deckId, card) => {
-   const images = [];
-   let isLoading1 = false;
-   let isLoading2 = false;
-   if (card.hasFrontImage) {
-      const { isLoading, data: frontImage } = useQuery(
-         ['front', deckId, card],
-         async () => await EditorCardsService.getImage({ deckId, cardId: card.id, side: true }),
-         {
-            onError: () => null,
-         },
-      )
+    const {isLoading, data: front} = useQuery(
+        ['front', deckId, card],
+        async () => await EditorCardsService.getImage({deckId, cardId: card.id, side: true})
+    );
 
-      isLoading1 = isLoading
-      images.push(frontImage);
-   }
+    const {isLoading: isLoading1, data: back} = useQuery(
+        ['back', deckId, card],
+        async () => await EditorCardsService.getImage({deckId, cardId: card.id, side: false})
+    );
 
-   if (card.hasBackImage) {
-      const { isLoading, data: backImage } = useQuery(
-         ['back', deckId, card],
-         async () => await EditorCardsService.getImage({ deckId, cardId: card.id, side: false }),
-         {
-            onError: () => null,
-         },
-      )
-      isLoading2 = isLoading;
-      images.push(backImage);
-   }
-
-   return { isLoading: isLoading1 || isLoading2, images }
+    return {isLoading: isLoading || isLoading1, images: [front, back]}
 }
 
-export { useGrade, useImages };
+export {useGrade, useImages};

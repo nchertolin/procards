@@ -1,35 +1,35 @@
 import axios from 'axios';
-import { SERVER_URL, userId } from '../util';
+import {SERVER_URL, userId} from '../util';
 
 
 const url = axios.create({
-   baseURL: `${SERVER_URL}/decks/`,
-   withCredentials: true,
-   headers: {
-      'Access-Control-Allow-Origin': '*'
-   }
+    baseURL: `${SERVER_URL}/decks/`,
+    withCredentials: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
 });
 
 const LearningDeckService = {
-   async getDecks(searchQuery) {
-      const response = await url.get('', { params: { userId, searchQuery } });
+    async getDecks(searchQuery) {
+        const response = await url.get('', {params: {userId, searchQuery}});
 
-      return response.data.decks;
-   },
+        return response.data.decks;
+    },
 
-   async getDeck(id) {
-      const response = await url.get('deck', { params: { userId, deckId: id } });
-      return response.data
-   },
+    async getDeck(id) {
+        const response = await url.get('deck', {params: {userId, deckId: id}});
+        return response.data
+    },
 
-   async addDeck({ deckId, password }) {
-      return await url.post('deck', { userId, deckId, password })
-   },
+    async addDeck({deckId, password}) {
+        return await url.post('add', {userId, deckId, password})
+    },
 
-   async deleteDeck(deckId) {
-      return await url.delete('remove', { data: { userId, deckId } })
-   },
+    async deleteDeck(deckId) {
+        return await url.delete('remove', {data: {userId, deckId}})
+    },
 
 }
 
-export { LearningDeckService }
+export {LearningDeckService}

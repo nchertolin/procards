@@ -92,4 +92,10 @@ body.dark {
          fill: $dark-text
       }
    }
+
+   .card-list_search {
+      svg {
+         fill: $dark-second-text;
+      }
+   }
 }

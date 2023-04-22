@@ -14,6 +14,7 @@ const Account = lazy(() => import('./components/Account'));
 const AccountEdit = lazy(() => import('./components/AccountEdit'));
 const User = lazy(() => import('./components/User'));
 const DeckInfo = lazy(() => import('./components/DeckInfo'));
+const DeckAdd = lazy(() => import('./components/DeckAdd'));
 const Training = lazy(() => import('./components/Training'));
 const SignIn = lazy(() => import('./components/SignIn'));
 const SignUp = lazy(() => import('./components/SignUp'));
@@ -70,6 +71,12 @@ export default function App() {
                <Route path='learn' element={
                   <Suspense fallback={<Loading />}>
                      <Decks />
+                  </Suspense>
+               } />
+
+               <Route path='learn/add/:deckId' element={
+                  <Suspense fallback={<Loading />}>
+                     <DeckAdd />
                   </Suspense>
                } />
 

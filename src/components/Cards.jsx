@@ -1,49 +1,56 @@
-import React, { useContext, useState } from 'react';
-import { v4 } from 'uuid';
+import React, {useContext, useState} from 'react';
 import Card from './Card';
-import searchIcon from '../assets/icons/search-icon.svg';
 import Loading from './Loading/Loading';
-import { useParams } from 'react-router-dom';
-import { FormsContext } from '../providers/FormsProvider';
-import { useEditorDeck } from '../hooks/useEditorDeck';
-import { WithAuth } from '../hoc/withAuth';
+import {useParams} from 'react-router-dom';
+import {FormsContext} from '../providers/FormsProvider';
+import {useEditorDeck} from '../hooks/useEditorDeck';
+import {WithAuth} from '../hoc/withAuth';
 import Pagination from './Pagination';
-import { getPagesAmount } from '../util';
+import {getPagesAmount} from '../util';
+import Search from './Search';
 
 
 function Cards() {
-   const { deckId } = useParams();
-   const { setAddCardFormOpened } = useContext(FormsContext);
-   const [searchQuery, setSearchQuery] = useState('');
-   const { isLoading, data } = useEditorDeck(deckId, searchQuery);
-   const [page, setPage] = useState(1);
+    const amountOnPage = 19;
+    const {deckId} = useParams();
+    const [searchQuery, setSearchQuery] = useState('');
+    const {isLoading, data} = useEditorDeck(deckId, searchQuery);
+    const {setAddCardFormOpened} = useContext(FormsContext);
+    const [page, setPage] = useState(1);
+    const sliced = data?.cards?.slice(amountOnPage * page - amountOnPage, amountOnPage * page);
 
-   if (isLoading) return <Loading />
+    if (isLoading) return <Loading/>
 
-   return (
-      <div className='card-list'>
-         <h1>{data.deckName}</h1>
-         <div className='card-list_search'>
-            <input type="text" placeholder='Поиск' value={searchQuery}
-               onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setPage(1)
-               }} />
-            <img src={searchIcon} alt="" />
-         </div>
-         <div className='cards-list__wrapper'>
-            <ul>
-               <li>
-                  <button className='card' onClick={() => setAddCardFormOpened(true)}>
-                     <h3>+</h3>
-                  </button>
-               </li>
-               {data.cards.slice(19 * page - 19, 19 * page).map(content => <Card key={v4()} content={content} isCardsEditor={true} />)}
-            </ul>
-         </div>
-         <Pagination page={page} setPage={setPage} amount={getPagesAmount(data.cards.length, 19)} />
-      </div>
-   )
+    return (
+        <div className='card-list'>
+            <h1>{data?.deckName}</h1>
+            <Search
+                setPage={setPage}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+            />
+            <div className='cards-list__wrapper'>
+                <ul>
+                    <li>
+                        <button className='card' onClick={() => setAddCardFormOpened(true)}>
+                            <h3>+</h3>
+                        </button>
+                    </li>
+                    {sliced.map(content =>
+                        <Card
+                            key={content.id}
+                            content={content}
+                            isCardsEditor={true}
+                        />)}
+                </ul>
+            </div>
+            <Pagination
+                page={page}
+                setPage={setPage}
+                amount={getPagesAmount(data?.cards?.length, amountOnPage)}
+            />
+        </div>
+    )
 }
 
 export default WithAuth(Cards);

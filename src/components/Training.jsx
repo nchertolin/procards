@@ -1,119 +1,102 @@
-import React, { useRef, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { useCards } from '../hooks/useDeck';
+import React, {useRef, useState} from 'react'
+import {useParams} from 'react-router-dom';
+import {useCards} from '../hooks/useDeck';
 import Loading from './Loading/Loading';
-import { WithAuth } from '../hoc/withAuth';
-import { useGrade, useImages } from '../hooks/useCard';
-import { stopPropagation } from '../util';
+import {WithAuth} from '../hoc/withAuth';
+import {useGrade, useImages} from '../hooks/useCard';
+import TrainingCard from './TrainingCard';
 
 function Training() {
-   const { deckId } = useParams();
-   const { isLoading, data: { deckName, cards } } = useCards(deckId);
-   const [i, setIndex] = useState(0);
-   const card = cards[i];
-   const { isLoading: isLoading2, images } = useImages(deckId, card);
-   const [side, setSide] = useState(true);
-   const [previousTimestamp, setPreviousTimestamp] = useState(Date.now() / 1000);
-   const [scores] = useState([0, 0, 0, 0, 0]);
-   const cardRef = useRef(null);
+    const {deckId} = useParams();
+    const {isLoading, data} = useCards(deckId);
+    const [index, setIndex] = useState(0);
+    const card = data?.cards[index];
+    const {isLoading: isLoading2, images} = useImages(deckId, card);
+    const [side, setSide] = useState(true);
+    const [scores, setScores] = useState([0, 0, 0, 0, 0]);
+    const nextCard = () => {
+        setIndex((index + 1) % data?.cards?.length);
+        setSide(!side)
+    };
 
-   const reverseCard = () => setSide(!side);
+    const {isLoading: isLoading1, postGrade} = useGrade(nextCard);
+    const isGradeSubmitDisabled = isLoading1 || isLoading2;
+    const [previousTimestamp, setPreviousTimestamp] = useState(Date.now() / 1000);
+    const cardRef = useRef();
+    const increaseScore = grade => setScores(prev => {
+        const newScores = [...prev];
+        newScores[grade - 1] += 1;
+        return newScores;
+    });
 
-   const nextCard = () => {
-      setIndex((i + 1) % cards.length);
-      reverseCard();
-   };
+    const onSubmit = grade => {
+        const currentTimestamp = Date.now() / 1000;
+        postGrade({
+            deckId,
+            cardId: card?.id,
+            grade,
+            timeInSeconds: +(currentTimestamp - previousTimestamp).toFixed(3)
+        });
+        setPreviousTimestamp(currentTimestamp);
+        increaseScore(grade);
+        cardRef.current.classList.toggle('flipped');
+    };
 
-   const { isLoading: isLoading1, postGrade } = useGrade(nextCard);
+    if (isLoading || isLoading2) return <Loading/>
 
-   const increaseScore = grade => scores[grade - 1]++;
+    return (
+        <>
+            <h1>{data?.deckName}</h1>
+            <div className='training-wrapper'>
+                <ul className='training__score-list'>
+                    <li className='worst'>{scores[0]}</li>
+                    <li className='bad'>{scores[1]}</li>
+                    <li className='normal'>{scores[2]}</li>
+                    <li className='good'>{scores[3]}</li>
+                    <li className='best'>{scores[4]}</li>
+                </ul>
 
-   const flip = (e) => {
-      reverseCard();
-      e.target.parentElement.classList.toggle('flipped')
-   };
+                <TrainingCard cardRef={cardRef}
+                              card={card}
+                              images={images}
+                              side={side}
+                              setSide={setSide}
+                />
 
-   const onSubmit = grade => {
-      const currentTimestamp = Date.now() / 1000;
-      postGrade({
-         deckId,
-         cardId: cards.id,
-         grade,
-         timeInSeconds: +(currentTimestamp - previousTimestamp).toFixed(3)
-      });
-      setPreviousTimestamp(currentTimestamp);
-      increaseScore(grade);
-      cardRef.current.classList.toggle('flipped');
-   };
+                <div className='training__rating'>
+                    {
+                        side
+                            ? <p>Нажатие на карточку перевернет ее.</p>
+                            : <>
+                                <p>Оцените насколько хорошо вы знали содержимое.</p>
+                                <div className='training__rating__list'>
 
-   const isGradeSubmitDisabled = isLoading1 || isLoading2;
+                                    <button className='worst' disabled={isGradeSubmitDisabled}
+                                            onClick={() => onSubmit(1)}>1
+                                    </button>
 
-   if (isLoading || isLoading2) return <Loading />
+                                    <button className='bad' disabled={isGradeSubmitDisabled}
+                                            onClick={() => onSubmit(2)}>2
+                                    </button>
 
-   return (
-      <>
-         <h1>{deckName}</h1>
-         <div className='training-wrapper'>
-            <ul className='training__score-list'>
-               <li className='worst'>{scores[0]}</li>
-               <li className='bad'>{scores[1]}</li>
-               <li className='normal'>{scores[2]}</li>
-               <li className='good'>{scores[3]}</li>
-               <li className='best'>{scores[4]}</li>
-            </ul>
+                                    <button className='normal' disabled={isGradeSubmitDisabled}
+                                            onClick={() => onSubmit(3)}>3
+                                    </button>
 
-            <button ref={cardRef} className='training__card'
-               onClick={() => {
-                  reverseCard();
-                  cardRef.current.classList.toggle('flipped')
-               }}>
-               {
-                  side ?
-                     images[0]
-                        ? <img className='card__image' src={images[0]} alt={card.frontSide}
-                           onClick={flip} />
-                        : <p className='card__text' onClick={stopPropagation}>{card.frontSide}</p>
-                     : images[1]
-                        ? <img className='card__image' src={images[1]} alt={card.backSide}
-                           onClick={flip} />
-                        : <p className='card__text' onClick={stopPropagation}>{card.backSide}</p>
-               }
-            </button>
+                                    <button className='good' disabled={isGradeSubmitDisabled}
+                                            onClick={() => onSubmit(4)}>4
+                                    </button>
 
-            <div className='training__rating'>
-               {
-                  side
-                     ? <p>Нажатие на карточку перевернет ее.</p>
-                     : <>
-                        <p>Оцените насколько хорошо вы знали содержимое.</p>
-                        <div className='training__rating__list'>
-
-                           <button className='worst' disabled={isGradeSubmitDisabled}
-                              onClick={() => onSubmit(1)}>1
-                           </button>
-
-                           <button className='bad' disabled={isGradeSubmitDisabled}
-                              onClick={() => onSubmit(2)}>2
-                           </button>
-
-                           <button className='normal' disabled={isGradeSubmitDisabled}
-                              onClick={() => onSubmit(3)}>3
-                           </button>
-
-                           <button className='good' disabled={isGradeSubmitDisabled}
-                              onClick={() => onSubmit(4)}>4
-                           </button>
-
-                           <button className='best' disabled={isGradeSubmitDisabled}
-                              onClick={() => onSubmit(5)}>5
-                           </button>
-                        </div>
-                     </>
-               }
+                                    <button className='best' disabled={isGradeSubmitDisabled}
+                                            onClick={() => onSubmit(5)}>5
+                                    </button>
+                                </div>
+                            </>
+                    }
+                </div>
             </div>
-         </div>
-      </>
-   )
+        </>
+    )
 }
 
 export default WithAuth(Training);
