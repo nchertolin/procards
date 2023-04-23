@@ -13,9 +13,9 @@ function Account() {
     return (
         <div className='account__wrapper'>
             <div className='account__info'>
-                <h1 id='account__name'>{user.firstName} {user.lastName}</h1>
-                <h3>@{user.login}</h3>
-                <p>{user.location}</p>
+                <h1 id='account__name'>{user?.firstName} {user?.lastName}</h1>
+                <h3>@{user?.login}</h3>
+                <p>{user?.location}</p>
             </div>
             <ul className='account-stat'>
                 <li>
@@ -29,7 +29,7 @@ function Account() {
 
                     <section>
                         <p>Карточек просмотрено</p>
-                        <h4>{user.cardsViewed}</h4>
+                        <h4>{user?.cardsViewed}</h4>
                     </section>
                 </li>
                 <li>
@@ -43,7 +43,7 @@ function Account() {
 
                     <section>
                         <p>Рейтинг</p>
-                        <h4>{user.score}</h4>
+                        <h4>{user?.score}</h4>
                     </section>
                 </li>
                 <li>
@@ -57,7 +57,7 @@ function Account() {
 
                     <section>
                         <p>Карточек создано</p>
-                        <h4>{user.cardsCreated}</h4>
+                        <h4>{user?.cardsCreated}</h4>
                     </section>
                 </li>
                 <li>
@@ -71,8 +71,7 @@ function Account() {
 
                     <section>
                         <p>Часов за учебой</p>
-                        {/* FIXME get toFixed hours from server yet */}
-                        <h4>{user.hours.toFixed(2)}</h4>
+                        <h4>{user?.hours.toFixed(2)}</h4>
                     </section>
                 </li>
             </ul>

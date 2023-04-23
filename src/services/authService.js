@@ -12,10 +12,9 @@ const url = axios.create({
 const tryRefreshToken = error => {
     if (error.response?.status === 401) {
         AuthService.refresh();
-        return;
+    } else {
+        notifyError(error);
     }
-    //FIXME notify error
-    // notifyError()
 }
 
 const AuthService = {
@@ -38,7 +37,7 @@ const AuthService = {
     },
 
     async refresh() {
-        const response = await url.post('refresh', {userId})
+        const response = await url.post('refresh', {userId});
         if (response.status === 401) {
             redirectToSignInPage();
         }

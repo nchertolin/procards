@@ -21,10 +21,7 @@ const getTestInfo = () => ({
     location: testUser.location,
 });
 
-const onError = error => {
-    tryRefreshToken(error);
-    notifyError(error);
-};
+const onError = error => tryRefreshToken(error);
 
 const useUser = (id = userId) => {
     const {isLoading: isLoading1, data: statistic} = useQuery(
@@ -54,7 +51,7 @@ const useUserStatistic = (id) => {
         async () => await UserService.getStatistics(id),
         {
             onError,
-            initialData: getTestStatistic()
+            // initialData: getTestStatistic()
         },
     );
 

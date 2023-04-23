@@ -11,7 +11,7 @@ function DeckAdd() {
     const onSubmit = data => addDeck({...data, deckId});
 
     return (
-        <div className='signin'>
+        <div className='add__deck__wrapper'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Добавить колоду</h1>
                 <h2>Введите предоставленный вам пароль колоды</h2>

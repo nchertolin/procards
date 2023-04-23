@@ -6,6 +6,7 @@ import {onError} from './useUser'
 
 
 const useDecks = (searchQuery) => {
+    console.log(searchQuery);
     const {isLoading, data} = useQuery(
         ['decks', searchQuery],
         async () => await LearningDeckService.getDecks(searchQuery),

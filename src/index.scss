@@ -848,8 +848,17 @@ textarea {
   color: red;
 }
 
-// #root {
-//     &.fixed {
-//         position: fixed;
-//     }
-// }
+.add__deck__wrapper {
+  form {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+    }
+  }
+}

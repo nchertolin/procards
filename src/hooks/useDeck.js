@@ -16,7 +16,7 @@ const useDeck = id => {
         async () => await LearningDeckService.getDeck(id),
         {
             onError,
-            initialData: testDeckWithoutCards
+            // initialData: testDeckWithoutCards
         },
     );
 
