@@ -25,7 +25,7 @@ const useDeck = id => {
 
 const useCards = id => {
     // const testDeck = testData.decks[0];
-    const {isLoading, data} = useQuery(
+    const {isLoading, data, refetch: getNewCards} = useQuery(
         ['deck', id],
         async () => await LearningCardsService.getCards(id),
         {
@@ -37,7 +37,7 @@ const useCards = id => {
         },
     );
 
-    return {isLoading, data}
+    return {isLoading, data, getNewCards}
 }
 
 const useAddDeck = () => {

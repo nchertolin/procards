@@ -27,7 +27,7 @@ const useCreateDeck = (reset, setOpened) => {
         async (data) => await EditorDeckService.createDeck(data),
         {
             onSuccess: () => {
-                notifySuccess('Колода успешно добавлена');
+                notifySuccess('Колода добавлена');
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false)
                 reset();
@@ -46,7 +46,7 @@ const useEditDeck = (setOpened) => {
         async (data) => await EditorDeckService.editDeck(data),
         {
             onSuccess: () => {
-                notifySuccess('Колода успешно изменена');
+                notifySuccess('Колода изменена');
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
             },
@@ -81,7 +81,7 @@ const useDeleteDeck = (setOpened) => {
         async (data) => await EditorDeckService.deleteDeck(data),
         {
             onSuccess: () => {
-                notifySuccess('Колода успешно удалена');
+                notifySuccess('Колода удалена');
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
             },

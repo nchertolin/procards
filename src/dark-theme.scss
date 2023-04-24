@@ -1,101 +1,107 @@
 @import './colors/dark-colors.scss';
 
 body.dark {
-   background-color: $dark-background;
-   color: $dark-text;
+  background-color: $dark-background;
+  color: $dark-text;
 }
 
 .dark {
 
-   input,
-   textarea {
-      color: $dark-text;
-      background-color: $dark-input;
-      border: 0;
-   }
+  input,
+  textarea {
+    color: $dark-text;
+    background-color: $dark-input;
+    border: 0;
+  }
 
-   .header-wrapper {
-      border-color: $dark-border;
-   }
+  .header-wrapper {
+    border-color: $dark-border;
+  }
 
-   .header-nav__buttons {
+  .header-nav__buttons {
 
-      a,
-      button {
-         border-color: $dark-line;
-         background-color: $dark-line;
-      }
+    a,
+    button {
+      border-color: $dark-line;
+      background-color: $dark-line;
+    }
 
-      a svg {
-         stroke: $dark-background;
-      }
-   }
+    a svg {
+      stroke: $dark-background;
+    }
+  }
 
-   .page-main {
-      h1 {
-         text-decoration-color: $dark-line;
-      }
-   }
+  .page-main {
+    h1 {
+      text-decoration-color: $dark-line;
+    }
+  }
 
-   #main__about {
-      color: $dark-text;
-   }
+  #main__about {
+    color: $dark-text;
+  }
 
-   #main__leaders__wrapper {
-      ul {
-         background: $dark-user-card;
-         color: $dark-background
-      }
-   }
-
-   .card {
-      color: $dark-background;
+  #main__leaders__wrapper {
+    ul {
       background: $dark-user-card;
-      box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
+      color: $dark-background
+    }
+  }
 
-      &.other {
-         background: $dark-other-card;
-      }
-   }
+  .card {
+    color: $dark-background;
+    background: $dark-user-card;
+    box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
 
-   .pagination {
+    &.other {
+      background: $dark-other-card;
+    }
+  }
+
+  .pagination {
+    svg {
+      fill: $dark-text;
+    }
+  }
+
+  .account-stat {
+    li {
       svg {
-         fill: $dark-text;
+        fill: $dark-text
       }
-   }
+    }
+  }
 
-   .account-stat {
-      li {
-         svg {
-            fill: $dark-text
-         }
-      }
-   }
+  .footer-wrapper {
+    border-color: $dark-border;
+  }
 
-   .footer-wrapper {
-      border-color: $dark-border;
-   }
+  .main__btn {
+    background-color: $dark-text;
+  }
 
-   .main__btn {
-      background-color: $dark-text;
-   }
+  .card-settings {
 
-   .card-settings {
+    svg {
+      fill: $dark-background;
+    }
+  }
 
-      svg {
-         fill: $dark-background;
-      }
-   }
+  .deck-info__cards-amount {
+    svg {
+      fill: $dark-text
+    }
+  }
 
-   .deck-info__cards-amount {
-      svg {
-         fill: $dark-text
-      }
-   }
+  .card-list_search {
+    svg {
+      fill: $dark-second-text;
+    }
+  }
 
-   .card-list_search {
-      svg {
-         fill: $dark-second-text;
-      }
-   }
+  .training-empty {
+    a {
+      color: $dark-background;
+    }
+  }
 }

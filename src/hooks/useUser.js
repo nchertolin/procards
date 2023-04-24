@@ -1,25 +1,25 @@
 import {useMutation, useQuery} from '@tanstack/react-query'
-import {testUser} from '../testData'
+// import {testUser} from '../testData'
 import {UserService} from '../services/userService';
-import {notifyError, notifySuccess, userId} from '../util';
+import {notifySuccess, userId} from '../util';
 import {tryRefreshToken} from '../services/authService';
 
-const getTestStatistic = () => ({
-    login: testUser.login,
-    location: testUser.location,
-    cardsViewed: testUser.cardsViewed,
-    hours: testUser.hours,
-    cardsCreated: testUser.cardsCreated,
-    score: testUser.score,
-});
-
-const getTestInfo = () => ({
-    firstName: testUser.firstName,
-    lastName: testUser.lastName,
-    email: testUser.email,
-    hours: testUser.hours,
-    location: testUser.location,
-});
+// const getTestStatistic = () => ({
+//     login: testUser.login,
+//     location: testUser.location,
+//     cardsViewed: testUser.cardsViewed,
+//     hours: testUser.hours,
+//     cardsCreated: testUser.cardsCreated,
+//     score: testUser.score,
+// });
+//
+// const getTestInfo = () => ({
+//     firstName: testUser.firstName,
+//     lastName: testUser.lastName,
+//     email: testUser.email,
+//     hours: testUser.hours,
+//     location: testUser.location,
+// });
 
 const onError = error => tryRefreshToken(error);
 
@@ -62,7 +62,7 @@ const useEditInfo = () => {
     const {isLoading, mutate: editInfo} = useMutation(
         async (data) => await UserService.editInfo(data),
         {
-            onSuccess: () => notifySuccess('Информация успешно изменена'),
+            onSuccess: () => notifySuccess('Информация изменена'),
             onError,
         }
     );
@@ -74,7 +74,7 @@ const useEditPassword = () => {
     const {isLoading, mutate: editPassword} = useMutation(
         async (data) => await UserService.editPassword(data),
         {
-            onSuccess: () => notifySuccess('Пароль успешно изменен'),
+            onSuccess: () => notifySuccess('Пароль изменен'),
             onError,
         }
     );

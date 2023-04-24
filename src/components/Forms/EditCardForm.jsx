@@ -42,7 +42,7 @@ export default function EditCardForm() {
 
     const onDelete = () => {
         // eslint-disable-next-line no-restricted-globals
-        if (confirm('Вы действительно хотите удалить изображение?')) {
+        if (confirm('Вы действительно хотите удалить карточку?')) {
             deleteCard(selectedCard.id);
         }
     };

@@ -1,6 +1,8 @@
 import {toast} from 'react-toastify';
 
+const ORIGIN = window.location.origin;
 const SERVER_URL = 'https://localhost:7046';
+// const SERVER_URL = 'https://24procards.ru/api';
 const isAuth = localStorage.getItem('id') != null;
 const userId = localStorage.getItem('id');
 const IS_DARK_THEME = localStorage.getItem('dark-theme') === 'true';
@@ -13,8 +15,6 @@ const clickOutsideHandler = (e, className, stateSetter, removeSelectedObj) => {
         }
     }
 };
-
-const stopPropagation = e => e.stopPropagation();
 
 const redirectToMainPage = () => window.location.href = '/';
 const redirectToSignInPage = () => window.location.href = '/signin';
@@ -41,6 +41,7 @@ const setSavedTheme = () => {
 
 
 export {
+    ORIGIN,
     SERVER_URL,
     IS_DARK_THEME,
     isAuth,
@@ -51,7 +52,6 @@ export {
     reloadPage,
     redirectToLearn,
     getPagesAmount,
-    stopPropagation,
     notifyError,
     notifySuccess,
     setSavedTheme,

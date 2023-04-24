@@ -5,18 +5,24 @@ import Loading from './Loading/Loading';
 import {WithAuth} from '../hoc/withAuth';
 import {useGrade, useImages} from '../hooks/useCard';
 import TrainingCard from './TrainingCard';
+import TrainingEmpty from "./TrainingEmpty";
 
 function Training() {
     const {deckId} = useParams();
-    const {isLoading, data} = useCards(deckId);
+    const {isLoading, data, getNewCards} = useCards(deckId);
     const [index, setIndex] = useState(0);
     const card = data?.cards[index];
     const {isLoading: isLoading2, images} = useImages(deckId, card);
     const [side, setSide] = useState(true);
     const [scores, setScores] = useState([0, 0, 0, 0, 0]);
     const nextCard = () => {
-        setIndex((index + 1) % data?.cards?.length);
-        setSide(!side)
+        setSide(!side);
+        if (index === data?.cards?.length - 1) {
+            getNewCards();
+            setIndex(0);
+        } else {
+            setIndex(index + 1);
+        }
     };
 
     const {isLoading: isLoading1, postGrade} = useGrade(nextCard);
@@ -43,6 +49,7 @@ function Training() {
     };
 
     if (isLoading || isLoading2) return <Loading/>
+    if (!data?.cards?.length) return <TrainingEmpty deckId={deckId}/>
 
     return (
         <>
@@ -56,11 +63,12 @@ function Training() {
                     <li className='best'>{scores[4]}</li>
                 </ul>
 
-                <TrainingCard cardRef={cardRef}
-                              card={card}
-                              images={images}
-                              side={side}
-                              setSide={setSide}
+                <TrainingCard
+                    cardRef={cardRef}
+                    card={card}
+                    images={images}
+                    side={side}
+                    setSide={setSide}
                 />
 
                 <div className='training__rating'>

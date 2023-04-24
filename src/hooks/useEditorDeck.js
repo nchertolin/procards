@@ -31,7 +31,7 @@ const useCreateCard = (setOpened) => {
         async (data) => await EditorCardsService.createCard(data),
         {
             onSuccess: cardId => {
-                notifySuccess('Карточка успешно добавлена');
+                notifySuccess('Карточка добавлена');
                 queryClient.invalidateQueries(['editor-deck']);
                 setOpened(false)
                 return cardId;
@@ -50,7 +50,7 @@ const useEditCard = (setOpened) => {
         async (data) => await EditorCardsService.editCard(data),
         {
             onSuccess: () => {
-                notifySuccess('Карточка успешно изменена');
+                notifySuccess('Карточка изменена');
                 queryClient.invalidateQueries(['editor-deck']);
                 setOpened(false)
             },
@@ -68,7 +68,7 @@ const useDeleteCard = (setOpened) => {
         async (data) => await EditorCardsService.deleteCard(data),
         {
             onSuccess: () => {
-                notifySuccess('Карточка успешно удалена');
+                notifySuccess('Карточка удалена');
                 queryClient.invalidateQueries(['editor-deck']);
                 setOpened(false);
             },
@@ -100,7 +100,7 @@ const useImageDelete = (showAddImage) => {
         async (data) => await EditorCardsService.deleteImage(data),
         {
             onSuccess: () => {
-                notifySuccess('Изображение успешно удалено');
+                notifySuccess('Изображение удалено');
                 queryClient.invalidateQueries(['editor-deck']);
                 showAddImage();
             },
