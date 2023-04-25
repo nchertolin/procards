@@ -1,6 +1,5 @@
 import {QueryClient, useMutation, useQuery} from '@tanstack/react-query'
 import {LearningDeckService} from '../services/learningDecksService'
-// import {testData} from '../testData'
 import {redirectToLearn} from '../util';
 import {onError} from './useUser'
 
@@ -12,7 +11,6 @@ const useDecks = (searchQuery) => {
         {
             onError,
             keepPreviousData: true,
-            // initialData: testData.decks.filter(({deckName}) => deckName.toLowerCase().includes(searchQuery.toLowerCase())),
         },
     );
 

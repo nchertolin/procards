@@ -1,25 +1,7 @@
 import {useMutation, useQuery} from '@tanstack/react-query'
-// import {testUser} from '../testData'
 import {UserService} from '../services/userService';
 import {notifySuccess, userId} from '../util';
 import {tryRefreshToken} from '../services/authService';
-
-// const getTestStatistic = () => ({
-//     login: testUser.login,
-//     location: testUser.location,
-//     cardsViewed: testUser.cardsViewed,
-//     hours: testUser.hours,
-//     cardsCreated: testUser.cardsCreated,
-//     score: testUser.score,
-// });
-//
-// const getTestInfo = () => ({
-//     firstName: testUser.firstName,
-//     lastName: testUser.lastName,
-//     email: testUser.email,
-//     hours: testUser.hours,
-//     location: testUser.location,
-// });
 
 const onError = error => tryRefreshToken(error);
 
@@ -28,8 +10,7 @@ const useUser = (id = userId) => {
         ['user-statistic', id],
         async () => await UserService.getStatistics(id),
         {
-            onError,
-            //  initialData: getTestStatistic()
+            onError
         },
     );
 
@@ -37,8 +18,7 @@ const useUser = (id = userId) => {
         ['user-info', id],
         async () => await UserService.getInfo(id),
         {
-            onError,
-            //  initialData: getTestInfo()
+            onError
         },
     );
 
@@ -50,8 +30,7 @@ const useUserStatistic = (id) => {
         ['user-statistic', id],
         async () => await UserService.getStatistics(id),
         {
-            onError,
-            // initialData: getTestStatistic()
+            onError
         },
     );
 

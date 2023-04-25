@@ -1,9 +1,10 @@
 import React from 'react';
-import {clickOutsideHandler} from '../../util';
+import {clickOutsideHandler, notifySuccess, ORIGIN} from '../../util';
 import {useForm} from 'react-hook-form';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useDeleteDeck, useEditDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
+import {CopyToClipboard} from "react-copy-to-clipboard/src";
 
 export default function EditDeckForm() {
     const {setEditFormOpened, selectedDeck} = useContext(FormsContext);
@@ -15,6 +16,7 @@ export default function EditDeckForm() {
             description: selectedDeck.description,
         }
     });
+    const inviteUrl = `${ORIGIN}/learn/add/${selectedDeck.deckId}`
     const {isLoading, editDeck} = useEditDeck(setEditFormOpened);
     const {isLoading: isLoading2, editPassword} = useEditDeckPassword(setEditFormOpened);
     const {isLoading: isLoading1, deleteDeck} = useDeleteDeck(setEditFormOpened);
@@ -36,6 +38,8 @@ export default function EditDeckForm() {
             deleteDeck(selectedDeck.deckId)
         }
     };
+
+    const onCopy = () => notifySuccess('Ссылка на приглашение скопирована')
 
     return (
         <div className='modal'
@@ -95,6 +99,12 @@ export default function EditDeckForm() {
                             Удалить
                         </button>
                     </div>
+                    {watch('isPrivate') === 'false' &&
+                        <CopyToClipboard text={inviteUrl} onCopy={onCopy}>
+                            <button type='button' className='modal_submit main__btn' disabled={isLoading1}>
+                                Скопировать ссылку для приглашения участников
+                            </button>
+                        </CopyToClipboard>}
                 </form>
             </div>
         </div>

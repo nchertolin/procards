@@ -49,7 +49,7 @@ function Training() {
     };
 
     if (isLoading || isLoading2) return <Loading/>
-    if (!data?.cards?.length) return <TrainingEmpty deckId={deckId}/>
+    if (!data?.cards?.length) return <TrainingEmpty/>
 
     return (
         <>

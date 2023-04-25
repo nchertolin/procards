@@ -1,5 +1,4 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
-import {testData} from '../testData'
 import {EditorDeckService} from '../services/editorDecksService';
 import {onError} from './useUser'
 import {notifySuccess} from "../util";
@@ -12,8 +11,6 @@ const useEditorDecks = (searchQuery) => {
         {
             onError,
             keepPreviousData: true,
-            // initialData: testData.decks.filter(({deckName}) =>
-            //     deckName.toLowerCase().includes(searchQuery.toLowerCase())),
         },
     );
 

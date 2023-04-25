@@ -4,17 +4,13 @@ import Loading from './Loading/Loading';
 import {useDeck} from '../hooks/useDeck';
 import {WithAuth} from '../hoc/withAuth';
 import {useRemoveDeckFromLatest} from '../hooks/useDecks';
-import {CopyToClipboard} from "react-copy-to-clipboard/src";
-import {ORIGIN, notifySuccess} from "../util";
 
 function DeckInfo() {
     const {deckId} = useParams();
     const {isLoading, data} = useDeck(deckId);
     const {isLoading: isLoading1, removeDeckFromLatest} = useRemoveDeckFromLatest();
-    const addUrl = `${ORIGIN}/learn/add/${deckId}`
 
     const onDelete = () => removeDeckFromLatest(deckId);
-    const copyAddUrl = () => notifySuccess('Ссылка на приглашение скопирована')
 
     if (isLoading) return <Loading/>
 
@@ -52,9 +48,6 @@ function DeckInfo() {
             </div>
             <div className='deck-info__actions'>
                 <Link className='main__btn' to='training'>Развернуть колоду</Link>
-                <CopyToClipboard text={addUrl} onCopy={copyAddUrl}>
-                    <button className='main__btn' disabled={isLoading1}>Пригласить участников</button>
-                </CopyToClipboard>
                 <button className='delete__btn' disabled={isLoading1} onClick={onDelete}>
                     Удалить колоду
                 </button>

@@ -8,10 +8,7 @@ const onSuccess = (id) => {
     redirectToMainPage();
 };
 
-const onError = (error) => {
-    // setId('test-id');
-    notifyError(error);
-}
+const onError = (error) => notifyError(error);
 
 const useSignIn = () => {
     const {isLoading, mutate: signIn} = useMutation(

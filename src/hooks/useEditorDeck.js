@@ -1,22 +1,15 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
-import {testData} from '../testData'
 import {EditorCardsService} from '../services/editorCardsService';
 import {onError} from './useUser'
 import {notifySuccess} from "../util";
 
 
 const useEditorDeck = (id, searchQuery) => {
-    // const testDeck = testData.decks[0];
     const {isLoading, data} = useQuery(
         ['editor-deck', id, searchQuery],
         async () => await EditorCardsService.getCards(id, searchQuery),
         {
             onError,
-            // initialData: {
-            //     deckName: testDeck.deckName,
-            //     cards: testDeck.cards.filter(card =>
-            //         card.frontSide.toLowerCase().includes(searchQuery.toLowerCase()))
-            // }
             keepPreviousData: true
         },
     );

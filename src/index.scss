@@ -378,13 +378,14 @@ textarea {
 .training-empty {
   text-align: center;
 
+  h2 {
+    margin-bottom: 10px;
+  }
+
   a {
-    display: block;
-    padding: 12px 36px;
-    border-radius: 10px;
-    font-weight: 600;
-    color: $light-background;
-    margin-top: 20px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 }
 
