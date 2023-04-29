@@ -1,15 +1,15 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {EditorDeckService} from '../services/editorDecksService';
-import {onError} from './useUser'
-import {notifySuccess} from "../util";
+import {getErrorDataWithoutUserId, notifySuccess} from "../util";
+import {tryRefreshToken} from "../services/authService";
 
 
 const useEditorDecks = (searchQuery) => {
-    const {isLoading, data} = useQuery(
+    const {isLoading, data, refetch} = useQuery(
         ['editor-decks', searchQuery],
         async () => await EditorDeckService.getDecks(searchQuery),
         {
-            onError,
+            onError: error => tryRefreshToken(error, refetch),
             keepPreviousData: true,
         },
     );
@@ -29,7 +29,11 @@ const useCreateDeck = (reset, setOpened) => {
                 setOpened(false)
                 reset();
             },
-            onError
+            onError: error => tryRefreshToken(
+                error,
+                null,
+                () => createDeck(getErrorDataWithoutUserId(error))
+            )
         }
     );
 
@@ -47,7 +51,11 @@ const useEditDeck = (setOpened) => {
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
             },
-            onError
+            onError: error => tryRefreshToken(
+                error,
+                null,
+                () => editDeck(getErrorDataWithoutUserId(error))
+            )
         }
     );
 
@@ -64,7 +72,11 @@ const useEditDeckPassword = (setOpened) => {
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
             },
-            onError
+            onError: error => tryRefreshToken(
+                error,
+                null,
+                () => editPassword(getErrorDataWithoutUserId(error))
+            )
         }
     );
 
@@ -82,7 +94,13 @@ const useDeleteDeck = (setOpened) => {
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
             },
-            onError
+            onError: error => {
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => deleteDeck(getErrorDataWithoutUserId(error).deckId)
+                )
+            }
         }
     );
 

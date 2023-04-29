@@ -446,7 +446,7 @@ textarea {
   perspective: 1000px;
   transform-style: flat;
   transition: .5s;
-  padding: 20px;
+  padding: 0;
 
   &.flipped {
     transform: rotateX(180deg);
@@ -859,6 +859,7 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: inherit;
 }
 
 .error {

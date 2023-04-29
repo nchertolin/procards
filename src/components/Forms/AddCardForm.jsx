@@ -21,12 +21,12 @@ export default function AddCardForm() {
         if (cardId) {
             if (hasFrontImage) {
                 const formData = new FormData();
-                formData.append('file', watch('image-1')[0])
+                formData.append('file', watch('frontImg')[0])
                 addImage({cardId, formData, side: true});
             }
             if (hasBackImage) {
                 const formData = new FormData();
-                formData.append('file', watch('image-2')[0]);
+                formData.append('file', watch('backImg')[0]);
                 addImage({cardId, formData, side: false})
             }
         }
@@ -54,7 +54,7 @@ export default function AddCardForm() {
                             {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                         </label>
                         {hasFrontImage
-                            ? <input type="file" className='file'{...register('image-1')} />
+                            ? <input type="file" className='file'{...register('frontImg')} />
                             : <button type='button' onClick={() => setFrontImage(true)} className='add__image__btn'>
                                 Добавить изображение
                             </button>
@@ -66,7 +66,7 @@ export default function AddCardForm() {
                             {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                         </label>
                         {hasBackImage
-                            ? <input type="file" className='file'{...register('image-2')} />
+                            ? <input type="file" className='file'{...register('backImg')} />
                             : <button type='button' onClick={() => setBackImage(true)} className='add__image__btn'>
                                 Добавить изображение
                             </button>
@@ -83,9 +83,14 @@ export default function AddCardForm() {
                                 setSide(!side);
                                 e.target.classList.toggle('flipped')
                             }}>
-                        <p className='card__text' onClick={flip}>
-                            {watch(side ? 'frontSide' : 'backSide')}
-                        </p>
+                        {
+                            watch(side ? 'frontImg' : 'backImg')
+                                ? <img className='card__image'
+                                       src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
+                                       alt="" onClick={flip}
+                                />
+                                : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>
+                        }
                     </button>
                 </div>
             </div>

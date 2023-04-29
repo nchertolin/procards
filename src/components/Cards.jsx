@@ -19,7 +19,7 @@ function Cards() {
     const [page, setPage] = useState(1);
     const sliced = data?.cards?.slice(amountOnPage * page - amountOnPage, amountOnPage * page);
 
-    if (isLoading) return <Loading/>
+    if (isLoading || !data) return <Loading/>
 
     return (
         <div className='card-list'>

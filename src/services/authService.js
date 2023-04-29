@@ -9,13 +9,15 @@ const url = axios.create({
     }
 });
 
-const tryRefreshToken = error => {
+const tryRefreshToken = (error, refetch, mutate, data) => {
     if (error.response?.status === 401) {
-        AuthService.refresh();
+        console.clear();
+        AuthService.refresh(refetch, mutate, data);
     } else {
         notifyError(error);
     }
-}
+};
+
 
 const AuthService = {
     async signIn(data) {
@@ -36,9 +38,15 @@ const AuthService = {
         return await url.post('recovery/newpass', data)
     },
 
-    async refresh() {
+    async refresh(refetch, mutate) {
         const response = await url.post('refresh', {userId});
-        if (response.status === 401) {
+        if (response?.status >= 200 && response?.status <= 399) {
+            if (refetch) {
+                refetch();
+            } else if (mutate) {
+                mutate();
+            }
+        } else if (response?.status === 401) {
             redirectToSignInPage();
         }
     },

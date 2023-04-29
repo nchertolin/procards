@@ -11,16 +11,20 @@ import Loading from '../Loading/Loading';
 export default function EditCardForm() {
     const {deckId} = useParams();
     const {setEditCardFormOpened, selectedCard, setCardSelected} = useContext(FormsContext);
-    const {register, formState: {errors,}, handleSubmit, watch} = useForm({
+    const {register, formState: {errors}, handleSubmit, watch} = useForm({
         defaultValues: {
             frontSide: selectedCard?.frontSide,
             backSide: selectedCard?.backSide
         }
     });
+    const toggleText = side => side
+        ? selectedCard.hasFrontImage = !selectedCard.hasFrontImage
+        : selectedCard.hasBackImage = !selectedCard.hasBackImage;
+
     const {isLoading, editCard} = useEditCard(setEditCardFormOpened);
     const {isLoading: isLoading1, deleteCard} = useDeleteCard(setEditCardFormOpened);
     const {isLoading: isLoading2, addImage} = useImage();
-    const {isLoading: isLoading3, deleteImage} = useImageDelete();
+    const {isLoading: isLoading3, deleteImage} = useImageDelete(toggleText);
     const {isLoading: isLoading4, images} = useImages(deckId, selectedCard);
     const [side, setSide] = useState(true);
     const [hasFrontImg, setFrontImg] = useState(false);
@@ -140,7 +144,12 @@ export default function EditCardForm() {
                             images[side ? 0 : 1]
                                 ? <img className='card__image' src={images[side ? 0 : 1]} onClick={flip}
                                        alt={watch(side ? 'frontSide' : 'backSide')}/>
-                                : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>
+                                : watch(side ? 'frontImg' : 'backImg')
+                                    ? <img className='card__image'
+                                           src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
+                                           alt="" onClick={flip}
+                                    />
+                                    : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>
                         }
                     </button>
                 </div>

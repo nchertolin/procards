@@ -1,8 +1,7 @@
 import {toast} from 'react-toastify';
 
 const ORIGIN = window.location.origin;
-const SERVER_URL = 'https://localhost:7046';
-// const SERVER_URL = 'https://24procards.ru/api';
+const SERVER_URL = 'https://24procards.ru/api';
 const isAuth = localStorage.getItem('id') != null;
 const userId = localStorage.getItem('id');
 const IS_DARK_THEME = localStorage.getItem('dark-theme') === 'true';
@@ -39,6 +38,11 @@ const setSavedTheme = () => {
     }
 };
 
+const getErrorDataWithoutUserId = error => {
+    const data = JSON.parse(error.config.data);
+    delete data.userId;
+    return data
+};
 
 export {
     ORIGIN,
@@ -55,4 +59,5 @@ export {
     notifyError,
     notifySuccess,
     setSavedTheme,
+    getErrorDataWithoutUserId,
 }

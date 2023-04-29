@@ -1,16 +1,16 @@
 import {QueryClient, useMutation, useQuery} from '@tanstack/react-query'
 import {LearningDeckService} from '../services/learningDecksService';
 import {LearningCardsService} from '../services/learningCardsService';
-import {onError} from './useUser'
-import {redirectToLearn} from "../util";
+import {getErrorDataWithoutUserId, redirectToLearn} from "../util";
+import {tryRefreshToken} from "../services/authService";
 
 
 const useDeck = id => {
-    const {isLoading, data} = useQuery(
+    const {isLoading, data, refetch} = useQuery(
         ['deck-name', id],
         async () => await LearningDeckService.getDeck(id),
         {
-            onError
+            onError: error => tryRefreshToken(error, refetch)
         },
     );
 
@@ -22,7 +22,7 @@ const useCards = id => {
         ['deck', id],
         async () => await LearningCardsService.getCards(id),
         {
-            onError
+            onError: error => tryRefreshToken(error, getNewCards)
         },
     );
 
@@ -38,7 +38,12 @@ const useAddDeck = () => {
                 queryClient.invalidateQueries(['decks']);
                 redirectToLearn();
             },
-            onError,
+            onError: error =>
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => addDeck(getErrorDataWithoutUserId(error))
+                )
         },
     );
 

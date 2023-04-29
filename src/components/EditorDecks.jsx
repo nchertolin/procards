@@ -19,7 +19,7 @@ function EditorDecks() {
 
     const openAddForm = () => setAddFormOpened(true);
 
-    if (isLoading) return <Loading/>
+    if (isLoading || !data) return <Loading/>
 
     return (
         <div className='card-list'>

@@ -1,15 +1,16 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {EditorCardsService} from '../services/editorCardsService';
-import {onError} from './useUser'
-import {notifySuccess} from "../util";
+import {getErrorDataWithoutUserId, notifySuccess} from "../util";
+import {tryRefreshToken} from "../services/authService";
 
 
 const useEditorDeck = (id, searchQuery) => {
-    const {isLoading, data} = useQuery(
+
+    const {isLoading, data, refetch} = useQuery(
         ['editor-deck', id, searchQuery],
         async () => await EditorCardsService.getCards(id, searchQuery),
         {
-            onError,
+            onError: error => tryRefreshToken(error, refetch),
             keepPreviousData: true
         },
     );
@@ -26,10 +27,15 @@ const useCreateCard = (setOpened) => {
             onSuccess: cardId => {
                 notifySuccess('Карточка добавлена');
                 queryClient.invalidateQueries(['editor-deck']);
-                setOpened(false)
+                setOpened(false);
                 return cardId;
             },
-            onError
+            onError: error =>
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => createCard(getErrorDataWithoutUserId(error))
+                )
         }
     );
 
@@ -47,7 +53,12 @@ const useEditCard = (setOpened) => {
                 queryClient.invalidateQueries(['editor-deck']);
                 setOpened(false)
             },
-            onError
+            onError: error =>
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => editCard(getErrorDataWithoutUserId(error))
+                )
         }
     );
 
@@ -65,7 +76,12 @@ const useDeleteCard = (setOpened) => {
                 queryClient.invalidateQueries(['editor-deck']);
                 setOpened(false);
             },
-            onError
+            onError: error =>
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => deleteCard(getErrorDataWithoutUserId(error).cardId)
+                )
         }
     );
 
@@ -79,25 +95,33 @@ const useImage = () => {
         async (data) => await EditorCardsService.addImage(data),
         {
             onSuccess: () => queryClient.invalidateQueries(['editor-deck']),
-            onError
+            onError: error => tryRefreshToken(
+                error,
+                null,
+                () => addImage(getErrorDataWithoutUserId(error))
+            )
         }
     );
 
     return {isLoading, addImage};
 };
 
-const useImageDelete = (showAddImage) => {
+const useImageDelete = toggleText => {
     const queryClient = useQueryClient();
 
     const {isLoading, mutate: deleteImage} = useMutation(
         async (data) => await EditorCardsService.deleteImage(data),
         {
-            onSuccess: () => {
+            onSuccess: side => {
                 notifySuccess('Изображение удалено');
                 queryClient.invalidateQueries(['editor-deck']);
-                showAddImage();
+                toggleText(side);
             },
-            onError
+            onError: error => tryRefreshToken(
+                error,
+                null,
+                () => deleteImage(getErrorDataWithoutUserId(error))
+            )
         }
     );
 

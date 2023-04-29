@@ -1,24 +1,23 @@
 import {useMutation, useQuery} from '@tanstack/react-query'
 import {UserService} from '../services/userService';
-import {notifySuccess, userId} from '../util';
+import {getErrorDataWithoutUserId, notifySuccess, userId} from '../util';
 import {tryRefreshToken} from '../services/authService';
 
-const onError = error => tryRefreshToken(error);
 
 const useUser = (id = userId) => {
-    const {isLoading: isLoading1, data: statistic} = useQuery(
+    const {isLoading: isLoading1, data: statistic, refetch: getStat} = useQuery(
         ['user-statistic', id],
         async () => await UserService.getStatistics(id),
         {
-            onError
+            onError: error => tryRefreshToken(error, getStat)
         },
     );
 
-    const {isLoading: isLoading2, data: info} = useQuery(
+    const {isLoading: isLoading2, data: info, refetch: getInfo} = useQuery(
         ['user-info', id],
         async () => await UserService.getInfo(id),
         {
-            onError
+            onError: error => tryRefreshToken(error, getInfo)
         },
     );
 
@@ -26,11 +25,11 @@ const useUser = (id = userId) => {
 };
 
 const useUserStatistic = (id) => {
-    const {isLoading, data} = useQuery(
+    const {isLoading, data, refetch} = useQuery(
         ['user-statistic', id],
         async () => await UserService.getStatistics(id),
         {
-            onError
+            onError: error => tryRefreshToken(error, refetch)
         },
     );
 
@@ -42,7 +41,12 @@ const useEditInfo = () => {
         async (data) => await UserService.editInfo(data),
         {
             onSuccess: () => notifySuccess('Информация изменена'),
-            onError,
+            onError: error =>
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => editInfo(getErrorDataWithoutUserId(error))
+                )
         }
     );
 
@@ -54,7 +58,12 @@ const useEditPassword = () => {
         async (data) => await UserService.editPassword(data),
         {
             onSuccess: () => notifySuccess('Пароль изменен'),
-            onError,
+            onError: error =>
+                tryRefreshToken(
+                    error,
+                    null,
+                    () => editPassword(getErrorDataWithoutUserId(error))
+                )
         }
     );
 
@@ -62,7 +71,6 @@ const useEditPassword = () => {
 };
 
 export {
-    onError,
     useUser,
     useUserStatistic,
     useEditInfo,

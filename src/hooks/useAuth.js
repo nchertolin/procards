@@ -8,12 +8,15 @@ const onSuccess = (id) => {
     redirectToMainPage();
 };
 
-const onError = (error) => notifyError(error);
+const onError = error => notifyError(error);
 
 const useSignIn = () => {
     const {isLoading, mutate: signIn} = useMutation(
         async (data) => await AuthService.signIn(data),
-        {onSuccess, onError}
+        {
+            onSuccess,
+            onError
+        }
     );
 
     return {isLoading, signIn};
@@ -22,7 +25,10 @@ const useSignIn = () => {
 const useSignUp = () => {
     const {isLoading, mutate: signUp} = useMutation(
         async (data) => await AuthService.signUp(data),
-        {onSuccess, onError}
+        {
+            onSuccess,
+            onError
+        }
     );
 
     return {isLoading, signUp};
@@ -34,7 +40,7 @@ const useRecovery = () => {
             await AuthService.recovery(data, isEmailSent)
         },
         {
-            onError: notifyError,
+            onError,
         }
     );
 
@@ -46,7 +52,7 @@ const useNewPassword = () => {
         async (data) => await AuthService.setNewPassword(data),
         {
             onSuccess: () => redirectToSignInPage(),
-            onError: notifyError,
+            onError,
         }
     );
 
