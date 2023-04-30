@@ -13,9 +13,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: $light-background;
   font-size: 14px;
-  width: 90%;
-  min-width: 1200px;
-  max-width: 1600px;
+  width: 1170px;
   margin: 0 auto;
   color: $light-text;
   overflow-x: hidden;
@@ -122,7 +120,7 @@ textarea {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100px;
+  height: 80px;
   border-bottom: 2px solid $light-border;
   z-index: 999;
 
@@ -146,7 +144,6 @@ textarea {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  text-transform: uppercase;
 }
 
 .header-nav__list {
@@ -187,9 +184,9 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 100px);
   width: 100%;
-  margin: 50px 0;
+  margin: 30px 0;
 
   h1 {
     text-decoration: underline;
@@ -205,7 +202,7 @@ textarea {
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  margin-top: -150px;
+  margin-top: -110px;
 }
 
 #image {
@@ -219,28 +216,21 @@ textarea {
   position: absolute;
   top: 40%;
   color: $light-background;
-  width: 90vw;
+  width: 1100px;
   max-width: 1600px;
   z-index: 2;
 
-  div {
-    width: 60%;
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      text-decoration: none;
-    }
-
-    p {
-      font-size: 18px;
-      opacity: .8;
-    }
+  h1 {
+    font-size: 34px;
+    margin-bottom: 20px;
+    text-decoration: none;
   }
 
-  img {
-    height: 100%;
+  p {
+    font-size: 16px;
+    opacity: .8;
   }
+
 }
 
 #main__description {
@@ -283,7 +273,7 @@ textarea {
   }
 
   h3, a {
-    font-size: 20px;
+    font-size: 16px;
     max-width: 500px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -319,7 +309,7 @@ textarea {
     background: $light-worst;
     box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
     border-radius: 20px;
-    height: 120px;
+    height: 100px;
 
     & > div {
       a {
@@ -346,14 +336,14 @@ textarea {
 
 .cards-list__wrapper {
   width: 100%;
-  height: 60vh;
+  height: 580px;
   margin: 0;
 
   ul {
     display: grid;
-    grid-template-columns: repeat(5, minmax(216px, 1fr));
+    grid-template-columns: repeat(5, 218px);
     grid-template-rows: repeat(4, 1fr);
-    gap: 30px;
+    gap: 20px;
     height: 100%;
 
     li {
@@ -392,14 +382,14 @@ textarea {
   margin-bottom: 30px;
 
   input {
-    width: 462px;
+    width: 424px;
     padding-left: 40px;
   }
 
   svg {
     position: absolute;
     top: 12px;
-    right: 428px;
+    right: 390px;
     width: 16px;
     fill: $light-second-text;
     opacity: .8;
@@ -480,7 +470,7 @@ li:has(.card) {
 .training-wrapper {
   display: flex;
   flex-direction: column;
-  row-gap: 100px;
+  row-gap: 50px;
   align-items: center;
   margin: 80px 0;
 }
@@ -502,7 +492,7 @@ li:has(.card) {
 .training__score-list {
   display: flex;
   justify-content: center;
-  column-gap: 70px;
+  column-gap: 80px;
 
   li {
     &::before {
@@ -585,7 +575,7 @@ li:has(.card) {
 
 .training__rating__list {
   display: flex;
-  column-gap: 50px;
+  column-gap: 70px;
 
   button {
     width: 40px;
@@ -710,7 +700,7 @@ li:has(.card) {
   width: 100%;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 15px;
   color: $light-background;
   margin: 0 auto 40px;
 
@@ -719,7 +709,7 @@ li:has(.card) {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 100px;
+    height: 80px;
     background: $light-user-card;
     border-radius: 20px;
     text-align: center;
@@ -728,7 +718,7 @@ li:has(.card) {
     & > div {
       h3, a {
         font-weight: 600;
-        font-size: 20px;
+        font-size: 16px;
       }
 
       display: flex;
@@ -851,6 +841,7 @@ li:has(.card) {
   &.card__modal {
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 80vw;
     max-width: 1500px;
 
@@ -863,7 +854,7 @@ li:has(.card) {
       min-height: 250px;
       width: 90%;
       max-width: 450px;
-      margin: 0 auto;
+      margin-left: auto;
       padding: 4%;
 
       &:has(img) {

@@ -1,7 +1,6 @@
 import React from 'react'
 import {Outlet} from 'react-router-dom'
 import Header from './Header'
-import Footer from './Footer';
 import {useContext} from 'react';
 import {FormsContext} from '../providers/FormsProvider';
 import AddDeckForm from './Forms/AddDeckForm';
@@ -26,7 +25,6 @@ export default function Layout() {
                 {isEditCardFormOpened && <EditCardForm/>}
                 {isAddCardFormOpened && <AddCardForm/>}
             </main>
-            <Footer/>
         </>
     )
 }

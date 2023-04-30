@@ -30,20 +30,6 @@ function DeckInfo() {
                         </li>
                     )
                 }
-                <li>
-                    <div>
-                        <h3>2</h3>
-                        <Link className='leader__name' to=''>@dsgsgdsdg</Link>
-                    </div>
-                    <p>1241 очков</p>
-                </li>
-                <li>
-                    <div>
-                        <h3>2</h3>
-                        <Link className='leader__name' to=''>@dsgsgdsdg</Link>
-                    </div>
-                    <p>1241 очков</p>
-                </li>
             </ul>
             <section className='deck-info__row'>
                 <h2>Описание</h2>

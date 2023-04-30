@@ -21,12 +21,12 @@ export default function Header() {
         <header className='page-header'>
             <div className={`header-wrapper ${isMain ? 'main' : ''}`}>
                 <div className='header-nav'>
-                    <NavLink className='header-logo' to=''>PROCARDS</NavLink>
+                    <NavLink className='header-logo' to=''>Procards</NavLink>
                     {
                         isAuth &&
                         <nav className='header-nav__list'>
                             <NavLink to='learn'>Обучение</NavLink>
-                            <NavLink to='editor'>Редактор колод</NavLink>
+                            <NavLink to='editor'>Редактор</NavLink>
                         </nav>
                     }
                     <div className='header-nav__buttons'>
