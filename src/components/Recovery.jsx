@@ -5,7 +5,7 @@ import { useNewPassword, useRecovery } from '../hooks/useAuth';
 export default function Recovery() {
    const [isEmailSent, setEmailSent] = useState(false);
    const [isCodeSent, setCodeSent] = useState(false);
-   const { register, formState: { errors, }, handleSubmit, watch } = useForm();
+   const { register, formState: { errors, }, handleSubmit, watch } = useForm({ mode: 'onBlur' });
    const { isLoading, recovery } = useRecovery();
    const { isLoading1, setNewPassword } = useNewPassword();
 
@@ -36,7 +36,11 @@ export default function Recovery() {
                <input type="email" disabled={isEmailSent}
                   className={errors?.email ? 'invalid' : ''}
                   {...register('email', {
-                     required: 'Обязательноe поле.'
+                     required: 'Обязательноe поле.',
+                     maxLength: {
+                      value: 100,
+                      message: 'Максимальная длинна 100 символов'
+                    }
                   })} />
                {errors?.email && <p className='error'>{errors?.email.message}</p>}
             </label>
@@ -46,6 +50,14 @@ export default function Recovery() {
                   className={errors?.code ? 'invalid' : ''}
                   {...register('code', {
                      required: 'Обязательноe поле.',
+                     minLength:{
+                      value: 6,
+                      message: 'Длина кода должна быть 6 символов'
+                     },
+                     maxLength:{
+                      value: 6,
+                      message: 'Длина кода должна быть 6 символов'
+                     },
                      disabled: !isEmailSent,
                   })} />
                {errors?.code && <p className='error'>{errors?.code.message}</p>}
@@ -56,6 +68,10 @@ export default function Recovery() {
                   className={errors?.password ? 'invalid' : ''}
                   {...register('password', {
                      required: 'Обязательноe поле.',
+                     pattern: {
+                      value: /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/,
+                      message: 'Минимум 8 символов, максимум 40. Одна цифра, заглавная и строчная буквы.'
+                    },
                      disabled: !isCodeSent
                   })} />
                {errors?.password && <p className='error'>{errors?.password.message}</p>}

@@ -22,7 +22,7 @@ function AccountEdit() {
       register: register2,
       watch,
       formState: { errors: errors2, },
-      handleSubmit: handleSubmit2 } = useForm();
+      handleSubmit: handleSubmit2 } = useForm({ mode: 'onBlur' });
 
    const { isLoading: isLoading1, editUser } = useEditInfo();
    const { isLoading: isLoading2, editPassword } = useEditPassword();
@@ -59,7 +59,13 @@ function AccountEdit() {
                Электронная почта
                <input type="email" autoComplete='on'
                   className={errors?.email ? 'invalid' : ''}
-                  {...register('email', { required: 'Обязательноe поле.' })} />
+                  {...register('email', { 
+                    required: 'Обязательноe поле.',
+                    maxLength: {
+                      value: 100,
+                      message: 'Максимальная длинна 100 символов'
+                    }
+                   })} />
                {errors?.email && <p className='error'>{errors?.email.message}</p>}
             </label>
             <label>
@@ -83,7 +89,13 @@ function AccountEdit() {
                Новый пароль
                <input type="password"
                   className={errors2?.password ? 'invalid' : ''}
-                  {...register2('password', { required: 'Обязательноe поле.' })} />
+                  {...register2('password', { 
+                    required: 'Обязательноe поле.',
+                    pattern: {
+                      value: /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/,
+                      message: 'Минимум 8 символов, максимум 40. Одна цифра, заглавная и строчная буквы.'
+                    }
+                  })} />
                {errors2?.password && <p className='error'>{errors2?.password.message}</p>}
             </label>
             <label>

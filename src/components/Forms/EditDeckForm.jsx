@@ -41,7 +41,13 @@ export default function EditDeckForm() {
                <label>
                   <input type="text" placeholder='Название колоды'
                      className={errors?.name ? 'invalid' : ''}
-                     {...register('name', { required: 'Обязательноe поле.' })} />
+                     {...register('name', { 
+                      required: 'Обязательноe поле.',
+                      maxLength:{
+                        value: 40,
+                        message: 'Максимальная длина 40 символов'
+                      }
+                     })} />
                   {errors?.name && <p className='error'>{errors?.name.message}</p>}
                </label>
                <div className='privacy'>
@@ -63,13 +69,23 @@ export default function EditDeckForm() {
                         className={errors?.password ? 'invalid' : ''}
                         {...register('password', {
                            required: 'Обязательноe поле.',
+                           pattern: {
+                            value: /^(?=^.{2,100}$)/,
+                            message: 'Минимум 2 символа.'
+                          },
                            disabled: watch('isPrivate') === 'true'
                         })} />
                      <i>Оставить пустым если хотите использовать текущий пароль</i>
                      {errors?.password && <p className='error'>{errors?.password.message}</p>}
                   </label>
                }
-               <textarea {...register('description')} placeholder='Описание' />
+               <textarea placeholder='Описание' 
+               {...register('description', {
+                maxLength: {
+                  value: 300,
+                  message: 'Максимальная длина 300 символов'
+                }
+               })}/>
                <div className='modal__buttons'>
                   <button type="submit" className='modal_submit main__btn'
                      disabled={isLoading || isLoading2}>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSignUp } from '../hooks/useAuth';
 
 export default function SignUp() {
-   const { register, watch, formState: { errors, }, handleSubmit } = useForm();
+   const { register, watch, formState: { errors, }, handleSubmit } = useForm({ mode: "onBlur" });
    const { isLoading, signUp } = useSignUp();
    return (
       <div className='signin'>
@@ -13,14 +13,26 @@ export default function SignUp() {
                Логин
                <input type="text"
                   className={errors?.login ? 'invalid' : ''}
-                  {...register('login', { required: 'Обязательноe поле.' })} />
+                  {...register('login', { 
+                    required: 'Обязательноe поле.',
+                    maxLength: {
+                      value: 30,
+                      message: 'Максимальная длинна 30 символов'
+                    }
+                  })} />
                {errors?.login && <p className='error'>{errors?.login.message}</p>}
             </label>
             <label>
                Электронная почта
                <input type="email"
                   className={errors?.email ? 'invalid' : ''}
-                  {...register('email', { required: 'Обязательноe поле.' })} />
+                  {...register('email', {
+                    required: 'Обязательноe поле.',
+                    maxLength: {
+                      value: 100,
+                      message: 'Максимальная длинна 100 символов'
+                    }
+                  })} />
                {errors?.email && <p className='error'>{errors?.email.message}</p>}
             </label>
             <label>
@@ -48,7 +60,13 @@ export default function SignUp() {
                Пароль
                <input type="password"
                   className={errors?.password ? 'invalid' : ''}
-                  {...register('password', { required: 'Обязательноe поле.' })} />
+                  {...register('password', { 
+                    required: 'Обязательноe поле.',
+                    pattern: {
+                      value: /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/,
+                      message: 'Минимум 8 символов, максимум 40. Одна цифра, заглавная и строчная буквы.'
+                    }
+                  })} />
                {errors?.password && <p className='error'>{errors?.password.message}</p>}
             </label>
             <label>

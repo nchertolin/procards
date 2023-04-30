@@ -45,7 +45,13 @@ export default function AddCardForm() {
                   <label>
                      <textarea placeholder='Лицевая сторона'
                         className={errors?.frontSide ? 'invalid' : ''}
-                        {...register('frontSide', { required: 'Обязательноe поле.' })} />
+                        {...register('frontSide', { 
+                          required: 'Обязательноe поле.',
+                          pattern: {
+                            value: /^(?=^.{1,800}$)/,
+                            message: 'Минимум 1 символ.'
+                          },
+                         })} />
                      {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                   </label>
                   {hasFrontImage
@@ -57,7 +63,13 @@ export default function AddCardForm() {
                   <label>
                      <textarea placeholder='Обратная сторона'
                         className={errors?.backSide ? 'invalid' : ''}
-                        {...register('backSide', { required: 'Обязательноe поле.' })} />
+                        {...register('backSide', { 
+                          required: 'Обязательноe поле.',
+                          pattern: {
+                            value: /^(?=^.{1,800}$)/,
+                            message: 'Минимум 1 символ.'
+                          },
+                        })} />
                      {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                   </label>
                   {hasBackImage
