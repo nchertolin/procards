@@ -17,16 +17,33 @@ function DeckInfo() {
     return (
         <div className='deck-info__wrapper'>
             <h1>{data.deckName}</h1>
-            <h2>Таблица лидеров</h2>
+            <h2 className='deck-info__leaderboard__head'>Таблица лидеров</h2>
             <ul className='deck-info__leaderboard'>
                 {
-                    data.statistics.map(({userId, login, score}) =>
+                    data.statistics.map(({userId, login, score}, index) =>
                         <li key={userId}>
-                            <Link className='leader__name' to={`/user/${userId}`}>@{login}</Link>
+                            <div>
+                                <h3>{index + 1}</h3>
+                                <Link className='leader__name' to={`/user/${userId}`}>@{login}</Link>
+                            </div>
                             <p>{score} очков</p>
                         </li>
                     )
                 }
+                <li>
+                    <div>
+                        <h3>2</h3>
+                        <Link className='leader__name' to=''>@dsgsgdsdg</Link>
+                    </div>
+                    <p>1241 очков</p>
+                </li>
+                <li>
+                    <div>
+                        <h3>2</h3>
+                        <Link className='leader__name' to=''>@dsgsgdsdg</Link>
+                    </div>
+                    <p>1241 очков</p>
+                </li>
             </ul>
             <section className='deck-info__row'>
                 <h2>Описание</h2>

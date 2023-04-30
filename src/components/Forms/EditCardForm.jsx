@@ -78,7 +78,13 @@ export default function EditCardForm() {
                         <label>
                             <textarea placeholder='Лицевая сторона'
                                       className={errors?.frontSide ? 'invalid' : ''}
-                                      {...register('frontSide', {required: 'Обязательное поле.'})} />
+                                      {...register('frontSide', {
+                                          required: 'Обязательное поле.',
+                                          pattern: {
+                                              value: /^(?=^.{1,800}$)/,
+                                              message: 'Максимум 800 символов.'
+                                          }
+                                      })} />
                             {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                         </label>
                         {
@@ -101,7 +107,13 @@ export default function EditCardForm() {
                         <label>
                             <textarea placeholder='Обратная сторона'
                                       className={errors?.backSide ? 'invalid' : ''}
-                                      {...register('backSide', {required: 'Обязательное поле.'})} />
+                                      {...register('backSide', {
+                                          required: 'Обязательное поле.',
+                                          pattern: {
+                                              value: /^(?=^.{1,800}$)/,
+                                              message: 'Максимум 800 символов.'
+                                          }
+                                      })} />
                             {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                         </label>
                         {
@@ -144,7 +156,7 @@ export default function EditCardForm() {
                             images[side ? 0 : 1]
                                 ? <img className='card__image' src={images[side ? 0 : 1]} onClick={flip}
                                        alt={watch(side ? 'frontSide' : 'backSide')}/>
-                                : watch(side ? 'frontImg' : 'backImg')
+                                : watch(side ? 'frontImg' : 'backImg') && watch(side ? 'frontImg' : 'backImg')[0]
                                     ? <img className='card__image'
                                            src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
                                            alt="" onClick={flip}

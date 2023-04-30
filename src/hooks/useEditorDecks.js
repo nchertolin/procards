@@ -20,14 +20,15 @@ const useEditorDecks = (searchQuery) => {
 const useCreateDeck = (reset, setOpened) => {
     const queryClient = useQueryClient();
 
-    const {isLoading, mutate: createDeck} = useMutation(
+    const {isLoading, mutateAsync: createDeck} = useMutation(
         async (data) => await EditorDeckService.createDeck(data),
         {
-            onSuccess: () => {
+            onSuccess: deckId => {
                 notifySuccess('Колода добавлена');
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false)
                 reset();
+                return deckId;
             },
             onError: error => tryRefreshToken(
                 error,

@@ -50,7 +50,13 @@ function AccountEdit() {
                     Электронная почта
                     <input type="email" autoComplete='on'
                            className={errors?.email ? 'invalid' : ''}
-                           {...register('email', {required: 'Обязательноe поле.'})}
+                           {...register('email', {
+                               required: 'Обязательноe поле.',
+                               maxLength: {
+                                   value: 100,
+                                   message: 'Максимальная длинна 100 символов'
+                               }
+                           })}
                            defaultValue={user?.email}/>
                     {errors?.email && <p className='error'>{errors?.email.message}</p>}
                 </label>
@@ -76,7 +82,13 @@ function AccountEdit() {
                     Новый пароль
                     <input type="password"
                            className={errors2?.newPassword ? 'invalid' : ''}
-                           {...register2('newPassword', {required: 'Обязательноe поле.'})} />
+                           {...register2('newPassword', {
+                               required: 'Обязательноe поле.',
+                               pattern: {
+                                   value: /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/,
+                                   message: 'Минимум 8 символов, максимум 40. Одна цифра, заглавная и строчная буквы.'
+                               }
+                           })} />
                     {errors2?.newPassword && <p className='error'>{errors2?.newPassword.message}</p>}
                 </label>
                 <label>

@@ -8,13 +8,15 @@ import {WithAuth} from '../hoc/withAuth';
 import Pagination from './Pagination';
 import {getPagesAmount} from '../util';
 import Search from './Search';
+import {useDebounce} from "use-debounce";
 
 
 function Cards() {
     const amountOnPage = 19;
     const {deckId} = useParams();
     const [searchQuery, setSearchQuery] = useState('');
-    const {isLoading, data} = useEditorDeck(deckId, searchQuery);
+    const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+    const {isLoading, data} = useEditorDeck(deckId, debouncedSearchQuery);
     const {setAddCardFormOpened} = useContext(FormsContext);
     const [page, setPage] = useState(1);
     const sliced = data?.cards?.slice(amountOnPage * page - amountOnPage, amountOnPage * page);

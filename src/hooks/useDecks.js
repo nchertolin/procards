@@ -10,7 +10,7 @@ const useDecks = (searchQuery) => {
         async () => await LearningDeckService.getDecks(searchQuery),
         {
             onError: error => tryRefreshToken(error, refetch),
-            keepPreviousData: true
+            keepPreviousData: true,
         },
     );
 

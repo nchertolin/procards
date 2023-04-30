@@ -50,11 +50,17 @@ export default function AddCardForm() {
                         <label>
                      <textarea placeholder='Лицевая сторона'
                                className={errors?.frontSide ? 'invalid' : ''}
-                               {...register('frontSide', {required: 'Обязательноe поле.'})} />
+                               {...register('frontSide', {
+                                   required: 'Обязательноe поле.',
+                                   pattern: {
+                                       value: /^(?=^.{1,800}$)/,
+                                       message: 'Максимум 800 символов.'
+                                   }
+                               })} />
                             {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                         </label>
                         {hasFrontImage
-                            ? <input type="file" className='file'{...register('frontImg')} />
+                            ? <input type="file" className='file' {...register('frontImg')} />
                             : <button type='button' onClick={() => setFrontImage(true)} className='add__image__btn'>
                                 Добавить изображение
                             </button>
@@ -62,11 +68,18 @@ export default function AddCardForm() {
                         <label>
                      <textarea placeholder='Обратная сторона'
                                className={errors?.backSide ? 'invalid' : ''}
-                               {...register('backSide', {required: 'Обязательноe поле.'})} />
+                               {...register('backSide',
+                                   {
+                                       required: 'Обязательноe поле.',
+                                       pattern: {
+                                           value: /^(?=^.{1,800}$)/,
+                                           message: 'Максимум 800 символов.'
+                                       }
+                                   })} />
                             {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                         </label>
                         {hasBackImage
-                            ? <input type="file" className='file'{...register('backImg')} />
+                            ? <input type="file" className='file' {...register('backImg')} />
                             : <button type='button' onClick={() => setBackImage(true)} className='add__image__btn'>
                                 Добавить изображение
                             </button>
@@ -84,7 +97,7 @@ export default function AddCardForm() {
                                 e.target.classList.toggle('flipped')
                             }}>
                         {
-                            watch(side ? 'frontImg' : 'backImg')
+                            watch(side ? 'frontImg' : 'backImg') && watch(side ? 'frontImg' : 'backImg')[0]
                                 ? <img className='card__image'
                                        src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
                                        alt="" onClick={flip}

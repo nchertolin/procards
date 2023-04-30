@@ -7,13 +7,15 @@ import {WithAuth} from '../hoc/withAuth';
 import Pagination from './Pagination';
 import {getPagesAmount} from '../util';
 import Search from './Search';
+import {useDebounce} from "use-debounce";
 
 
 function EditorDecks() {
     const amountOnPage = 19;
     const {setAddFormOpened} = useContext(FormsContext);
     const [searchQuery, setSearchQuery] = useState('');
-    const {isLoading, data} = useEditorDecks(searchQuery);
+    const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+    const {isLoading, data} = useEditorDecks(debouncedSearchQuery);
     const [page, setPage] = useState(1);
     const sliced = data?.slice(amountOnPage * page - amountOnPage, amountOnPage * page);
 
@@ -36,7 +38,12 @@ function EditorDecks() {
                             <h3>+</h3>
                         </button>
                     </li>
-                    {sliced.map(content => <Card key={content.deckId} content={content} isDecksEditor={true}/>)}
+                    {sliced.map(content =>
+                        <Card
+                            key={content.deckId}
+                            content={content}
+                            isDecksEditor={true}
+                        />)}
                 </ul>
             </div>
             <Pagination

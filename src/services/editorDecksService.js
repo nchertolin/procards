@@ -25,7 +25,8 @@ const EditorDeckService = {
     },
 
     async createDeck(data) {
-        return await url.post('', {userId, ...data})
+        const response = await url.post('', {userId, ...data})
+        return response.data.deckId;
     },
 
     async deleteDeck(id) {

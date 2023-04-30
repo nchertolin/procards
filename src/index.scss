@@ -12,12 +12,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $light-background;
-
   font-size: 14px;
-  width: 1200px;
+  width: 90%;
+  min-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   color: $light-text;
   overflow-x: hidden;
+
+  transition: .3s;
 }
 
 ul {
@@ -27,6 +30,23 @@ ul {
 a {
   color: inherit;
   text-decoration: none;
+  transition: .5s;
+}
+
+a, button {
+  &:hover {
+    opacity: .5;
+  }
+
+  &:active {
+    opacity: .3;
+  }
+}
+
+.card, .training__card {
+  &:hover, &:active {
+    opacity: inherit;
+  }
 }
 
 button {
@@ -34,6 +54,7 @@ button {
   color: $light-background;
   font-family: 'Montserrat', sans-serif;
   border: 0;
+  transition: .5s;
 
   &:disabled {
     cursor: default;
@@ -46,11 +67,12 @@ button {
 }
 
 .main__btn {
+  color: $light-background;
   background-color: $light-text;
 }
 
 .delete__btn {
-  background-color: red;
+  background-color: #d00000;
 }
 
 h1 {
@@ -78,6 +100,7 @@ textarea {
   outline: none;
   border: 1px solid $light-search;
   resize: none;
+  transition: .5s;
 
   &.invalid {
     border-color: red;
@@ -101,6 +124,21 @@ textarea {
   width: 100%;
   height: 100px;
   border-bottom: 2px solid $light-border;
+  z-index: 999;
+
+  &.main {
+    color: $light-background;
+    border: 0;
+
+    svg path {
+      fill: white;
+    }
+
+    a svg path {
+      fill: none;
+      stroke: $light-background;
+    }
+  }
 }
 
 .header-nav {
@@ -157,39 +195,39 @@ textarea {
     text-decoration: underline;
     text-underline-offset: 10px;
     text-decoration-color: $light-line;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 }
 
-#video__wrapper {
+#image__wrapper {
   position: relative;
   display: flex;
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  margin-top: -52px;
+  margin-top: -150px;
 }
 
-#video {
+#image {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   object-fit: cover;
   filter: brightness(.4);
 }
 
 #main__hero {
   position: absolute;
-  top: 30%;
+  top: 40%;
   color: $light-background;
-  width: 100%;
-  max-width: 1200px;
+  width: 90vw;
+  max-width: 1600px;
   z-index: 2;
 
   div {
-    width: 50%;
+    width: 60%;
 
     h1 {
-      font-size: 30px;
+      font-size: 36px;
       margin-bottom: 20px;
       text-decoration: none;
     }
@@ -238,26 +276,59 @@ textarea {
   margin: 80px 0;
 
   h2 {
+    font-size: 20px;
+    font-weight: 600;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 80px;
   }
 
-  ul {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-around;
-    height: 200px;
-    background: $light-user-card;
-    color: $light-background
+  h3, a {
+    font-size: 20px;
+    max-width: 500px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
+}
+
+.main__leaders__list, .deck-info__leaderboard {
+  li {
+    transition: .3s ease-in-out;
+
+    &:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+}
+
+.main__leaders__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 30px;
+  color: $light-background;
 
   li {
-    text-align: center;
+    width: 60%;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $light-worst;
+    box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
+    border-radius: 20px;
+    height: 120px;
 
-    a {
-      display: block;
-      margin-bottom: 10px;
+    & > div {
+      a {
+        font-weight: 600;
+      }
+
+      display: flex;
+      align-items: center;
+      column-gap: 50px;
     }
   }
 }
@@ -265,21 +336,29 @@ textarea {
 
 .card-list {
   width: 100%;
+
+  &:has(.empty) {
+    .pagination {
+      display: none;
+    }
+  }
 }
 
 .cards-list__wrapper {
   width: 100%;
-  height: 590px;
-  margin: 50px 0;
+  height: 60vh;
+  margin: 0;
 
   ul {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(216px, 1fr));
+    grid-template-rows: repeat(4, 1fr);
     gap: 30px;
-    max-height: 100%;
+    height: 100%;
 
     li {
-      height: 125px;
+      width: 100%;
+      height: 100%;
     }
 
     li.editor {
@@ -295,6 +374,10 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    ul {
+      display: none;
+    }
 
     .empty__search__message {
       display: inline-block;
@@ -323,6 +406,32 @@ textarea {
   }
 }
 
+@keyframes card-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+li:has(.card) {
+  transition: all .3s ease-in-out;
+  animation: card-appear .3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+
+    .card-settings {
+      opacity: 1;
+    }
+  }
+}
+
 .card {
   color: $light-background;
   display: flex;
@@ -330,8 +439,7 @@ textarea {
   justify-content: center;
   background: $light-user-card;
   box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
-
-  width: 216px;
+  width: 100%;
   height: 100%;
   padding: 7%;
   border-radius: 10px;
@@ -357,10 +465,12 @@ textarea {
 }
 
 .card-settings {
+  opacity: 0;
   position: absolute;
   top: 0;
   right: 0;
   padding: 10px;
+  transition: .5s;
 
   svg {
     fill: $light-background;
@@ -516,10 +626,11 @@ textarea {
     flex-direction: column;
     row-gap: 10px;
     margin-bottom: 30px;
+    width: 550px;
   }
 
   input {
-    width: 550px;
+    width: 100%;
   }
 
   .submit {
@@ -551,7 +662,7 @@ textarea {
   display: flex;
   column-gap: 50px;
 
-  input {
+  label {
     width: 250px;
   }
 }
@@ -579,7 +690,7 @@ textarea {
 }
 
 .deck-info__wrapper {
-  width: 100%;
+  width: 60%;
 
   h2 {
     font-weight: 600;
@@ -587,27 +698,42 @@ textarea {
   }
 }
 
-.leader__name {
-  font-size: 16px;
-  font-weight: 600;
+.deck-info__row {
+  margin: 30px 0;
 }
 
-.deck-info__row {
-  margin: 20px 0;
+.deck-info__leaderboard__head {
+  margin: 80px 0 30px !important;
 }
 
 .deck-info__leaderboard {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 120px;
+  flex-direction: column;
+  row-gap: 20px;
   color: $light-background;
-  background: $light-user-card;
-  height: 200px;
-  margin-bottom: 10px;
+  margin: 0 auto 40px;
 
   li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    background: $light-user-card;
+    border-radius: 20px;
     text-align: center;
+    padding: 0 5%;
+
+    & > div {
+      h3, a {
+        font-weight: 600;
+        font-size: 20px;
+      }
+
+      display: flex;
+      column-gap: 50px;
+    }
   }
 }
 
@@ -630,8 +756,7 @@ textarea {
 .deck-info__actions,
 .account__actions {
   display: flex;
-  flex-direction: column;
-  row-gap: 10px;
+  column-gap: 30px;
   margin-bottom: 50px;
 
   button,
@@ -664,10 +789,12 @@ textarea {
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, .6);
+  z-index: 9999;
 }
 
 .modal__wrapper {
   width: 40vw;
+  min-width: 600px;
   max-width: 800px;
   padding: 80px 80px;
   background-color: $light-background;
@@ -737,11 +864,16 @@ textarea {
       width: 90%;
       max-width: 450px;
       margin: 0 auto;
+      padding: 4%;
+
+      &:has(img) {
+        padding: 0;
+      }
     }
 
     .card__text {
+      word-break: break-all;
       max-height: 100%;
-      overflow: scroll;
     }
   }
 }
@@ -769,7 +901,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .footer-wrapper {
@@ -833,7 +965,7 @@ textarea {
   display: flex;
   justify-content: center;
   column-gap: 30px;
-  margin: 50px 0;
+  margin: 50px 0 0;
 
   p {
     font-weight: bold;
@@ -864,6 +996,7 @@ textarea {
 
 .error {
   color: red;
+  max-width: 100%;
 }
 
 .add__deck__wrapper {
@@ -884,4 +1017,8 @@ textarea {
       row-gap: 10px;
     }
   }
+}
+
+.loading {
+  border-color: $light-text;
 }

@@ -23,9 +23,9 @@ export default function EditDeckForm() {
 
     const onSubmit = ({name, isPrivate, password, description}) => {
         editDeck({name, description, deckId: selectedDeck.deckId});
-        if (watch('password') !== '' || watch('isPrivate') !== selectedDeck.isPrivate.toString()) {
+        if (password !== '' || isPrivate !== selectedDeck.isPrivate.toString()) {
             editPassword({
-                password: watch('isPrivate') === 'true' ? 'pass' : password,
+                password: isPrivate === 'true' ? 'pass' : password,
                 isPrivate,
                 deckId: selectedDeck.deckId
             });
@@ -51,31 +51,37 @@ export default function EditDeckForm() {
                         <input type="text" placeholder='Название колоды'
                                className={errors?.name ? 'invalid' : ''}
                                {...register('name', {
-                                   required: 'Обязательное поле.'
+                                   required: 'Обязательное поле.',
+                                   maxLength: {
+                                       value: 40,
+                                       message: 'Максимальная длина 40 символов'
+                                   }
                                })} />
                         {errors?.name && <p className='error'>{errors?.name.message}</p>}
                     </label>
                     <div className='privacy'>
                         <label>
-                            <input type="radio" value='false'
-                                   {...register('isPrivate')} />
+                            <input type="radio" value='false' {...register('isPrivate')} />
                             Публичная
                         </label>
                         <label>
-                            <input type="radio" value='true'
-                                   {...register('isPrivate')} />
+                            <input type="radio" value='true' {...register('isPrivate')} />
                             Приватная
                         </label>
                     </div>
                     {
                         watch('isPrivate') === 'false' &&
                         <label>
-                            <input type="password" placeholder='Новый пароль колоды'
+                            <input type="text" placeholder='Новый пароль колоды'
                                    className={errors?.password ? 'invalid' : ''}
                                    {...register('password', {
                                        required: {
                                            value: selectedDeck.isPrivate.toString() !== watch('isPrivate'),
                                            message: 'Обязательное поле.'
+                                       },
+                                       pattern: {
+                                           value: /^(?=^.{2,100}$)/,
+                                           message: 'Минимум 2 символа.'
                                        },
                                        disabled: watch('isPrivate') === 'true'
                                    })} />
@@ -85,7 +91,11 @@ export default function EditDeckForm() {
                     }
                     <textarea className={errors?.description ? 'invalid' : ''} placeholder='Описание'
                               {...register('description', {
-                                  required: 'Обязательное поле.'
+                                  required: 'Обязательное поле.',
+                                  maxLength: {
+                                      value: 300,
+                                      message: 'Максимальная длина 300 символов'
+                                  }
                               })}  />
                     {errors?.description && <p className='error'>{errors?.description.message}</p>}
                     <div className='modal__buttons'>

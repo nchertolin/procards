@@ -12,18 +12,35 @@ body.dark {
     color: $dark-text;
     background-color: $dark-input;
     border: 0;
+
+    &::placeholder {
+      color: $dark-text;
+      opacity: .5;
+    }
   }
 
   .header-wrapper {
     border-color: $dark-border;
+
+    &.main {
+      .header-nav__buttons {
+        svg path {
+          fill: $dark-background;
+        }
+
+        a svg path {
+          fill: none;
+          stroke: $dark-background;
+        }
+      }
+    }
   }
 
   .header-nav__buttons {
-
     a,
     button {
       border-color: $dark-line;
-      background-color: $dark-line;
+      background: $dark-line;
     }
 
     a svg {
@@ -41,20 +58,33 @@ body.dark {
     color: $dark-text;
   }
 
-  #main__leaders__wrapper {
-    ul {
-      background: $dark-user-card;
-      color: $dark-background
+  .main__leaders__list {
+    color: $dark-background;
+
+    li {
+      background: $dark-worst;
+      box-shadow: 0 8px 8px 0 rgba(255, 255, 255, 0.2);
     }
   }
 
   .card {
     color: $dark-background;
     background: $dark-user-card;
-    box-shadow: 0 8px 8px 0 rgba(31, 38, 135, 0.37);
+    box-shadow: 0 8px 8px 0 rgba(255, 255, 255, 0.2);
 
     &.other {
       background: $dark-other-card;
+    }
+  }
+
+  .training__card {
+    color: $dark-background;
+    background: $dark-worst;
+    box-shadow: 0 8px 8px 0 rgba(255, 255, 255, 0.2);
+
+    &.flipped {
+      background: $dark-bad;
+
     }
   }
 
@@ -66,6 +96,8 @@ body.dark {
 
   .account-stat {
     li {
+      background-color: $dark-input;
+
       svg {
         fill: $dark-text
       }
@@ -77,6 +109,7 @@ body.dark {
   }
 
   .main__btn {
+    color: $dark-background;
     background-color: $dark-text;
   }
 
@@ -87,7 +120,18 @@ body.dark {
     }
   }
 
+  .deck-info__leaderboard {
+    color: $dark-background;
+
+    li {
+      background: $dark-user-card;
+
+    }
+  }
+
   .deck-info__cards-amount {
+    background-color: $dark-input;
+
     svg {
       fill: $dark-text
     }
@@ -103,5 +147,91 @@ body.dark {
     a {
       color: $dark-background;
     }
+  }
+
+  .signin {
+    a, p {
+      color: $dark-text;
+    }
+
+    p.error {
+      color: red;
+    }
+  }
+
+  .training__score-list {
+
+    li::before {
+      background: $dark-worst;
+    }
+
+    .bad::before {
+      background: $dark-bad;
+    }
+
+    .normal::before {
+      background: $dark-normal;
+    }
+
+    .good::before {
+      background: $dark-good;
+    }
+
+    .best::before {
+      background: $dark-best;
+    }
+  }
+
+  .training__rating__list {
+
+    button {
+      color: $dark-background;
+
+      &.worst {
+        background: $dark-worst;
+      }
+
+      &.bad {
+        background: $dark-bad;
+      }
+
+      &.normal {
+        background: $dark-normal;
+      }
+
+      &.good {
+        background: $dark-good;
+      }
+
+      &.best {
+        background: $dark-best;
+      }
+    }
+  }
+
+  .training-empty {
+    a {
+      color: $dark-text;
+    }
+  }
+
+  .loading {
+    border-color: $dark-text;
+  }
+
+  .modal__wrapper {
+    background-color: $dark-background;
+
+    .add__image__btn {
+      color: $dark-text
+    }
+
+    .file {
+      background-color: transparent;
+    }
+  }
+
+  .invalid {
+    border: 1px solid red;
   }
 }

@@ -10,7 +10,7 @@ const useDeck = id => {
         ['deck-name', id],
         async () => await LearningDeckService.getDeck(id),
         {
-            onError: error => tryRefreshToken(error, refetch)
+            onError: error => tryRefreshToken(error, refetch),
         },
     );
 
