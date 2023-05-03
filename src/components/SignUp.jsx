@@ -17,7 +17,7 @@ export default function SignUp() {
                                required: 'Обязательноe поле.',
                                maxLength: {
                                    value: 30,
-                                   message: 'Максимальная длинна 30 символов'
+                                   message: 'Максимальная длина 30 символов.'
                                }
                            })} />
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}
@@ -26,7 +26,13 @@ export default function SignUp() {
                     Электронная почта
                     <input type="email"
                            className={errors?.email ? 'invalid' : ''}
-                           {...register('email', {required: 'Обязательноe поле.'})} />
+                           {...register('email', {
+                               required: 'Обязательноe поле.',
+                               pattern: {
+                                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                   message: 'Некорректный адрес эл. почты.'
+                               }
+                           })} />
                     {errors?.email && <p className='error'>{errors?.email.message}</p>}
                 </label>
                 <label>
@@ -37,7 +43,7 @@ export default function SignUp() {
                                required: 'Обязательноe поле.',
                                maxLength: {
                                    value: 50,
-                                   message: 'Максимальная длинна 30 символов'
+                                   message: 'Максимальная длина 30 символов.'
                                }
                            })} />
                     {errors?.firstName && <p className='error'>{errors?.firstName.message}</p>}
@@ -50,7 +56,7 @@ export default function SignUp() {
                                required: 'Обязательноe поле.',
                                maxLength: {
                                    value: 50,
-                                   message: 'Максимальная длинна 30 символов'
+                                   message: 'Максимальная длина 30 символов.'
                                }
                            })} />
                     {errors?.lastName && <p className='error'>{errors?.lastName.message}</p>}
@@ -63,7 +69,7 @@ export default function SignUp() {
                                required: 'Обязательноe поле.',
                                maxLength: {
                                    value: 50,
-                                   message: 'Максимальная длинна 30 символов'
+                                   message: 'Максимальная длина 30 символов.'
                                }
                            })} />
                     {errors?.location && <p className='error'>{errors?.location.message}</p>}
@@ -76,7 +82,7 @@ export default function SignUp() {
                                required: 'Обязательноe поле.',
                                pattern: {
                                    value: /^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-                                   message: 'Минимум 8 символов, 1 цифра, заглавная и строчная буквы,'
+                                   message: 'Минимум 8 символов, 1 цифра, заглавная и строчная буквы.'
                                }
                            })} />
                     {errors?.password && <p className='error'>{errors?.password.message}</p>}
@@ -87,7 +93,7 @@ export default function SignUp() {
                            className={errors?.confirmPassword ? 'invalid' : ''}
                            {...register('confirmPassword', {
                                required: 'Обязательноe поле.',
-                               validate: (value) => {
+                               validate: value => {
                                    return watch('password') === value || "Пароли не совпадают.";
                                }
                            })} />

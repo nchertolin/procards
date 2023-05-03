@@ -1,7 +1,7 @@
 $dark-text: #fffffff5;
-$dark-second-text: #ffffffd5;
+$dark-second-text: rgba(255, 255, 255, 0.6);
 $dark-border: rgba(194, 194, 194, 0.06);
-$dark-background: #272727;
+$dark-background: #212121;
 $dark-line: #C6E7FFFF;
 $dark-worst: linear-gradient(113.35deg, #edfbfa 3.29%, #c6e7ff 95.15%);
 $dark-bad: linear-gradient(113.35deg, #BDFFFE 3.29%, #91CBF8 95.15%);
@@ -10,6 +10,6 @@ $dark-good: linear-gradient(219.99deg, #4CFFD5 22.89%, #30F2FF 80.33%);
 $dark-best: linear-gradient(47.45deg, #01f0e6 20.48%, #00ffa4 79.09%);
 $dark-other-card: $dark-bad;
 $dark-user-card: $dark-worst;
-$dark-input: #5c5c5c;
+$dark-input: #363636;
 $dark-input-text: $dark-text;
 $dark-disabled-input: #E8F0FE;

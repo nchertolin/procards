@@ -1,7 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {EditorCardsService} from '../services/editorCardsService';
 import {getErrorDataWithoutUserId, notifySuccess} from "../util";
-import {tryRefreshToken} from "../services/authService";
+import {tryRefreshToken, tryRefreshTokenWithoutAction} from "../services/authService";
 
 
 const useEditorDeck = (id, searchQuery) => {
@@ -30,12 +30,7 @@ const useCreateCard = (setOpened) => {
                 setOpened(false);
                 return cardId;
             },
-            onError: error =>
-                tryRefreshToken(
-                    error,
-                    null,
-                    () => createCard(getErrorDataWithoutUserId(error))
-                )
+            onError: tryRefreshTokenWithoutAction
         }
     );
 
@@ -45,20 +40,16 @@ const useCreateCard = (setOpened) => {
 const useEditCard = (setOpened) => {
     const queryClient = useQueryClient();
 
-    const {isLoading, mutate: editCard} = useMutation(
+    const {isLoading, mutateAsync: editCard} = useMutation(
         async (data) => await EditorCardsService.editCard(data),
         {
-            onSuccess: () => {
+            onSuccess: status => {
                 notifySuccess('Карточка изменена');
                 queryClient.invalidateQueries(['editor-deck']);
                 setOpened(false)
+                return status
             },
-            onError: error =>
-                tryRefreshToken(
-                    error,
-                    null,
-                    () => editCard(getErrorDataWithoutUserId(error))
-                )
+            onError: tryRefreshTokenWithoutAction
         }
     );
 

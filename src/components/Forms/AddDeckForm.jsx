@@ -19,10 +19,12 @@ export default function AddDeckForm() {
             editPassword({...data, deckId});
         }
     };
+    const closeModal = e => clickOutsideHandler(e, '.modal__wrapper', setAddFormOpened);
 
+    
     return (
         <div className='modal'
-             onClick={(e) => clickOutsideHandler(e, '.modal__wrapper', setAddFormOpened)}>
+             onClick={closeModal}>
             <div className='modal__wrapper'>
                 <h3>Новая колода</h3>
                 <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>

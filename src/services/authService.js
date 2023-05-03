@@ -18,6 +18,15 @@ const tryRefreshToken = (error, refetch, mutate, data) => {
     }
 };
 
+const tryRefreshTokenWithoutAction = error => {
+    if (error.response?.status === 401) {
+        console.clear();
+        AuthService.refresh();
+    } else {
+        notifyError(error);
+    }
+};
+
 
 const AuthService = {
     async signIn(data) {
@@ -30,8 +39,8 @@ const AuthService = {
         return response.data.id
     },
 
-    async recovery(data, isEmailSent) {
-        return await url.post(`recovery${isEmailSent ? '/code' : ''}`, data);
+    async recovery(data, isLoginSent) {
+        return await url.post(`recovery${isLoginSent ? '/code' : ''}`, data);
     },
 
     async setNewPassword(data) {
@@ -58,4 +67,4 @@ const AuthService = {
     },
 };
 
-export {AuthService, tryRefreshToken};
+export {AuthService, tryRefreshToken, tryRefreshTokenWithoutAction};

@@ -5,6 +5,7 @@ import App from './App';
 import FormsProvider from './providers/FormsProvider';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ToastContainer} from 'react-toastify';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

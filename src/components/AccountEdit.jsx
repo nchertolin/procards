@@ -55,6 +55,10 @@ function AccountEdit() {
                                maxLength: {
                                    value: 100,
                                    message: 'Максимальная длинна 100 символов'
+                               },
+                               pattern: {
+                                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                   message: 'Некорректный адрес эл. почты'
                                }
                            })}
                            defaultValue={user?.email}/>

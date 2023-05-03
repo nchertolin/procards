@@ -6,7 +6,7 @@ export default function Recovery() {
     const [isLoginSent, setLoginSent] = useState(false);
     const [isCodeSent, setCodeSent] = useState(false);
     const {register, formState: {errors,}, handleSubmit, watch} = useForm();
-    const {isLoading, recovery} = useRecovery(isLoginSent, setCodeSent);
+    const {isLoading, recovery} = useRecovery(setCodeSent);
     const {isLoading1, setNewPassword} = useNewPassword();
 
     const onSubmit = async data => {
@@ -17,9 +17,9 @@ export default function Recovery() {
         }
 
         if (isLoginSent) {
-            await recovery({data, isEmailSent: isLoginSent});
+            await recovery({data, isLoginSent});
         } else {
-            await recovery({data, isEmailSent: isLoginSent});
+            await recovery({data, isLoginSent});
             setLoginSent(true);
         }
 
@@ -35,13 +35,7 @@ export default function Recovery() {
                     Логин
                     <input type="text" disabled={isLoginSent}
                            className={errors?.login ? 'invalid' : ''}
-                           {...register('login', {
-                               required: 'Обязательноe поле.',
-                               maxLength: {
-                                   value: 100,
-                                   message: 'Максимальная длинна 100 символов'
-                               }
-                           })} />
+                           {...register('login', {required: 'Обязательноe поле.'})} />
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}
                 </label>
                 <label>
@@ -50,10 +44,6 @@ export default function Recovery() {
                            className={errors?.code ? 'invalid' : ''}
                            {...register('code', {
                                required: 'Обязательноe поле.',
-                               pattern: {
-                                   value: /^\d{6}$/,
-                                   message: 'Код должен состоять из 6 символов'
-                               },
                                disabled: !isLoginSent,
                            })} />
                     {errors?.code && <p className='error'>{errors?.code.message}</p>}

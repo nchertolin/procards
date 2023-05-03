@@ -5,6 +5,7 @@ import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useDeleteDeck, useEditDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
+import {confirmAlert} from 'react-confirm-alert';
 
 export default function EditDeckForm() {
     const {setEditFormOpened, selectedDeck} = useContext(FormsContext);
@@ -32,18 +33,22 @@ export default function EditDeckForm() {
         }
     };
 
-    const onDelete = () => {
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm('Вы действительно хотите удалить колоду?')) {
-            deleteDeck(selectedDeck.deckId)
-        }
-    };
+    const onDelete = () => confirmAlert({
+        title: 'Подтвердите удаление',
+        message: 'Вы действительно хотите удалить колоду?',
+        buttons: [
+            {label: 'Да', onClick: () => deleteDeck(selectedDeck.deckId)},
+            {label: 'Отмена'}
+        ]
+    });
 
-    const onCopy = () => notifySuccess('Ссылка на приглашение скопирована')
+    const onCopy = () => notifySuccess('Ссылка на приглашение скопирована');
+
+    const closeModal = e => clickOutsideHandler(e, '.modal__wrapper', setEditFormOpened);
 
     return (
         <div className='modal'
-             onClick={e => clickOutsideHandler(e, '.modal__wrapper', setEditFormOpened)}>
+             onClick={closeModal}>
             <div className='modal__wrapper'>
                 <h3>Редактировать колоду</h3>
                 <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
@@ -72,7 +77,8 @@ export default function EditDeckForm() {
                     {
                         watch('isPrivate') === 'false' &&
                         <label>
-                            <input type="text" placeholder='Новый пароль колоды'
+                            <input type="text"
+                                   placeholder='Новый пароль колоды'
                                    className={errors?.password ? 'invalid' : ''}
                                    {...register('password', {
                                        required: {
@@ -85,19 +91,21 @@ export default function EditDeckForm() {
                                        },
                                        disabled: watch('isPrivate') === 'true'
                                    })} />
-                            <i>Оставить пустым если хотите использовать текущий пароль</i>
+                            <i>Оставьте поле пустым, если желаете сохранить текущий пароль</i>
                             {errors?.password && <p className='error'>{errors?.password.message}</p>}
                         </label>
                     }
-                    <textarea className={errors?.description ? 'invalid' : ''} placeholder='Описание'
-                              {...register('description', {
-                                  required: 'Обязательное поле.',
-                                  maxLength: {
-                                      value: 300,
-                                      message: 'Максимальная длина 300 символов'
-                                  }
-                              })}  />
-                    {errors?.description && <p className='error'>{errors?.description.message}</p>}
+                    <label>
+                        <textarea className={errors?.description ? 'invalid' : ''} placeholder='Описание'
+                                  {...register('description', {
+                                      required: 'Обязательное поле.',
+                                      maxLength: {
+                                          value: 300,
+                                          message: 'Максимальная длина 300 символов'
+                                      }
+                                  })}  />
+                        {errors?.description && <p className='error'>{errors?.description.message}</p>}
+                    </label>
                     <div className='modal__buttons'>
                         <button type="submit" className='modal_submit main__btn'
                                 disabled={isLoading || isLoading2}>

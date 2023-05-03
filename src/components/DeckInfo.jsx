@@ -4,13 +4,22 @@ import Loading from './Loading/Loading';
 import {useDeck} from '../hooks/useDeck';
 import {WithAuth} from '../hoc/withAuth';
 import {useRemoveDeckFromLatest} from '../hooks/useDecks';
+import {userId} from "../util";
+import {confirmAlert} from "react-confirm-alert";
 
 function DeckInfo() {
     const {deckId} = useParams();
     const {isLoading, data} = useDeck(deckId);
     const {isLoading: isLoading1, removeDeckFromLatest} = useRemoveDeckFromLatest();
 
-    const onDelete = () => removeDeckFromLatest(deckId);
+    const onDelete = () => confirmAlert({
+        title: 'Подтвердите действие',
+        message: 'Вы действительно хотите покинуть колоду?',
+        buttons: [
+            {label: 'Да', onClick: () => removeDeckFromLatest(deckId)},
+            {label: 'Отмена'}
+        ]
+    });
 
     if (isLoading) return <Loading/>
 
@@ -51,9 +60,10 @@ function DeckInfo() {
             </div>
             <div className='deck-info__actions'>
                 <Link className='main__btn' to='training'>Развернуть колоду</Link>
-                <button className='delete__btn' disabled={isLoading1} onClick={onDelete}>
-                    Удалить колоду
-                </button>
+                {!data.ownerId === userId &&
+                    <button className='delete__btn' disabled={isLoading1} onClick={onDelete}>
+                        Покинуть колоду
+                    </button>}
             </div>
         </div>
     )

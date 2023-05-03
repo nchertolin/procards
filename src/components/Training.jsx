@@ -76,7 +76,7 @@ function Training() {
                         side
                             ? <p>Нажатие на карточку перевернет ее.</p>
                             : <>
-                                <p>Оцените насколько хорошо вы знали содержимое.</p>
+                                <p>Оцените, насколько хорошо вы знали ответ.</p>
                                 <div className='training__rating__list'>
 
                                     <button className='worst' disabled={isGradeSubmitDisabled}
