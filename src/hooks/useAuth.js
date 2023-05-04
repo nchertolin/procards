@@ -34,12 +34,16 @@ const useSignUp = () => {
     return {isLoading, signUp};
 };
 
-const useRecovery = (setCodeSent) => {
+const useRecovery = (isLoginSent, setCodeSent) => {
     const {isLoading, mutateAsync: recovery} = useMutation(
         async ({data, isLoginSent}) =>
             await AuthService.recovery(data, isLoginSent),
         {
-            onSuccess: () => setCodeSent(true),
+            onSuccess: () => {
+                if (isLoginSent) {
+                    setCodeSent(true);
+                }
+            },
             onError
         }
     );

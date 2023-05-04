@@ -6,7 +6,7 @@ export default function Recovery() {
     const [isLoginSent, setLoginSent] = useState(false);
     const [isCodeSent, setCodeSent] = useState(false);
     const {register, formState: {errors,}, handleSubmit, watch} = useForm();
-    const {isLoading, recovery} = useRecovery(setCodeSent);
+    const {isLoading, recovery} = useRecovery(isLoginSent, setCodeSent);
     const {isLoading1, setNewPassword} = useNewPassword();
 
     const onSubmit = async data => {
