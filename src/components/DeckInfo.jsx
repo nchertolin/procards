@@ -60,7 +60,7 @@ function DeckInfo() {
             </div>
             <div className='deck-info__actions'>
                 <Link className='main__btn' to='training'>Развернуть колоду</Link>
-                {!data.ownerId === userId &&
+                {data.ownerId !== userId &&
                     <button className='delete__btn' disabled={isLoading1} onClick={onDelete}>
                         Покинуть колоду
                     </button>}
