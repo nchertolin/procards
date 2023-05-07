@@ -48,16 +48,21 @@ const AuthService = {
     },
 
     async refresh(refetch, mutate) {
-        const response = await url.post('refresh', {userId});
-        if (response?.status >= 200 && response?.status <= 399) {
-            if (refetch) {
-                refetch();
-            } else if (mutate) {
-                mutate();
+        try {
+            const response = await url.post('refres', {userId});
+            if (response?.status >= 200 && response?.status <= 399) {
+                if (refetch) {
+                    refetch();
+                } else if (mutate) {
+                    mutate();
+                }
+            } else {
+                this.logout();
             }
-        } else if (response?.status === 401) {
-            redirectToSignInPage();
+        } catch (error) {
+            this.logout();
         }
+
     },
 
     logout() {

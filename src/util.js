@@ -1,7 +1,8 @@
 import {toast} from 'react-toastify';
 
 const ORIGIN = window.location.origin;
-const SERVER_URL = ORIGIN + '/api';
+// const SERVER_URL = ORIGIN + '/api';
+const SERVER_URL = 'https://localhost:7046';
 const isAuth = localStorage.getItem('id') != null;
 const userId = localStorage.getItem('id');
 const IS_DARK_THEME = localStorage.getItem('dark-theme') === 'true';
