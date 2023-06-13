@@ -8,6 +8,8 @@ import EditDeckForm from './Forms/EditDeckForm';
 import EditCardForm from './Forms/EditCardForm';
 import AddCardForm from './Forms/AddCardForm';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./Footer";
+
 
 export default function Layout() {
     const {
@@ -25,6 +27,7 @@ export default function Layout() {
                 {isEditCardFormOpened && <EditCardForm/>}
                 {isAddCardFormOpened && <AddCardForm/>}
             </main>
+            <Footer/>
         </>
     )
 }

@@ -12,15 +12,13 @@ export default function SignIn() {
             <form onSubmit={handleSubmit(signIn)}>
                 <h1>Вход</h1>
                 <label>
-                    Логин
-                    <input type="text"
+                    <input type="text" placeholder='Логин'
                            className={errors?.login ? 'invalid' : ''}
                            {...register('login', {required: 'Обязательноe поле.'})} />
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}
                 </label>
                 <label>
-                    Пароль
-                    <input type="password"
+                    <input type="password" placeholder='Пароль'
                            className={errors?.password ? 'invalid' : ''}
                            {...register('password', {required: 'Обязательноe поле.'})} />
                     {errors?.password && <p className='error'>{errors?.password.message}</p>}

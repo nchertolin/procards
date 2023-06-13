@@ -6,6 +6,7 @@ import {WithAuth} from '../hoc/withAuth';
 import {useRemoveDeckFromLatest} from '../hooks/useDecks';
 import {userId} from "../util";
 import {confirmAlert} from "react-confirm-alert";
+import HeadText from "./HeadText";
 
 function DeckInfo() {
     const {deckId} = useParams();
@@ -25,12 +26,12 @@ function DeckInfo() {
 
     return (
         <div className='deck-info__wrapper'>
-            <h1>{data.deckName}</h1>
+            <HeadText parentText='Обучение' text={data.deckName}/>
             <h2 className='deck-info__leaderboard__head'>Таблица лидеров</h2>
-            <ul className='deck-info__leaderboard'>
+            <ul className='leaderboard'>
                 {
                     data.statistics.map(({userId, login, score}, index) =>
-                        <li key={userId}>
+                        <li key={userId} className='leaderboard__leader'>
                             <div>
                                 <h3>{index + 1}</h3>
                                 <Link className='leader__name' to={`/user/${userId}`}>@{login}</Link>

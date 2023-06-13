@@ -2,6 +2,7 @@ import React from 'react';
 import {useParams} from "react-router-dom";
 import {useAddDeck} from "../hooks/useDeck";
 import {useForm} from "react-hook-form";
+import {WithAuth} from "../hoc/withAuth";
 
 function DeckAdd() {
     const {deckId} = useParams();
@@ -28,4 +29,4 @@ function DeckAdd() {
     );
 }
 
-export default DeckAdd;
+export default WithAuth(DeckAdd);

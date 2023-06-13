@@ -7,21 +7,23 @@ import Pagination from './Pagination';
 import {getPagesAmount} from '../util';
 import Search from './Search';
 import {useDebounce} from "use-debounce";
+import HeadText from "./HeadText";
 
+const AMOUNT_ON_PAGE = 20;
 
 function Decks() {
-    const amountOnPage = 20;
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
     const {isLoading, data} = useDecks(debouncedSearchQuery);
     const [page, setPage] = useState(1);
-    const sliced = data?.slice(amountOnPage * page - amountOnPage, amountOnPage * page);
+    const sliced = data?.slice(AMOUNT_ON_PAGE * page - AMOUNT_ON_PAGE, AMOUNT_ON_PAGE * page);
 
     if (isLoading || !data) return <Loading/>
 
     return (
         <div className='card-list'>
-            <h1>Выберите колоду</h1>
+            <HeadText parentText='Выберите колоду'/>
+
             <Search
                 setPage={setPage}
                 searchQuery={searchQuery}

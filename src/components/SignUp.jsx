@@ -10,8 +10,7 @@ export default function SignUp() {
             <form onSubmit={handleSubmit(signUp)}>
                 <h1>Регистрация</h1>
                 <label>
-                    Логин
-                    <input type="text"
+                    <input type="text" placeholder='Логин'
                            className={errors?.login ? 'invalid' : ''}
                            {...register('login', {
                                required: 'Обязательноe поле.',
@@ -23,8 +22,7 @@ export default function SignUp() {
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}
                 </label>
                 <label>
-                    Электронная почта
-                    <input type="email"
+                    <input type="email" placeholder='Эл. почта'
                            className={errors?.email ? 'invalid' : ''}
                            {...register('email', {
                                required: 'Обязательноe поле.',
@@ -36,8 +34,7 @@ export default function SignUp() {
                     {errors?.email && <p className='error'>{errors?.email.message}</p>}
                 </label>
                 <label>
-                    Имя
-                    <input type="text"
+                    <input type="text" placeholder='Имя'
                            className={errors?.firstName ? 'invalid' : ''}
                            {...register('firstName', {
                                required: 'Обязательноe поле.',
@@ -49,8 +46,7 @@ export default function SignUp() {
                     {errors?.firstName && <p className='error'>{errors?.firstName.message}</p>}
                 </label>
                 <label>
-                    Фамилия
-                    <input type="text"
+                    <input type="text" placeholder='Фамилия'
                            className={errors?.lastName ? 'invalid' : ''}
                            {...register('lastName', {
                                required: 'Обязательноe поле.',
@@ -62,8 +58,7 @@ export default function SignUp() {
                     {errors?.lastName && <p className='error'>{errors?.lastName.message}</p>}
                 </label>
                 <label>
-                    Населенный пункт
-                    <input type="text"
+                    <input type="text" placeholder='Населенный пункт'
                            className={errors?.location ? 'invalid' : ''}
                            {...register('location', {
                                required: 'Обязательноe поле.',
@@ -75,8 +70,7 @@ export default function SignUp() {
                     {errors?.location && <p className='error'>{errors?.location.message}</p>}
                 </label>
                 <label>
-                    Пароль
-                    <input type="password"
+                    <input type="password" placeholder='Пароль'
                            className={errors?.password ? 'invalid' : ''}
                            {...register('password', {
                                required: 'Обязательноe поле.',
@@ -88,8 +82,7 @@ export default function SignUp() {
                     {errors?.password && <p className='error'>{errors?.password.message}</p>}
                 </label>
                 <label>
-                    Подтвердите пароль
-                    <input type="password"
+                    <input type="password" placeholder='Повторите пароль'
                            className={errors?.confirmPassword ? 'invalid' : ''}
                            {...register('confirmPassword', {
                                required: 'Обязательноe поле.',

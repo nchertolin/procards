@@ -1,6 +1,7 @@
 import {toast} from 'react-toastify';
 
 const ORIGIN = window.location.origin;
+const HOST = window.location.host;
 // const SERVER_URL = ORIGIN + '/api';
 const SERVER_URL = 'https://localhost:7046';
 const isAuth = localStorage.getItem('id') != null;
@@ -22,6 +23,14 @@ const redirectToLearn = () => window.location.href = '/learn';
 const reloadPage = () => window.location.reload();
 
 const getPagesAmount = (length, count = 20) => Math.max(Math.ceil(length / count), 1);
+
+const getPagesList = (amount) => {
+    const pages = [];
+    for (let i = 1; i <= amount; i++) {
+        pages.push(i);
+    }
+    return pages;
+};
 
 const notifyError = error => {
     if (error.response?.data) {
@@ -48,6 +57,7 @@ const getErrorDataWithoutUserId = error => {
 
 export {
     ORIGIN,
+    HOST,
     SERVER_URL,
     IS_DARK_THEME,
     isAuth,
@@ -58,6 +68,7 @@ export {
     reloadPage,
     redirectToLearn,
     getPagesAmount,
+    getPagesList,
     notifyError,
     notifySuccess,
     setSavedTheme,

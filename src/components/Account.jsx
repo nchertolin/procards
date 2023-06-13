@@ -4,6 +4,7 @@ import {WithAuth} from '../hoc/withAuth';
 import {AuthService} from '../services/authService';
 import {useUser} from '../hooks/useUser';
 import Loading from './Loading/Loading';
+import HeadText from "./HeadText";
 
 function Account() {
     const {isLoading, data: user} = useUser();
@@ -12,6 +13,7 @@ function Account() {
 
     return (
         <div className='account__wrapper'>
+            <HeadText parentText='Ваш профиль'/>
             <div className='account__info'>
                 <h1 id='account__name'>{user?.firstName} {user?.lastName}</h1>
                 <h3>@{user?.login}</h3>
@@ -76,7 +78,7 @@ function Account() {
                 </li>
             </ul>
             <div className='account__actions'>
-                <Link className='main__btn' to='edit'>Редактровать профиль</Link>
+                <Link className='main__btn' to='edit'>Редактировать</Link>
                 <button className='delete__btn'
                         onClick={() => AuthService.logout()}>Выйти
                 </button>

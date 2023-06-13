@@ -9,6 +9,8 @@ import Pagination from './Pagination';
 import {getPagesAmount} from '../util';
 import Search from './Search';
 import {useDebounce} from "use-debounce";
+import HeadText from "./HeadText";
+import AddCardIcon from '@mui/icons-material/AddCard';
 
 
 function Cards() {
@@ -25,7 +27,7 @@ function Cards() {
 
     return (
         <div className='card-list'>
-            <h1>{data?.deckName}</h1>
+            <HeadText parentText='Редактор колод' text={data?.deckName}/>
             <Search
                 setPage={setPage}
                 searchQuery={searchQuery}
@@ -35,7 +37,7 @@ function Cards() {
                 <ul>
                     <li>
                         <button className='card' onClick={() => setAddCardFormOpened(true)}>
-                            <h3>+</h3>
+                            <AddCardIcon/>
                         </button>
                     </li>
                     {sliced.map(content =>

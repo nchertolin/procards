@@ -1,9 +1,8 @@
-@import '../../colors/light-colors.scss';
-@import '../../colors/dark-colors.scss';
+@import '../../styles/light-colors.scss';
+@import '../../styles/dark-colors.scss';
 
 .wrapper {
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,29 +10,42 @@
 
 .content {
   display: flex;
-  width: 50%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 30px;
+  row-gap: 50px;
 
-  h1 {
-    font-size: 100px;
-    text-decoration: none;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 30px;
+    width: 50%;
+
+    h1 {
+      font-size: 100px;
+      text-decoration: none;
+    }
+
+    p {
+      text-align: center;
+      line-height: 22px;
+    }
   }
 
-  p {
-    text-align: center;
-    line-height: 22px;
+  svg {
+    width: 50%;
+    height: 40%;
   }
+
 }
 
 .button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  border-radius: 10px;
+  border-radius: .3rem;
   padding: 12px 60px;
 }
 

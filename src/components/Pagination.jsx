@@ -1,22 +1,31 @@
 import React from 'react';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import {getPagesList} from "../util";
 
-export default function Pagination({ page, setPage, amount }) {
-   const previousPage = () => setPage(page === 1 ? amount : page - 1);
-   const nextPage = () => setPage(page === amount ? 1 : page + 1);
+export default function Pagination({page, setPage, amount}) {
+    const previousPage = () => setPage(page === 1 ? amount : page - 1);
+    const goToPage = (numberOfPage) => () => setPage(numberOfPage);
+    const nextPage = () => setPage(page === amount ? 1 : page + 1);
+    const pages = getPagesList(amount);
+    const startIndex = Math.min(Math.max(page - Math.floor(5 / 2), 0), amount - 5);
+    const endIndex = Math.min(startIndex + 5, amount);
 
-   return (
-      <div className='pagination'>
-         <button onClick={previousPage}>
-            <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M9.72973 20L0 10L9.72973 0L12 2.33333L4.54054 10L12 17.6667L9.72973 20Z" />
-            </svg>
-         </button>
-         <p>{page} из {amount}</p>
-         <button onClick={nextPage}>
-            <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M2.27027 20L0 17.6667L7.45946 10L0 2.33333L2.27027 0L12 10L2.27027 20Z" />
-            </svg>
-         </button>
-      </div>
-   );
+    return (
+        <div className='pagination'>
+            <button className='pagination__button' onClick={previousPage}>
+                <NavigateBeforeIcon/>
+            </button>
+            {
+                pages.slice(startIndex, endIndex).map(numberOfPage =>
+                    <button key={numberOfPage} className={`pagination__button ${page === numberOfPage ? 'active' : ''}`}
+                            onClick={goToPage(numberOfPage)}>
+                        {numberOfPage}
+                    </button>)
+            }
+            <button className='pagination__button' onClick={nextPage}>
+                <NavigateNextIcon/>
+            </button>
+        </div>
+    );
 }

@@ -5,6 +5,18 @@ import {FormsContext} from '../../providers/FormsProvider';
 import {useForm} from 'react-hook-form';
 import {useCreateCard, useImage} from '../../hooks/useEditorDeck';
 import {useParams} from 'react-router-dom';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+export function AddImageButton({onClick}) {
+    return (
+        <button type='button' className='add__image__btn' onClick={onClick}>
+            <AddPhotoAlternateIcon/>
+            <p>Добавить картинку</p>
+        </button>
+    );
+}
+
 
 export default function AddCardForm() {
     const {deckId} = useParams();
@@ -72,14 +84,13 @@ export default function AddCardForm() {
                         </label>
                         {hasFrontImage
                             ? <div className='file__wrapper'>
-                                <input type="file" className='file' {...register('frontImg')} />
-                                <button type='button' className='error' onClick={() => resetImage(true)}>
-                                    Сбросить
+                                <input type="file" className='file' {...register('frontImg')}
+                                       accept='image/png, image/jpeg, image/webp'/>
+                                <button type='button' onClick={() => resetImage(true)}>
+                                    <DeleteIcon/>
                                 </button>
                             </div>
-                            : <button type='button' onClick={() => setFrontImg(true)} className='add__image__btn'>
-                                Добавить изображение
-                            </button>}
+                            : <AddImageButton onClick={() => setFrontImg(true)}/>}
                         <label>
                             <textarea placeholder='Обратная сторона' className={errors?.backSide ? 'invalid' : ''}
                                       {...register('backSide',
@@ -94,14 +105,13 @@ export default function AddCardForm() {
                         </label>
                         {hasBackImage
                             ? <div className='file__wrapper'>
-                                <input type="file" className='file' {...register('backImg')} />
-                                <button type='button' className='error' onClick={() => resetImage(false)}>
-                                    Сбросить
+                                <input type="file" className='file' {...register('backImg')}
+                                       accept='image/*'/>
+                                <button type='button' onClick={() => resetImage(false)}>
+                                    <DeleteIcon/>
                                 </button>
                             </div>
-                            : <button type='button' onClick={() => setBackImg(true)} className='add__image__btn'>
-                                Добавить изображение
-                            </button>}
+                            : <AddImageButton onClick={() => setBackImg(true)}/>}
                         <button type='submit' className='modal_submit main__btn'
                                 disabled={isLoading || isLoading1}>
                             Сохранить
@@ -120,6 +130,7 @@ export default function AddCardForm() {
                                    alt="" onClick={flip}
                             />
                             : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>}
+                        <div className='training__card__shadow'></div>
                     </button>
                     <p>Нажатие на карточку перевернет ее.</p>
                 </div>

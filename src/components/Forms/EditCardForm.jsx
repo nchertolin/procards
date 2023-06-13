@@ -8,6 +8,8 @@ import {useImages} from '../../hooks/useCard';
 import {useParams} from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import {confirmAlert} from "react-confirm-alert";
+import {AddImageButton} from "./AddCardForm";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function EditCardForm() {
     const {deckId} = useParams();
@@ -113,15 +115,13 @@ export default function EditCardForm() {
                                 {
                                     hasFrontImg
                                         ? <div className='file__wrapper'>
-                                            <input type="file" className='file' {...register('frontImg')} />
+                                            <input type="file" className='file' {...register('frontImg')}
+                                                   accept='image/*'/>
                                             <button type='button' className='error' onClick={() => resetImage(true)}>
-                                                Сбросить
+                                                <DeleteIcon/>
                                             </button>
                                         </div>
-                                        : <button type='button' onClick={() => setFrontImg(true)}
-                                                  className='add__image__btn'>
-                                            Добавить изображение
-                                        </button>
+                                        : <AddImageButton onClick={() => setFrontImg(true)}/>
                                 }
                             </>}
                         <label>
@@ -144,15 +144,13 @@ export default function EditCardForm() {
                             : <>
                                 {hasBackImg
                                     ? <div className='file__wrapper'>
-                                        <input type="file" className='file' {...register('backImg')} />
+                                        <input type="file" className='file' {...register('backImg')}
+                                               accept='image/*'/>
                                         <button type='button' className='error' onClick={() => resetImage(false)}>
-                                            Сбросить
+                                            <DeleteIcon/>
                                         </button>
                                     </div>
-                                    : <button type='button' className='add__image__btn'
-                                              onClick={() => setBackImg(true)}>
-                                        Добавить изображение
-                                    </button>}
+                                    : <AddImageButton onClick={() => setBackImg(true)}/>}
                             </>}
                         <div className='modal__buttons'>
                             <button type='submit' className='modal_submit main__btn'
@@ -181,6 +179,7 @@ export default function EditCardForm() {
                                        src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
                                        alt="" onClick={flip}/>
                                 : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>}
+                        <div className='training__card__shadow'></div>
                     </button>
                     <p>Нажатие на карточку перевернет ее.</p>
                 </div>

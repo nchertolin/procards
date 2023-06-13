@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import {useUserStatistic} from '../hooks/useUser';
 import Loading from './Loading/Loading';
 import {WithAuth} from '../hoc/withAuth';
+import HeadText from "./HeadText";
 
 function User() {
     const {userId} = useParams();
@@ -12,6 +13,7 @@ function User() {
 
     return (
         <div className='account__wrapper'>
+            <HeadText parentText='Профиль пользователя'/>
             <div className='account__info'>
                 <h1 id='account__name'>@{user?.login}</h1>
                 <h3>{user?.location}</h3>

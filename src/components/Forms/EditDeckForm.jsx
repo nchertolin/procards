@@ -1,11 +1,12 @@
 import React from 'react';
-import {clickOutsideHandler, notifySuccess, ORIGIN} from '../../util';
+import {clickOutsideHandler, HOST, notifySuccess, ORIGIN} from '../../util';
 import {useForm} from 'react-hook-form';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useDeleteDeck, useEditDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
 import {confirmAlert} from 'react-confirm-alert';
+import LinkIcon from '@mui/icons-material/Link';
 
 export default function EditDeckForm() {
     const {setEditFormOpened, selectedDeck} = useContext(FormsContext);
@@ -17,7 +18,8 @@ export default function EditDeckForm() {
             description: selectedDeck.description,
         }
     });
-    const inviteUrl = `${ORIGIN}/learn/add/${selectedDeck.deckId}`
+    // const inviteUrl = `${ORIGIN}/learn/add/${selectedDeck.deckId}`
+    const inviteUrl = `${HOST}/learn/add/${selectedDeck.deckId}`
     const {isLoading, editDeck} = useEditDeck(setEditFormOpened);
     const {isLoading: isLoading2, editPassword} = useEditDeckPassword(setEditFormOpened);
     const {isLoading: isLoading1, deleteDeck} = useDeleteDeck(setEditFormOpened);
@@ -76,24 +78,37 @@ export default function EditDeckForm() {
                     </div>
                     {
                         watch('isPrivate') === 'false' &&
-                        <label>
-                            <input type="text"
-                                   placeholder='Новый пароль колоды'
-                                   className={errors?.password ? 'invalid' : ''}
-                                   {...register('password', {
-                                       required: {
-                                           value: selectedDeck.isPrivate.toString() !== watch('isPrivate'),
-                                           message: 'Обязательное поле.'
-                                       },
-                                       pattern: {
-                                           value: /^(?=^.{2,100}$)/,
-                                           message: 'Минимум 2 символа.'
-                                       },
-                                       disabled: watch('isPrivate') === 'true'
-                                   })} />
-                            <i>Оставьте поле пустым, если желаете сохранить текущий пароль</i>
-                            {errors?.password && <p className='error'>{errors?.password.message}</p>}
-                        </label>
+                        <>
+                            <label>
+                                <input type="text" title='Оставьте поле пустым, если желаете сохранить текущий пароль'
+                                       placeholder='Новый пароль колоды'
+                                       className={errors?.password ? 'invalid' : ''}
+                                       {...register('password', {
+                                           required: {
+                                               value: selectedDeck.isPrivate.toString() !== watch('isPrivate'),
+                                               message: 'Обязательное поле.'
+                                           },
+                                           pattern: {
+                                               value: /^(?=^.{2,100}$)/,
+                                               message: 'Минимум 2 символа.'
+                                           },
+                                           disabled: watch('isPrivate') === 'true'
+                                       })} />
+                                {errors?.password && <p className='error'>{errors?.password.message}</p>}
+                            </label>
+                            <section className='copy-link' title='Ссылка приглашения участников'>
+                                <p className='copy-link__placeholder'>Скопировать ссылку для приглашения</p>
+                                <p className='copy-link__content'>{inviteUrl}</p>
+                                <div className='copy-link__icon__wrapper'>
+                                    <CopyToClipboard text={inviteUrl} onCopy={onCopy}>
+                                        <button type='button' disabled={isLoading1}>
+                                            <LinkIcon/>
+                                        </button>
+                                    </CopyToClipboard>
+                                </div>
+                            </section>
+
+                        </>
                     }
                     <label>
                         <textarea className={errors?.description ? 'invalid' : ''} placeholder='Описание'
@@ -117,12 +132,6 @@ export default function EditDeckForm() {
                             Удалить
                         </button>
                     </div>
-                    {watch('isPrivate') === 'false' &&
-                        <CopyToClipboard text={inviteUrl} onCopy={onCopy}>
-                            <button type='button' className='modal_submit main__btn' disabled={isLoading1}>
-                                Скопировать ссылку для приглашения участников
-                            </button>
-                        </CopyToClipboard>}
                 </form>
             </div>
         </div>
