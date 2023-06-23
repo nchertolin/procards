@@ -1,6 +1,6 @@
 import {useMutation} from '@tanstack/react-query'
 import {AuthService} from '../services/authService';
-import {notifyError, redirectToMainPage, redirectToSignInPage} from '../util';
+import {redirectToMainPage, redirectToSignInPage} from '../utils';
 
 const setId = (id) => localStorage.setItem('id', id);
 const onSuccess = (id) => {
@@ -8,14 +8,12 @@ const onSuccess = (id) => {
     redirectToMainPage();
 };
 
-const onError = error => notifyError(error);
 
 const useSignIn = () => {
     const {isLoading, mutate: signIn} = useMutation(
         async (data) => await AuthService.signIn(data),
         {
             onSuccess,
-            onError
         }
     );
 
@@ -26,8 +24,7 @@ const useSignUp = () => {
     const {isLoading, mutate: signUp} = useMutation(
         async (data) => await AuthService.signUp(data),
         {
-            onSuccess,
-            onError
+            onSuccess
         }
     );
 
@@ -43,8 +40,7 @@ const useRecovery = (isLoginSent, setCodeSent) => {
                 if (isLoginSent) {
                     setCodeSent(true);
                 }
-            },
-            onError
+            }
         }
     );
 
@@ -56,7 +52,6 @@ const useNewPassword = () => {
         async (data) => await AuthService.setNewPassword(data),
         {
             onSuccess: () => redirectToSignInPage(),
-            onError,
         }
     );
 

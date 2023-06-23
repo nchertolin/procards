@@ -1,24 +1,18 @@
-import axios from 'axios';
-import { SERVER_URL, userId } from '../util';
+import $url from "../api/api";
+import {userId} from '../utils';
 
 
-const url = axios.create({
-    baseURL: `${SERVER_URL}/cards/`,
-    withCredentials: true,
-    headers: {
-        'Access-Control-Allow-Origin': '*'
-    }
-});
+const END_POINT = 'cards';
 
 const LearningCardsService = {
     async getCards(id) {
-        const response = await url.get('', { params: { userId, deckId: id } })
+        const response = await $url.get(END_POINT, {params: {userId, deckId: id}})
         return response.data;
     },
 
     async postGrade(data) {
-        return await url.post('grade', { userId, ...data })
+        return await $url.post(`${END_POINT}/grade`, {userId, ...data})
     },
 }
 
-export { LearningCardsService }
+export {LearningCardsService}

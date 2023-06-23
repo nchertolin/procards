@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {useForm} from 'react-hook-form';
-import {useNewPassword, useRecovery} from '../hooks/useAuth';
+import {useNewPassword, useRecovery} from '../../hooks/useAuth';
+import {REQUIRED_FIELD, USER_OPTIONS} from "../../validationOptions";
 
 export default function Recovery() {
     const [isLoginSent, setLoginSent] = useState(false);
@@ -29,50 +30,45 @@ export default function Recovery() {
         <div className='signin'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Восстановление доступа</h1>
-                <h2>Введите логин, связанный с вашей учетной записью и мы вышлем вам код для смены пароля на
-                    электронную почту.</h2>
+                <p>Введите логин, связанный с вашей учетной записью и мы вышлем вам код для смены пароля на
+                    электронную почту.</p>
                 <label>
-                    Логин
                     <input type="text" disabled={isLoginSent}
                            className={errors?.login ? 'invalid' : ''}
-                           {...register('login', {required: 'Обязательноe поле.'})} />
+                           {...register('login', REQUIRED_FIELD)}
+                           placeholder='Логин'/>
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}
                 </label>
                 <label>
-                    Код из письма
                     <input type="tel" disabled={isCodeSent} autoComplete='off'
                            className={errors?.code ? 'invalid' : ''}
                            {...register('code', {
-                               required: 'Обязательноe поле.',
+                               ...REQUIRED_FIELD,
                                disabled: !isLoginSent,
-                           })} />
+                           })}
+                           placeholder='Код из письма'/>
                     {errors?.code && <p className='error'>{errors?.code.message}</p>}
                 </label>
                 <label>
-                    Новый пароль
                     <input type="password"
                            className={errors?.password ? 'invalid' : ''}
                            {...register('password', {
-                               required: 'Обязательноe поле.',
-                               pattern: {
-                                   value: /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/,
-                                   message: 'Минимум 8 символов, максимум 40. Одна цифра, заглавная и строчная буквы.'
-                               },
+                               ...USER_OPTIONS.PASSWORD,
                                disabled: !isCodeSent
-                           })} />
+                           })}
+                           placeholder='Новый пароль'/>
                     {errors?.password && <p className='error'>{errors?.password.message}</p>}
                 </label>
                 <label>
-                    Подтвердите новый пароль
                     <input type="password"
                            className={errors?.cpassword ? 'invalid' : ''}
                            {...register('cpassword', {
-                               required: 'Обязательноe поле.',
                                disabled: !isCodeSent,
                                validate: (value) => {
                                    return watch('password') === value || "Пароли не совпадают.";
                                }
-                           })} />
+                           })}
+                           placeholder='Подтвердите новый пароль'/>
                     {errors?.cpassword && <p className='error'>{errors?.cpassword.message}</p>}
                 </label>
                 <button className='modal_submit main__btn' disabled={isLoading || isLoading1}>Отправить</button>

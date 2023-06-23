@@ -1,9 +1,7 @@
 import {toast} from 'react-toastify';
+import {confirmAlert} from "react-confirm-alert";
 
-const ORIGIN = window.location.origin;
 const HOST = window.location.host;
-// const SERVER_URL = ORIGIN + '/api';
-const SERVER_URL = 'https://localhost:7046';
 const isAuth = localStorage.getItem('id') != null;
 const userId = localStorage.getItem('id');
 const IS_DARK_THEME = localStorage.getItem('dark-theme') === 'true';
@@ -41,6 +39,14 @@ const notifyError = error => {
 };
 
 const notifySuccess = (message = 'Успешно') => toast.success(message);
+const showConfirmAlert = (message, callback) => confirmAlert({
+    title: 'Подтвердите действие',
+    message,
+    buttons: [
+        {label: 'Да', onClick: callback},
+        {label: 'Отмена'}
+    ]
+});
 
 const setSavedTheme = () => {
     if (IS_DARK_THEME) {
@@ -48,17 +54,24 @@ const setSavedTheme = () => {
     }
 };
 
-const getErrorDataWithoutUserId = error => {
-    const data = JSON.parse(error.config.data);
-    delete data.userId;
-    return data
+const generateInviteLink = (deckId) => `${HOST}/learn/add/${deckId}`;
+
+const getImagesList = (frontImgFiles, backImgFiles) => {
+    const frontImg = typeof frontImgFiles === 'string'
+        ? frontImgFiles
+        : frontImgFiles?.length
+            ? URL.createObjectURL(frontImgFiles[0])
+            : null;
+    const backImg = typeof backImgFiles === 'string'
+        ? backImgFiles
+        : backImgFiles?.length
+            ? URL.createObjectURL(backImgFiles[0])
+            : null;
+    return [frontImg, backImg];
 };
 
-
 export {
-    ORIGIN,
     HOST,
-    SERVER_URL,
     IS_DARK_THEME,
     isAuth,
     userId,
@@ -71,6 +84,8 @@ export {
     getPagesList,
     notifyError,
     notifySuccess,
+    showConfirmAlert,
     setSavedTheme,
-    getErrorDataWithoutUserId,
+    generateInviteLink,
+    getImagesList,
 }

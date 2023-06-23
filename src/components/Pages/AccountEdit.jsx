@@ -1,8 +1,11 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {WithAuth} from '../hoc/withAuth';
-import {useEditInfo, useEditPassword, useUser} from '../hooks/useUser';
-import Loading from './Loading/Loading';
+import {WithAuth} from '../../hoc/withAuth';
+import {useEditInfo, useEditPassword, useUser} from '../../hooks/useUser';
+import Loading from '../Loading/Loading';
+import Navigation from "../UI/Navigation";
+import {REQUIRED_FIELD, USER_OPTIONS} from "../../validationOptions";
+
 
 function AccountEdit() {
     const {isLoading: isUserDataLoading, data: user} = useUser();
@@ -27,13 +30,14 @@ function AccountEdit() {
 
     return (
         <div className='account__wrapper'>
+            <Navigation parentText='Ваш профиль' text='Редактирование'/>
             <form autoComplete='off' onSubmit={handleSubmit(onSubmitInfo)}>
                 <div id='account-edit-name-wrapper'>
                     <label>
                         Имя
                         <input type="text"
                                className={errors?.firstName ? 'invalid' : ''}
-                               {...register('firstName', {required: 'Обязательноe поле.'})}
+                               {...register('firstName', USER_OPTIONS.NAME)}
                                defaultValue={user?.firstName}/>
                         {errors?.firstName && <p className='error'>{errors?.firstName.message}</p>}
                     </label>
@@ -41,7 +45,7 @@ function AccountEdit() {
                         Фамилия
                         <input type="text"
                                className={errors?.lastName ? 'invalid' : ''}
-                               {...register('lastName', {required: 'Обязательноe поле.'})}
+                               {...register('lastName', USER_OPTIONS.NAME)}
                                defaultValue={user?.lastName}/>
                         {errors?.lastName && <p className='error'>{errors?.lastName.message}</p>}
                     </label>
@@ -50,17 +54,7 @@ function AccountEdit() {
                     Электронная почта
                     <input type="email" autoComplete='on'
                            className={errors?.email ? 'invalid' : ''}
-                           {...register('email', {
-                               required: 'Обязательноe поле.',
-                               maxLength: {
-                                   value: 100,
-                                   message: 'Максимальная длинна 100 символов'
-                               },
-                               pattern: {
-                                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                   message: 'Некорректный адрес эл. почты'
-                               }
-                           })}
+                           {...register('email', USER_OPTIONS.EMAIL)}
                            defaultValue={user?.email}/>
                     {errors?.email && <p className='error'>{errors?.email.message}</p>}
                 </label>
@@ -68,7 +62,7 @@ function AccountEdit() {
                     Населенный пункт
                     <input type="text"
                            className={errors?.location ? 'invalid' : ''}
-                           {...register('location', {required: 'Обязательноe поле.'})}
+                           {...register('location', USER_OPTIONS.LOCATION)}
                            defaultValue={user?.location}/>
                     {errors?.location && <p className='error'>{errors?.location.message}</p>}
                 </label>
@@ -79,20 +73,14 @@ function AccountEdit() {
                     Старый пароль
                     <input type="password"
                            className={errors2?.oldPassword ? 'invalid' : ''}
-                           {...register2('oldPassword', {required: 'Обязательноe поле.'})} />
+                           {...register2('oldPassword', REQUIRED_FIELD)} />
                     {errors2?.oldPassword && <p className='error'>{errors2?.oldPassword.message}</p>}
                 </label>
                 <label>
                     Новый пароль
                     <input type="password"
                            className={errors2?.newPassword ? 'invalid' : ''}
-                           {...register2('newPassword', {
-                               required: 'Обязательноe поле.',
-                               pattern: {
-                                   value: /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/,
-                                   message: 'Минимум 8 символов, максимум 40. Одна цифра, заглавная и строчная буквы.'
-                               }
-                           })} />
+                           {...register2('newPassword', USER_OPTIONS.PASSWORD)} />
                     {errors2?.newPassword && <p className='error'>{errors2?.newPassword.message}</p>}
                 </label>
                 <label>
@@ -100,8 +88,8 @@ function AccountEdit() {
                     <input type="password"
                            className={errors2?.confirmPassword ? 'invalid' : ''}
                            {...register2('confirmPassword', {
-                               required: 'Обязательноe поле.',
-                               validate: (value) => watch('newPassword') === value || "Пароли не совпадают."
+                               validate: (value) =>
+                                   watch('newPassword') === value || "Пароли не совпадают."
                            })}
                     />
                     {errors2?.confirmPassword && <p className='error'>{errors2?.confirmPassword.message}</p>}

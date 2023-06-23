@@ -2,7 +2,7 @@ import React from 'react';
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {useNavigate} from "react-router-dom";
 
-export default function HeadText({parentText, text = ''}) {
+export default function Navigation({parentText, text = ''}) {
     const navigate = useNavigate();
     const goBack = () => navigate(-1)
 

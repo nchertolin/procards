@@ -17,6 +17,7 @@ body.dark {
       color: $dark-text;
       opacity: .5;
     }
+
   }
 
   input[type='radio'] {
@@ -104,16 +105,6 @@ body.dark {
     }
   }
 
-  .account-stat {
-    li {
-      background-color: $dark-input;
-
-      svg {
-        fill: $dark-text
-      }
-    }
-  }
-
   .main__btn {
     color: $dark-background;
     background-color: $dark-text;
@@ -123,24 +114,15 @@ body.dark {
     color: $dark-text;
   }
 
-  .deck-info__leaderboard {
-    color: $dark-background;
-
-    li {
-      background: $dark-user-card;
-
-    }
-  }
-
-  .deck-info__cards-amount {
-    background-color: $dark-input;
+  .statistic__label {
+    background: $dark-input;
 
     svg {
-      fill: $dark-text
+      fill: $dark-text;
     }
   }
 
-  .card-list_search {
+  .search {
     svg {
       fill: $dark-second-text;
     }
@@ -219,7 +201,6 @@ body.dark {
 
   .footer__copyright__wrapper {
     border-top: 1px solid $dark-header-border;
-    //border-color: $dark-header-border;
   }
 
   .react-confirm-alert-body {

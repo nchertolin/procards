@@ -1,15 +1,12 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {LearningDeckService} from '../services/learningDecksService'
-import {getErrorDataWithoutUserId, redirectToLearn} from '../util';
-import {tryRefreshToken} from "../services/authService";
-
+import {redirectToLearn} from '../utils';
 
 const useDecks = (searchQuery) => {
-    const {isLoading, data, refetch} = useQuery(
+    const {isLoading, data} = useQuery(
         ['decks', searchQuery],
         async () => await LearningDeckService.getDecks(searchQuery),
         {
-            onError: error => tryRefreshToken(error, refetch),
             keepPreviousData: true,
         },
     );
@@ -25,13 +22,7 @@ const useRemoveDeckFromLatest = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries(['decks']);
                 redirectToLearn();
-            },
-            onError: error =>
-                tryRefreshToken(
-                    error,
-                    null,
-                    () => removeDeckFromLatest(getErrorDataWithoutUserId(error).deckId)
-                )
+            }
         },
     );
 

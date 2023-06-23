@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {clickOutsideHandler} from '../../util';
+import {clickOutsideHandler, getImagesList, showConfirmAlert} from '../../utils';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useForm} from 'react-hook-form';
@@ -7,19 +7,13 @@ import {useDeleteCard, useEditCard, useImage, useImageDelete} from '../../hooks/
 import {useImages} from '../../hooks/useCard';
 import {useParams} from 'react-router-dom';
 import Loading from '../Loading/Loading';
-import {confirmAlert} from "react-confirm-alert";
-import {AddImageButton} from "./AddCardForm";
-import DeleteIcon from '@mui/icons-material/Delete';
+import {AddImageButton, ResetImageButton} from "../UI/ImageInputs";
+import {CARD_SIDE_TEXT_OPTIONS} from "../../validationOptions";
+import TrainingCard from "../TrainingCard";
 
 export default function EditCardForm() {
     const {deckId} = useParams();
     const {setEditCardFormOpened, selectedCard, setCardSelected} = useContext(FormsContext);
-    const {register, formState: {errors}, handleSubmit, watch, reset, getValues} = useForm({
-        defaultValues: {
-            frontSide: selectedCard?.frontSide,
-            backSide: selectedCard?.backSide
-        }
-    });
     const toggleText = side => side
         ? selectedCard.hasFrontImage = !selectedCard.hasFrontImage
         : selectedCard.hasBackImage = !selectedCard.hasBackImage;
@@ -30,59 +24,50 @@ export default function EditCardForm() {
     const {isLoading: isLoading3, deleteImage} = useImageDelete(toggleText);
     const {isLoading: isLoading4, images} = useImages(deckId, selectedCard);
     const [side, setSide] = useState(true);
-    const [hasFrontImg, setFrontImg] = useState(false);
-    const [hasBackImg, setBackImg] = useState(false);
+    const {register, formState: {errors}, handleSubmit, watch, reset, getValues} = useForm({
+        defaultValues: {frontSide: selectedCard?.frontSide, backSide: selectedCard?.backSide}
+    });
 
-    const closeModal = e => clickOutsideHandler(e, '.modal__wrapper',
-        setEditCardFormOpened, () => setCardSelected(null));
+    const imagesList = getImagesList(
+        images[0] ? images[0] : watch('frontImg'),
+        images[1] ? images[1] : watch('backImg')
+    );
 
-    const onSubmit = async data => {
+    const closeModal = e => clickOutsideHandler(
+        e,
+        '.modal__wrapper',
+        setEditCardFormOpened,
+        () => setCardSelected(null)
+    );
+
+    const onSubmit = async (data) => {
         await editCard({...data, cardId: selectedCard.id});
-        if (hasFrontImg && watch('frontImg')[0]) {
+        if (imagesList[0]) {
             const formData = new FormData();
-            formData.append('file', watch('frontImg')[0])
+            formData.append('file', data.frontImg[0])
             addImage({cardId: selectedCard.id, formData, side: true});
         }
-        if (hasBackImg && watch('backImg')[0]) {
+        if (imagesList[1]) {
             const formData = new FormData();
-            formData.append('file', watch('backImg')[0]);
+            formData.append('file', data.backImg[0]);
             addImage({cardId: selectedCard.id, formData, side: false})
         }
     }
 
-    const onDelete = () => confirmAlert({
-        title: 'Подтвердите удаление',
-        message: 'Вы действительно хотите удалить карточку?',
-        buttons: [
-            {label: 'Да', onClick: () => deleteCard(selectedCard.id)},
-            {label: 'Отмена'}
-        ]
-    });
+    const onDelete = () => showConfirmAlert(
+        'Вы действительно хотите удалить карточку?',
+        () => deleteCard(selectedCard.id)
+    );
 
-    const onImageDelete = isFront => confirmAlert({
-        title: 'Подтвердите удаление',
-        message: 'Вы действительно хотите удалить изображение?',
-        buttons: [
-            {label: 'Да', onClick: () => deleteImage({cardId: selectedCard.id, side: isFront})},
-            {label: 'Отмена'}
-        ]
-    });
+    const onImageDelete = (isFront) => showConfirmAlert(
+        'Вы действительно хотите удалить изображение?',
+        () => deleteImage({cardId: selectedCard.id, side: isFront})
+    );
 
-    const flip = e => {
-        e.stopPropagation();
-        setSide(!side);
-        e.target.parentElement.classList.toggle('flipped')
-    };
 
-    const resetImage = isFront => {
-        if (isFront) {
-            setFrontImg(false);
-            reset({frontImg: undefined, frontSide: getValues('frontSide')});
-        } else {
-            setBackImg(false);
-            reset({backImg: undefined, backSide: getValues('backSide')});
-        }
-    };
+    const onImageReset = (isFront) => isFront
+        ? reset({frontImg: null, backImg: getValues('backImg'), frontSide: getValues('frontSide')})
+        : reset({frontImg: getValues('frontImg'), backImg: null, backSide: getValues('backSide')});
 
 
     if (isLoading4) return <div className='modal'><Loading/></div>
@@ -97,64 +82,42 @@ export default function EditCardForm() {
                         <label>
                             <textarea placeholder='Лицевая сторона'
                                       className={errors?.frontSide ? 'invalid' : ''}
-                                      {...register('frontSide', {
-                                          required: 'Обязательное поле.',
-                                          pattern: {
-                                              value: /^(?=^.{1,800}$)/,
-                                              message: 'Максимум 800 символов.'
-                                          }
-                                      })} />
+                                      {...register('frontSide', CARD_SIDE_TEXT_OPTIONS)} />
                             {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                         </label>
-                        {selectedCard.hasFrontImage
-                            ? <button type='button' className='add__image__btn error' disabled={isLoading3}
-                                      onClick={() => onImageDelete(true)}>
-                                Удалить изображение
-                            </button>
-                            : <>
-                                {
-                                    hasFrontImg
-                                        ? <div className='file__wrapper'>
-                                            <input type="file" className='file' {...register('frontImg')}
-                                                   accept='image/*'/>
-                                            <button type='button' className='error' onClick={() => resetImage(true)}>
-                                                <DeleteIcon/>
-                                            </button>
-                                        </div>
-                                        : <AddImageButton onClick={() => setFrontImg(true)}/>
-                                }
-                            </>}
+                        {
+                            selectedCard.hasFrontImage
+                                ? <ResetImageButton onClick={() => onImageDelete(true)}/>
+                                : imagesList[0]
+                                    ? <ResetImageButton onClick={() => onImageReset(true)}/>
+                                    : <label>
+                                        <AddImageButton/>
+                                        <input type="file" className='file' accept='image/*'
+                                               {...register('frontImg')}
+                                        />
+                                    </label>
+                        }
                         <label>
                             <textarea placeholder='Обратная сторона'
                                       className={errors?.backSide ? 'invalid' : ''}
-                                      {...register('backSide', {
-                                          required: 'Обязательное поле.',
-                                          pattern: {
-                                              value: /^(?=^.{1,800}$)/,
-                                              message: 'Максимум 800 символов.'
-                                          }
-                                      })} />
+                                      {...register('backSide', CARD_SIDE_TEXT_OPTIONS)} />
                             {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                         </label>
-                        {selectedCard.hasBackImage
-                            ? <button type='button' className='add__image__btn error' disabled={isLoading3}
-                                      onClick={() => onImageDelete(false)}>
-                                Удалить изображение
-                            </button>
-                            : <>
-                                {hasBackImg
-                                    ? <div className='file__wrapper'>
-                                        <input type="file" className='file' {...register('backImg')}
-                                               accept='image/*'/>
-                                        <button type='button' className='error' onClick={() => resetImage(false)}>
-                                            <DeleteIcon/>
-                                        </button>
-                                    </div>
-                                    : <AddImageButton onClick={() => setBackImg(true)}/>}
-                            </>}
+                        {
+                            selectedCard.hasBackImage
+                                ? <ResetImageButton onClick={() => onImageDelete(false)}/>
+                                : imagesList[1]
+                                    ? <ResetImageButton onClick={() => onImageReset(false)}/>
+                                    : <label>
+                                        <AddImageButton/>
+                                        <input type="file" className='file' accept='image/*'
+                                               {...register('backImg')}
+                                        />
+                                    </label>
+                        }
                         <div className='modal__buttons'>
                             <button type='submit' className='modal_submit main__btn'
-                                    disabled={isLoading || isLoading2}>
+                                    disabled={isLoading || isLoading2 || isLoading3}>
                                 Сохранить
                             </button>
 
@@ -166,24 +129,16 @@ export default function EditCardForm() {
                     </form>
                 </div>
                 <div className='modal__card__wrapper'>
-                    <button className='card training__card'
-                            onClick={(e) => {
-                                setSide(!side);
-                                e.target.classList.toggle('flipped')
-                            }}>
-                        {images[side ? 0 : 1]
-                            ? <img className='card__image' src={images[side ? 0 : 1]} onClick={flip}
-                                   alt={watch(side ? 'frontSide' : 'backSide')}/>
-                            : watch(side ? 'frontImg' : 'backImg') && watch(side ? 'frontImg' : 'backImg')[0]
-                                ? <img className='card__image'
-                                       src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
-                                       alt="" onClick={flip}/>
-                                : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>}
-                        <div className='training__card__shadow'></div>
-                    </button>
+                    <TrainingCard
+                        images={imagesList}
+                        side={side}
+                        setSide={setSide}
+                        card={{frontSide: watch('frontSide'), backSide: watch('backSide')}}
+                    />
                     <p>Нажатие на карточку перевернет ее.</p>
                 </div>
             </div>
         </div>
     )
 }
+

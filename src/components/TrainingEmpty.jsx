@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import HeadText from "./HeadText";
+import Navigation from "./UI/Navigation";
 
-function TrainingEmpty({deckName}) {
+export default function TrainingEmpty({deckName}) {
     return (
         <div className='training-empty'>
-            <HeadText parentText={deckName} text='Тренировка'/>
+            <Navigation parentText={deckName} text='Тренировка'/>
             <svg id='empty-svg' width="889" height="821" viewBox="0 0 889 821" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -170,5 +170,3 @@ function TrainingEmpty({deckName}) {
         </div>
     );
 }
-
-export default TrainingEmpty;

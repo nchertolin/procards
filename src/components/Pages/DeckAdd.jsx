@@ -1,8 +1,10 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
-import {useAddDeck} from "../hooks/useDeck";
+import {useAddDeck} from "../../hooks/useDeck";
 import {useForm} from "react-hook-form";
-import {WithAuth} from "../hoc/withAuth";
+import {WithAuth} from "../../hoc/withAuth";
+import {REQUIRED_FIELD} from "../../validationOptions";
+import Navigation from "../UI/Navigation";
 
 function DeckAdd() {
     const {deckId} = useParams();
@@ -13,14 +15,14 @@ function DeckAdd() {
 
     return (
         <div className='add__deck__wrapper'>
+            <Navigation parentText='Добавить колоду'/>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <h1>Добавить колоду</h1>
                 <h2>Введите предоставленный вам пароль колоды</h2>
                 <label>
-                    Пароль
                     <input type="password" disabled={isLoading}
                            className={errors?.password ? 'invalid' : ''}
-                           {...register('password', {required: 'Обязательное поле.'})} />
+                           {...register('password', REQUIRED_FIELD)}
+                           placeholder='Пароль'/>
                     {errors?.password && <p className='error'>{errors?.password.message}</p>}
                 </label>
                 <button className='modal_submit main__btn' disabled={isLoading}>Добавить</button>

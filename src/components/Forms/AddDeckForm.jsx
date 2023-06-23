@@ -1,8 +1,9 @@
 import React, {useContext} from 'react'
-import {clickOutsideHandler} from '../../util'
+import {clickOutsideHandler} from '../../utils'
 import {useForm} from 'react-hook-form'
 import {FormsContext} from '../../providers/FormsProvider';
 import {useCreateDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
+import {DECK_OPTIONS} from "../../validationOptions";
 
 export default function AddDeckForm() {
     const {setAddFormOpened} = useContext(FormsContext);
@@ -21,7 +22,7 @@ export default function AddDeckForm() {
     };
     const closeModal = e => clickOutsideHandler(e, '.modal__wrapper', setAddFormOpened);
 
-    
+
     return (
         <div className='modal'
              onClick={closeModal}>
@@ -31,13 +32,7 @@ export default function AddDeckForm() {
                     <label>
                         <input type="text" placeholder='Название колоды'
                                className={errors?.name ? 'invalid' : ''}
-                               {...register('name', {
-                                   required: 'Обязательноe поле.',
-                                   maxLength: {
-                                       value: 40,
-                                       message: 'Максимальная длина 40 символов'
-                                   }
-                               })} />
+                               {...register('name', DECK_OPTIONS.NAME)} />
                         {errors?.name && <p className='error'>{errors?.name.message}</p>}
                     </label>
                     <div className='privacy'>
@@ -56,11 +51,7 @@ export default function AddDeckForm() {
                             <input type="text" placeholder='Пароль колоды'
                                    className={errors?.password ? 'invalid' : ''}
                                    {...register('password', {
-                                       required: 'Обязательноe поле.',
-                                       pattern: {
-                                           value: /^(?=^.{2,100}$)/,
-                                           message: 'Минимум 2 символа.'
-                                       },
+                                       ...DECK_OPTIONS.PASSWORD,
                                        disabled: watch('isPrivate') === 'true'
                                    })} />
                             {errors?.password && <p className='error'>{errors?.password.message}</p>}
@@ -68,13 +59,7 @@ export default function AddDeckForm() {
                     }
                     <label>
                   <textarea className={errors?.description ? 'invalid' : ''} placeholder='Описание'
-                            {...register('description', {
-                                required: 'Обязательноe поле.',
-                                maxLength: {
-                                    value: 300,
-                                    message: 'Максимальная длина 300 символов'
-                                }
-                            })} />
+                            {...register('description', DECK_OPTIONS.DESCRIPTIONS)} />
                         {errors?.description && <p className='error'>{errors?.description.message}</p>}
                     </label>
                     <button type='submit' className='modal_submit main__btn'

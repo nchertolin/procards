@@ -1,7 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {useForm} from 'react-hook-form';
-import {useSignIn} from '../hooks/useAuth';
+import {useSignIn} from '../../hooks/useAuth';
+import {REQUIRED_FIELD} from "../../validationOptions";
 
 export default function SignIn() {
     const {register, formState: {errors,}, handleSubmit} = useForm();
@@ -14,13 +15,13 @@ export default function SignIn() {
                 <label>
                     <input type="text" placeholder='Логин'
                            className={errors?.login ? 'invalid' : ''}
-                           {...register('login', {required: 'Обязательноe поле.'})} />
+                           {...register('login', REQUIRED_FIELD)} />
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}
                 </label>
                 <label>
                     <input type="password" placeholder='Пароль'
                            className={errors?.password ? 'invalid' : ''}
-                           {...register('password', {required: 'Обязательноe поле.'})} />
+                           {...register('password', REQUIRED_FIELD)} />
                     {errors?.password && <p className='error'>{errors?.password.message}</p>}
                 </label>
                 <div className='sign-in__forgot'>
