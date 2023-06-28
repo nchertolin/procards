@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import {getPagesList} from "../../utils";
+import {getPagesList} from "../../js/utils";
 
 export default function Pagination({page, setPage, amount}) {
     const previousPage = () => setPage(page === 1 ? amount : page - 1);

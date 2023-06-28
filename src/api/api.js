@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {AuthService} from "../services/authService";
-import {notifyError} from "../utils";
+import {notifyError} from "../js/utils";
 
 
 // const ORIGIN = window.location.origin;

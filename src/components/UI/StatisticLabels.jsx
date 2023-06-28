@@ -12,8 +12,9 @@ function CardsViewedStatisticLabel({data}) {
             <DashboardIcon fontSize='large'/>
             <section>
                 <p>Карточек просмотрено</p>
-                <h4>{data}</h4>
+                <h4 className='statistic__label__value'>{data}</h4>
             </section>
+
         </div>
     );
 }
@@ -24,7 +25,7 @@ function CardsCreatedStatisticLabel({data}) {
             <DashboardCustomizeIcon fontSize='large'/>
             <section>
                 <p>Карточек создано</p>
-                <h4>{data}</h4>
+                <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
     );
@@ -36,7 +37,7 @@ function ScoreStatisticLabel({data}) {
             <TrendingUpIcon fontSize='large'/>
             <section>
                 <p>Рейтинг</p>
-                <h4>{data}</h4>
+                <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
     );
@@ -48,7 +49,7 @@ function HoursStatisticLabel({data}) {
             <AccessTimeFilledIcon fontSize='large'/>
             <section>
                 <p>Часов за учебой</p>
-                <h4>{data}</h4>
+                <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
     );
@@ -60,7 +61,7 @@ function PeopleStatisticLabel({data}) {
             <PeopleIcon fontSize={"large"}/>
             <section>
                 <p>Количество участников</p>
-                <h4>{data}</h4>
+                <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
     );
@@ -72,7 +73,7 @@ function CardsCountStatisticLabel({data}) {
             <DashboardIcon fontSize='large'/>
             <section>
                 <p>Количество карточек</p>
-                <h4>{data}</h4>
+                <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
     );

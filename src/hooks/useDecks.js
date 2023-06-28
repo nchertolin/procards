@@ -1,6 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {LearningDeckService} from '../services/learningDecksService'
-import {redirectToLearn} from '../utils';
+import {redirectToLearn} from '../js/utils';
 
 const useDecks = (searchQuery) => {
     const {isLoading, data} = useQuery(

@@ -1,11 +1,11 @@
 import React from 'react';
-import {clickOutsideHandler, generateInviteLink, showConfirmAlert} from '../../utils';
+import {clickOutsideHandler, generateInviteLink, showConfirmAlert} from '../../js/utils';
 import {useForm} from 'react-hook-form';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useDeleteDeck, useEditDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
 import CopyLinkElement from "../UI/CopyLinkElement";
-import {DECK_OPTIONS} from "../../validationOptions";
+import {DECK_OPTIONS} from "../../js/validationOptions";
 
 export default function EditDeckForm() {
     const {setEditFormOpened, selectedDeck} = useContext(FormsContext);
@@ -70,6 +70,10 @@ export default function EditDeckForm() {
                                        title='Оставьте поле пустым, если желаете сохранить текущий пароль'
                                        {...register('password', {
                                            ...DECK_OPTIONS.PASSWORD,
+                                           required: {
+                                               value: watch('isPrivate') !== selectedDeck.isPrivate.toString(),
+                                               message: 'Обязательноe поле.'
+                                           },
                                            disabled: watch('isPrivate') === 'true'
                                        })}
                                        placeholder='Новый пароль колоды'

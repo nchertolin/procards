@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useForm} from 'react-hook-form';
 import {useNewPassword, useRecovery} from '../../hooks/useAuth';
-import {REQUIRED_FIELD, USER_OPTIONS} from "../../validationOptions";
+import {REQUIRED_FIELD, USER_OPTIONS} from "../../js/validationOptions";
 
 export default function Recovery() {
     const [isLoginSent, setLoginSent] = useState(false);

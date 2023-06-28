@@ -5,20 +5,21 @@ import {FormsContext} from '../../providers/FormsProvider';
 import {useEditorDecks} from '../../hooks/useEditorDecks';
 import {WithAuth} from '../../hoc/withAuth';
 import Pagination from '../UI/Pagination';
-import {getPagesAmount} from '../../utils';
+import {getPagesAmount} from '../../js/utils';
 import Search from '../UI/Search';
 import {useDebounce} from "use-debounce";
 import Navigation from "../UI/Navigation";
+import {AMOUNT_ON_PAGE} from "../../js/consts";
 
-const AMOUNT_ON_PAGE = 19;
+const amountOnPage = AMOUNT_ON_PAGE.DECKS_EDITOR;
 
-function EditorDecks() {
+function DecksEditor() {
     const {setAddFormOpened} = useContext(FormsContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
     const {isLoading, data} = useEditorDecks(debouncedSearchQuery);
     const [page, setPage] = useState(1);
-    const sliced = data?.slice(AMOUNT_ON_PAGE * page - AMOUNT_ON_PAGE, AMOUNT_ON_PAGE * page);
+    const sliced = data?.slice(amountOnPage * page - amountOnPage, amountOnPage * page);
 
     const openAddForm = () => setAddFormOpened(true);
 
@@ -31,7 +32,7 @@ function EditorDecks() {
                 setPage={setPage}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                placeholder='Поиск по колодам'
+                placeholder='Найти колоды'
             />
             <ul className='cards-list'>
                 <AddCardButton onClick={openAddForm}/>
@@ -40,10 +41,10 @@ function EditorDecks() {
             <Pagination
                 page={page}
                 setPage={setPage}
-                amount={getPagesAmount(data.length, AMOUNT_ON_PAGE)}
+                amount={getPagesAmount(data.length, amountOnPage)}
             />
         </div>
     )
 }
 
-export default WithAuth(EditorDecks)
+export default WithAuth(DecksEditor)

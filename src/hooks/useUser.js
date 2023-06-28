@@ -1,6 +1,7 @@
 import {useMutation, useQuery} from '@tanstack/react-query'
 import {UserService} from '../services/userService';
-import {notifySuccess, userId} from '../utils';
+import {notifySuccess} from '../js/utils';
+import {userId} from "../js/consts";
 
 
 const useUser = (id = userId) => {

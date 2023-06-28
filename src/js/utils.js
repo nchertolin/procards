@@ -1,10 +1,6 @@
 import {toast} from 'react-toastify';
 import {confirmAlert} from "react-confirm-alert";
-
-const HOST = window.location.host;
-const isAuth = localStorage.getItem('id') != null;
-const userId = localStorage.getItem('id');
-const IS_DARK_THEME = localStorage.getItem('dark-theme') === 'true';
+import {HOST} from "./consts";
 
 const clickOutsideHandler = (e, className, stateSetter, removeSelectedObj) => {
     if (!e.target.closest(className)) {
@@ -49,7 +45,8 @@ const showConfirmAlert = (message, callback) => confirmAlert({
 });
 
 const setSavedTheme = () => {
-    if (IS_DARK_THEME) {
+    const isDarkMode = localStorage.getItem('dark-theme') === 'true';
+    if (isDarkMode) {
         document.body.classList.add('dark');
     }
 };
@@ -71,10 +68,6 @@ const getImagesList = (frontImgFiles, backImgFiles) => {
 };
 
 export {
-    HOST,
-    IS_DARK_THEME,
-    isAuth,
-    userId,
     clickOutsideHandler,
     redirectToMainPage,
     redirectToSignInPage,

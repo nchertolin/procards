@@ -1,5 +1,4 @@
 import React from 'react';
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {useNavigate} from "react-router-dom";
 
 export default function Navigation({parentText, text = ''}) {
@@ -12,7 +11,7 @@ export default function Navigation({parentText, text = ''}) {
                 text
                     ? <>
                         <h3 className='head__text head__text__parent' onClick={goBack}>{parentText}</h3>
-                        <NavigateNextIcon/>
+                        <p>/</p>
                         <h3>{text}</h3>
                     </>
                     : <h3 className='head__text'>{parentText}</h3>

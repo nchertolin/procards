@@ -22,9 +22,15 @@ function Account() {
         <div className='account__wrapper'>
             <Navigation parentText='Ваш профиль'/>
             <div className='account__info'>
-                <h3 id='account__login'>@{user?.login}</h3>
-                <h1 id='account__name'>{user?.firstName} {user?.lastName}</h1>
-                <p id='account__location'>{user?.location}</p>
+                <img className='avatar'
+                     src={`/assets/avatars/avatar-${user?.avatarNumber ?? 8}.svg`}
+                     alt='аватар'
+                />
+                <div>
+                    <h3 id='account__login'>@{user?.login}</h3>
+                    <h1 id='account__name'>{user?.firstName} {user?.lastName}</h1>
+                    <p id='account__location'>{user?.location}</p>
+                </div>
             </div>
             <div className='statistic-grid'>
                 <CardsViewedStatisticLabel data={user?.cardsViewed}/>

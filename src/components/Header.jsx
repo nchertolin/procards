@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import {IS_DARK_THEME, isAuth} from '../utils';
+import {IS_DARK_MODE, IS_AUTH} from '../js/consts';
 import PersonIcon from '@mui/icons-material/Person';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -8,7 +8,7 @@ import LoginIcon from '@mui/icons-material/Login';
 
 
 export default function Header() {
-    const [isDarkTheme, setDarkTheme] = useState(IS_DARK_THEME);
+    const [isDarkTheme, setDarkTheme] = useState(IS_DARK_MODE);
     const switchTheme = () => {
         localStorage.setItem('dark-theme', isDarkTheme ? 'false' : 'true')
         document.body.classList.toggle('dark');
@@ -27,7 +27,7 @@ export default function Header() {
                     </nav>
                     <div className='header-nav__buttons'>
                         {
-                            isAuth ?
+                            IS_AUTH ?
                                 <>
                                     <button onClick={switchTheme}>
                                         {isDarkTheme ? <LightModeIcon/> : <DarkModeIcon/>}

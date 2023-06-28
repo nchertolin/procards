@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from '../assets/images/logo.svg';
 import {NavLink} from "react-router-dom";
 
 export default function Footer() {
@@ -8,9 +7,11 @@ export default function Footer() {
         <footer className='page-footer'>
             <div className='footer__wrapper'>
                 <div className='footer__row'>
-                    <section className='footer__logo__wrapper footer__column'>
-                        <img src={logo} alt=""/>
-                        <h2>PROCARDS</h2>
+                    <section className='footer__column'>
+                        <div className='footer__logo__wrapper'>
+                            <img src='/assets/logo.svg' alt=""/>
+                            <h2>PROCARDS</h2>
+                        </div>
                         <p>Cделаем ваше обучение эффективным.</p>
                     </section>
                     <div className='footer__row'>

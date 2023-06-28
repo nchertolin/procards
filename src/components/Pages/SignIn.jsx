@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {useForm} from 'react-hook-form';
 import {useSignIn} from '../../hooks/useAuth';
-import {REQUIRED_FIELD} from "../../validationOptions";
+import {REQUIRED_FIELD} from "../../js/validationOptions";
 
 export default function SignIn() {
     const {register, formState: {errors,}, handleSubmit} = useForm();
@@ -13,7 +13,7 @@ export default function SignIn() {
             <form onSubmit={handleSubmit(signIn)}>
                 <h1>Вход</h1>
                 <label>
-                    <input type="text" placeholder='Логин'
+                    <input type="text" placeholder='Логин' autoFocus
                            className={errors?.login ? 'invalid' : ''}
                            {...register('login', REQUIRED_FIELD)} />
                     {errors?.login && <p className='error'>{errors?.login.message}</p>}

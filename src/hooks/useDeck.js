@@ -1,7 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {LearningDeckService} from '../services/learningDecksService';
 import {LearningCardsService} from '../services/learningCardsService';
-import {redirectToLearn} from "../utils";
+import {redirectToLearn} from "../js/utils";
 
 
 const useDeck = id => {

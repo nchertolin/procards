@@ -1,7 +1,7 @@
 import React from 'react';
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
 import LinkIcon from "@mui/icons-material/Link";
-import {notifySuccess} from "../../utils";
+import {notifySuccess} from "../../js/utils";
 
 const onCopy = () => notifySuccess('Ссылка на приглашение скопирована');
 

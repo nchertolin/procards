@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {useAddDeck} from "../../hooks/useDeck";
 import {useForm} from "react-hook-form";
 import {WithAuth} from "../../hoc/withAuth";
-import {REQUIRED_FIELD} from "../../validationOptions";
+import {REQUIRED_FIELD} from "../../js/validationOptions";
 import Navigation from "../UI/Navigation";
 
 function DeckAdd() {
@@ -19,7 +19,7 @@ function DeckAdd() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2>Введите предоставленный вам пароль колоды</h2>
                 <label>
-                    <input type="password" disabled={isLoading}
+                    <input type="password" disabled={isLoading} autoFocus
                            className={errors?.password ? 'invalid' : ''}
                            {...register('password', REQUIRED_FIELD)}
                            placeholder='Пароль'/>

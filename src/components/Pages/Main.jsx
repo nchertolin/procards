@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import image from '../../assets/images/hero.jpg';
 import {useGlobalStatistics} from '../../hooks/useGlobalStatistics';
 import Loading from '../Loading/Loading';
 import Leaderboard from "../UI/Leaderboard";
@@ -25,11 +24,12 @@ export default function Main() {
             <div id='image__wrapper'>
                 <section id='main__hero'>
                     <h1>Procards</h1>
-                    <p>Сервис для быстрого создания карточек, которые помогут запомнить любой материал.</p>
+                    <p>Сервис для быстрого запоминания любого материала с помощью флеш-карточек</p>
                 </section>
-                <img id='image' src={image} alt=''/>
+                <img id='image' src='/assets/hero.jpg' alt=''/>
             </div>
             <section id='main__wrapper'>
+                <h2>C флеш-карточками твое обучение станет эффективнее</h2>
                 <section className='main__info'>
                     <section className='main__info__text-block'>
                         <h2>Запоминай любой материал с помощью цифровых карточек</h2>
@@ -52,10 +52,9 @@ export default function Main() {
                     <section className='main__info__text-block'>
                         <h2>Система Лейтнера</h2>
                         <p>
-                            Когда приходит время повторения, алгоритм автоматически предлагает вам карточки для
-                            повторения на основе ваших оценок. Таким образом, вы активно повторяете материал, который
-                            был
-                            наиболее трудным для вас, и более редко повторяете материал, который вы уже хорошо знаете.
+                            Когда приходит время повторения, алгоритм автоматически предлагает тебе карточки на основе
+                            твоих оценок. Таким образом, ты активно повторяешь материал, который
+                            был наиболее трудным для тебя, и более редко повторяешь материал, который уже хорошо знаешь.
                         </p>
                     </section>
                 </section>
@@ -73,7 +72,7 @@ export default function Main() {
                     </ul>
                 </section>
                 <section id='main__leaders__wrapper'>
-                    <h2>Лучшие ученики</h2>
+                    <h2>Лучшие учащиеся сайта</h2>
                     <Leaderboard data={data}/>
                 </section>
             </section>

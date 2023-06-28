@@ -1,6 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {EditorDeckService} from '../services/editorDecksService';
-import {notifySuccess} from "../utils";
+import {notifySuccess} from "../js/utils";
 
 
 const useEditorDecks = (searchQuery) => {

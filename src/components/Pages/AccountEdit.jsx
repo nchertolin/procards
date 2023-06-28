@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {WithAuth} from '../../hoc/withAuth';
 import {useEditInfo, useEditPassword, useUser} from '../../hooks/useUser';
 import Loading from '../Loading/Loading';
 import Navigation from "../UI/Navigation";
-import {REQUIRED_FIELD, USER_OPTIONS} from "../../validationOptions";
+import {REQUIRED_FIELD, USER_OPTIONS} from "../../js/validationOptions";
+import AvatarsSelect from "../UI/AvatarSelect";
 
 
 function AccountEdit() {
@@ -18,8 +19,9 @@ function AccountEdit() {
     } = useForm({mode: 'onSubmit'});
     const {isLoading: isInfoSending, editInfo} = useEditInfo();
     const {isLoading: isPasswordSending, editPassword} = useEditPassword();
+    const [avatar, setAvatar] = useState(user?.avatarNumber ?? 8);
 
-    const onSubmitInfo = (data) => editInfo(data);
+    const onSubmitInfo = (data) => editInfo({...data, avatarNumber: avatar});
 
     const onSubmitPassword = (data) => {
         delete data.confirmPassword
@@ -32,7 +34,12 @@ function AccountEdit() {
         <div className='account__wrapper'>
             <Navigation parentText='Ваш профиль' text='Редактирование'/>
             <form autoComplete='off' onSubmit={handleSubmit(onSubmitInfo)}>
-                <div id='account-edit-name-wrapper'>
+                <AvatarsSelect
+                    avatar={avatar}
+                    setAvatar={setAvatar}
+                />
+                <h2 className='account-edit__form__head'>Основная информация</h2>
+                <div className='account-edit-name-wrapper'>
                     <label>
                         Имя
                         <input type="text"
@@ -69,20 +76,23 @@ function AccountEdit() {
                 <button className='submit main__btn' disabled={isInfoSending}>Сохранить</button>
             </form>
             <form onSubmit={handleSubmit2(onSubmitPassword)}>
-                <label>
-                    Старый пароль
-                    <input type="password"
-                           className={errors2?.oldPassword ? 'invalid' : ''}
-                           {...register2('oldPassword', REQUIRED_FIELD)} />
-                    {errors2?.oldPassword && <p className='error'>{errors2?.oldPassword.message}</p>}
-                </label>
-                <label>
-                    Новый пароль
-                    <input type="password"
-                           className={errors2?.newPassword ? 'invalid' : ''}
-                           {...register2('newPassword', USER_OPTIONS.PASSWORD)} />
-                    {errors2?.newPassword && <p className='error'>{errors2?.newPassword.message}</p>}
-                </label>
+                <h2 className='account-edit__form__head'>Безопасность</h2>
+                <div className='account-edit-name-wrapper'>
+                    <label>
+                        Старый пароль
+                        <input type="password"
+                               className={errors2?.oldPassword ? 'invalid' : ''}
+                               {...register2('oldPassword', REQUIRED_FIELD)} />
+                        {errors2?.oldPassword && <p className='error'>{errors2?.oldPassword.message}</p>}
+                    </label>
+                    <label>
+                        Новый пароль
+                        <input type="password"
+                               className={errors2?.newPassword ? 'invalid' : ''}
+                               {...register2('newPassword', USER_OPTIONS.PASSWORD)} />
+                        {errors2?.newPassword && <p className='error'>{errors2?.newPassword.message}</p>}
+                    </label>
+                </div>
                 <label>
                     Повторите новый пароль
                     <input type="password"

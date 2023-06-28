@@ -7,7 +7,7 @@ const useGrade = nextCard => {
     const {isLoading, mutate: postGrade} = useMutation(
         async data => await LearningCardsService.postGrade(data),
         {
-            onSuccess: () => nextCard(),
+            onSuccess: nextCard,
         }
     );
 

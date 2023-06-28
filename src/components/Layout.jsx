@@ -9,6 +9,7 @@ import EditCardForm from './Forms/EditCardForm';
 import AddCardForm from './Forms/AddCardForm';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./Footer";
+import ScrollToTop from "./ScrollToTop";
 
 
 export default function Layout() {
@@ -28,6 +29,7 @@ export default function Layout() {
                 {isAddCardFormOpened && <AddCardForm/>}
             </main>
             <Footer/>
+            <ScrollToTop/>
         </>
     )
 }

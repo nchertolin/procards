@@ -1,5 +1,5 @@
 import $url from "../api/api";
-import {userId} from '../utils';
+import {userId} from "../js/consts";
 
 
 const END_POINT = 'decks';

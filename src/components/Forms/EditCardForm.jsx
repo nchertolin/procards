@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {clickOutsideHandler, getImagesList, showConfirmAlert} from '../../utils';
+import {clickOutsideHandler, getImagesList, showConfirmAlert} from '../../js/utils';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useForm} from 'react-hook-form';
@@ -8,7 +8,7 @@ import {useImages} from '../../hooks/useCard';
 import {useParams} from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import {AddImageButton, ResetImageButton} from "../UI/ImageInputs";
-import {CARD_SIDE_TEXT_OPTIONS} from "../../validationOptions";
+import {CARD_SIDE_TEXT_OPTIONS} from "../../js/validationOptions";
 import TrainingCard from "../TrainingCard";
 
 export default function EditCardForm() {

@@ -1,7 +1,7 @@
 @import 'dark-colors';
 
 body.dark {
-  background-color: $dark-background;
+  background: $dark-background;
   color: $dark-text;
 }
 
@@ -10,7 +10,7 @@ body.dark {
   input,
   textarea {
     color: $dark-text;
-    background-color: $dark-input;
+    background: $dark-input;
     border: 0;
 
     &::placeholder {
@@ -30,7 +30,7 @@ body.dark {
   }
 
   .page-header {
-    background-color: $dark-header-background;
+    background: $dark-header-background;
     border: 0;
   }
 
@@ -64,7 +64,7 @@ body.dark {
     color: $dark-text;
 
     li:hover {
-      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.07);
+      filter: drop-shadow(0 0.125rem 0.25rem $dark-darker-shadow);
     }
   }
 
@@ -72,10 +72,14 @@ body.dark {
     background: $dark-user-card;
   }
 
+  .avatar {
+    filter: drop-shadow(0 0.125rem 0.25rem $dark-darker-shadow);
+  }
+
   .card {
     color: $dark-text;
     background: $dark-user-card;
-    box-shadow: 0 0.125rem 0.35rem rgba(84, 84, 84, 0.07);
+    filter: drop-shadow(0 0.125rem 0.25rem $dark-shadow);
 
     &.other {
       background: $dark-other-card;
@@ -84,6 +88,7 @@ body.dark {
 
   .training__card {
     color: $dark-text;
+    filter: none;
     background: $dark-user-card;
 
     &.flipped {
@@ -92,7 +97,7 @@ body.dark {
   }
 
   .training__card__shadow {
-    box-shadow: 0 0.125rem 0.35rem rgba(84, 84, 84, 0.07);
+    filter: drop-shadow(0 0.125rem 0.25rem $dark-shadow);
   }
 
   .pagination__button {
@@ -101,13 +106,14 @@ body.dark {
 
     &.active {
       color: $dark-user-card;
-      background-color: $dark-text;
+      background: $dark-text;
+      border-color: $dark-text;
     }
   }
 
   .main__btn {
     color: $dark-background;
-    background-color: $dark-text;
+    background: $dark-text;
   }
 
   .card-settings svg {
@@ -129,7 +135,7 @@ body.dark {
   }
 
   li:has(.card):hover::after {
-    background-color: $dark-text;
+    background: $dark-text;
   }
 
   .training-empty {
@@ -148,6 +154,9 @@ body.dark {
     }
   }
 
+  .avatar-radio__wrapper label:has(input[type='radio']:checked) {
+    border-color: red;
+  }
 
   .training-empty {
     a {
@@ -160,14 +169,14 @@ body.dark {
   }
 
   .modal__wrapper {
-    background-color: $dark-background;
+    background: $dark-background;
 
     .add__image__btn {
       color: $dark-text;
     }
 
     .file {
-      background-color: transparent;
+      background: transparent;
     }
 
     .file__wrapper button {
@@ -181,12 +190,12 @@ body.dark {
 
   .copy-link {
     color: $dark-background;
-    background-color: $dark-disabled-input;
+    background: $dark-disabled-input;
     border: 0;
   }
 
   .copy-link__icon__wrapper {
-    background-color: $dark-header-background;
+    background: $dark-header-background;
     border: 0;
 
     svg {
@@ -204,7 +213,7 @@ body.dark {
   }
 
   .react-confirm-alert-body {
-    background-color: $dark-background !important;
+    background: $dark-background !important;
     box-shadow: none !important;
     color: $dark-second-text;
 
@@ -214,12 +223,12 @@ body.dark {
 
     button {
       color: $dark-text !important;
-      background-color: transparent !important;
+      background: transparent !important;
       border: 1px solid $dark-text !important;
 
       &:first-child {
         color: $dark-background !important;
-        background-color: $dark-text !important;
+        background: $dark-text !important;
       }
     }
   }

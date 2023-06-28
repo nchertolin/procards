@@ -1,9 +1,9 @@
 import React, {useContext} from 'react'
-import {clickOutsideHandler} from '../../utils'
+import {clickOutsideHandler} from '../../js/utils'
 import {useForm} from 'react-hook-form'
 import {FormsContext} from '../../providers/FormsProvider';
 import {useCreateDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
-import {DECK_OPTIONS} from "../../validationOptions";
+import {DECK_OPTIONS} from "../../js/validationOptions";
 
 export default function AddDeckForm() {
     const {setAddFormOpened} = useContext(FormsContext);

@@ -1,24 +1,7 @@
 import $url from "../api/api";
-import {redirectToSignInPage, reloadPage, userId, notifyError} from '../utils'
+import {redirectToSignInPage, reloadPage} from '../js/utils';
+import {userId} from '../js/consts';
 
-
-const tryRefreshToken = (error, refetch, mutate, data) => {
-    if (error.response?.status === 401) {
-        console.clear();
-        AuthService.refresh(refetch, mutate, data);
-    } else {
-        notifyError(error);
-    }
-};
-
-const tryRefreshTokenWithoutAction = error => {
-    if (error.response?.status === 401) {
-        console.clear();
-        AuthService.refresh();
-    } else {
-        notifyError(error);
-    }
-};
 
 const END_POINT = 'account';
 
@@ -42,6 +25,7 @@ const AuthService = {
     },
 
     async refresh() {
+        console.clear();
         try {
             await $url.post(`${END_POINT}/refresh`, {userId});
         } catch (error) {
@@ -58,4 +42,4 @@ const AuthService = {
 };
 
 
-export {AuthService, tryRefreshToken, tryRefreshTokenWithoutAction};
+export {AuthService};

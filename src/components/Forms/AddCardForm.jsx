@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {clickOutsideHandler, getImagesList} from '../../utils';
+import {clickOutsideHandler, getImagesList} from '../../js/utils';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useForm} from 'react-hook-form';
@@ -7,7 +7,7 @@ import {useCreateCard, useImage} from '../../hooks/useEditorDeck';
 import {useParams} from 'react-router-dom';
 import {AddImageButton, ResetImageButton} from "../UI/ImageInputs";
 import TrainingCard from "../TrainingCard";
-import {CARD_SIDE_TEXT_OPTIONS} from "../../validationOptions";
+import {CARD_SIDE_TEXT_OPTIONS} from "../../js/validationOptions";
 
 
 export default function AddCardForm() {

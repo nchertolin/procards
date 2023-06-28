@@ -6,14 +6,16 @@ import {FormsContext} from '../../providers/FormsProvider';
 import {useEditorDeck} from '../../hooks/useEditorDeck';
 import {WithAuth} from '../../hoc/withAuth';
 import Pagination from '../UI/Pagination';
-import {getPagesAmount} from '../../utils';
+import {getPagesAmount} from '../../js/utils';
 import Search from '../UI/Search';
 import {useDebounce} from "use-debounce";
 import Navigation from "../UI/Navigation";
+import {AMOUNT_ON_PAGE} from "../../js/consts";
+
+const amountOnPage = AMOUNT_ON_PAGE.CARDS_EDITOR;
 
 
 function CardsEditor() {
-    const amountOnPage = 19;
     const {deckId} = useParams();
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
@@ -31,7 +33,7 @@ function CardsEditor() {
                 setPage={setPage}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                placeholder='Поиск по карточкам'
+                placeholder='Найти карточки'
             />
             <ul className='cards-list'>
                 <AddCardButton onClick={() => setAddCardFormOpened(true)}/>

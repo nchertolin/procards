@@ -1,7 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {EditorCardsService} from '../services/editorCardsService';
 import {ImagesService} from "../services/imagesService";
-import {notifySuccess} from "../utils";
+import {notifySuccess} from "../js/utils";
 
 
 const useEditorDeck = (id, searchQuery) => {

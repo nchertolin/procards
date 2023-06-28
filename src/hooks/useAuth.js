@@ -1,6 +1,6 @@
 import {useMutation} from '@tanstack/react-query'
 import {AuthService} from '../services/authService';
-import {redirectToMainPage, redirectToSignInPage} from '../utils';
+import {redirectToMainPage, redirectToSignInPage} from '../js/utils';
 
 const setId = (id) => localStorage.setItem('id', id);
 const onSuccess = (id) => {

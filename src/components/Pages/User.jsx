@@ -25,8 +25,15 @@ function User() {
         <div className='account__wrapper'>
             <Navigation parentText='Профиль пользователя'/>
             <div className='account__info'>
-                <h1 id='account__name'>@{user?.login}</h1>
-                <p>{user?.location}</p>
+                <img className='avatar'
+                     src={`/assets/avatars/avatar-${user?.avatarNumber ?? 8}.svg`}
+                     alt='аватар'
+                />
+                <div>
+                    <h1 id='account__name'>@{user?.login}</h1>
+                    <p>{user?.location}</p>
+                </div>
+
             </div>
             <div className='statistic-grid'>
                 <CardsViewedStatisticLabel data={user?.cardsViewed}/>
