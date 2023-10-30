@@ -5,7 +5,7 @@ import {notifyError} from "../js/utils";
 
 // const ORIGIN = window.location.origin;
 // const SERVER_URL = `${ORIGIN}/api`;
-const SERVER_URL = 'https://localhost:7046';
+const SERVER_URL = 'https://localhost:8443';
 
 const $url = axios.create({
     baseURL: SERVER_URL,

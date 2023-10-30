@@ -26,24 +26,26 @@ function DecksEditor() {
     if (isLoading || !data) return <Loading/>
 
     return (
-        <div className='cards-list__wrapper'>
+        <>
             <Navigation parentText='Редактор колод'/>
-            <Search
-                setPage={setPage}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                placeholder='Найти колоды'
-            />
-            <ul className='cards-list'>
-                <AddCardButton onClick={openAddForm}/>
-                {sliced.map(content => <DeckEditorCard key={content.deckId} content={content}/>)}
-            </ul>
-            <Pagination
-                page={page}
-                setPage={setPage}
-                amount={getPagesAmount(data.length, amountOnPage)}
-            />
-        </div>
+            <div className='cards-list__wrapper'>
+                <Search
+                    setPage={setPage}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    placeholder='Найти колоды'
+                />
+                <ul className='cards-list'>
+                    <AddCardButton onClick={openAddForm}/>
+                    {sliced.map(content => <DeckEditorCard key={content.deckId} content={content}/>)}
+                </ul>
+                <Pagination
+                    page={page}
+                    setPage={setPage}
+                    amount={getPagesAmount(data.length, amountOnPage)}
+                />
+            </div>
+        </>
     )
 }
 

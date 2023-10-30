@@ -7,6 +7,7 @@ export default function FormsProvider({children}) {
     const [isEditFormOpened, setEditFormOpened] = useState(false);
     const [isEditCardFormOpened, setEditCardFormOpened] = useState(false);
     const [isAddCardFormOpened, setAddCardFormOpened] = useState(false);
+    const [isSelectFormOpened, setSelectFormOpened] = useState(false);
     const [selectedDeck, setDeckSelected] = useState(null);
     const [selectedCard, setCardSelected] = useState(null);
 
@@ -16,6 +17,7 @@ export default function FormsProvider({children}) {
             isEditFormOpened, setEditFormOpened,
             isEditCardFormOpened, setEditCardFormOpened,
             isAddCardFormOpened, setAddCardFormOpened,
+            isSelectFormOpened, setSelectFormOpened,
             selectedDeck, setDeckSelected,
             selectedCard, setCardSelected,
         }}>

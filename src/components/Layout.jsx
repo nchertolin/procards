@@ -10,12 +10,14 @@ import AddCardForm from './Forms/AddCardForm';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import AddCardSelectForm from "./Forms/AddCardSelectForm";
 
 
 export default function Layout() {
     const {
         isAddFormOpened, isEditFormOpened,
         isEditCardFormOpened, isAddCardFormOpened,
+        isSelectFormOpened
     } = useContext(FormsContext);
 
     return (
@@ -26,6 +28,7 @@ export default function Layout() {
                 {isAddFormOpened && <AddDeckForm/>}
                 {isEditFormOpened && <EditDeckForm/>}
                 {isEditCardFormOpened && <EditCardForm/>}
+                {isSelectFormOpened && <AddCardSelectForm/>}
                 {isAddCardFormOpened && <AddCardForm/>}
             </main>
             <Footer/>

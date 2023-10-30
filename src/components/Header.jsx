@@ -5,6 +5,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LoginIcon from '@mui/icons-material/Login';
+import HomeIcon from '@mui/icons-material/Home';
+import SchoolIcon from '@mui/icons-material/School';
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 
 export default function Header() {
@@ -17,30 +21,28 @@ export default function Header() {
 
     return (
         <header className='page-header'>
-            <div className='header-wrapper'>
-                <div className='header-nav'>
-                    <nav className='header-nav__list'>
-                        <NavLink to=''>Главная</NavLink>
-                        <NavLink to='learn'>Обучение</NavLink>
-                        <NavLink to='editor'>Редактор</NavLink>
-                        <NavLink to='donate'>Поддержать проект</NavLink>
-                    </nav>
-                    <div className='header-nav__buttons'>
-                        {
-                            IS_AUTH ?
-                                <>
-                                    <button onClick={switchTheme}>
-                                        {isDarkTheme ? <LightModeIcon/> : <DarkModeIcon/>}
-                                    </button>
-                                    <NavLink to='account'><PersonIcon/></NavLink>
-                                </>
-                                : <NavLink to='signin' id='header-nav__buttons__signin'>
-                                    <p>Войти</p>
-                                    <LoginIcon/>
-                                </NavLink>
-                        }
+            <div className='header-nav'>
+                <nav className='header-nav__list'>
+                    <NavLink to=''><HomeIcon/></NavLink>
+                    <NavLink to='learn'><SchoolIcon/></NavLink>
+                    <NavLink to='editor'><DashboardCustomizeIcon/></NavLink>
+                    <NavLink to='donate'><VolunteerActivismIcon/></NavLink>
+                </nav>
+                <div className='header-nav__buttons'>
+                    {
+                        IS_AUTH ?
+                            <>
+                                <button onClick={switchTheme}>
+                                    {isDarkTheme ? <LightModeIcon/> : <DarkModeIcon/>}
+                                </button>
+                                <NavLink to='account'><PersonIcon/></NavLink>
+                            </>
+                            : <NavLink to='signin' id='header-nav__buttons__signin'>
+                                <p>Войти</p>
+                                <LoginIcon/>
+                            </NavLink>
+                    }
 
-                    </div>
                 </div>
             </div>
         </header>

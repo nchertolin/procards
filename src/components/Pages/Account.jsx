@@ -35,8 +35,8 @@ function Account() {
             <div className='statistic-grid'>
                 <CardsViewedStatisticLabel data={user?.cardsViewed}/>
                 <ScoreStatisticLabel data={user?.score}/>
+                <HoursStatisticLabel data={user?.hours.toFixed(0)}/>
                 <CardsCreatedStatisticLabel data={user?.cardsCreated}/>
-                <HoursStatisticLabel data={user?.hours.toFixed(2)}/>
             </div>
             <div className='account__actions'>
                 <Link className='main__btn' to='edit'>Редактировать</Link>

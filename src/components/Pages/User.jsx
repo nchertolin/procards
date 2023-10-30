@@ -38,8 +38,8 @@ function User() {
             <div className='statistic-grid'>
                 <CardsViewedStatisticLabel data={user?.cardsViewed}/>
                 <ScoreStatisticLabel data={user?.score}/>
+                <HoursStatisticLabel data={user?.hours.toFixed(0)}/>
                 <CardsCreatedStatisticLabel data={user?.cardsCreated}/>
-                <HoursStatisticLabel data={user?.hours.toFixed(2)}/>
             </div>
         </div>
     )

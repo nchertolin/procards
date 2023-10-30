@@ -21,13 +21,10 @@ export default function Main() {
 
     return (
         <>
-            <div id='image__wrapper'>
-                <section id='main__hero'>
-                    <h1>Procards</h1>
-                    <p>Сервис для быстрого запоминания любого материала с помощью флеш-карточек</p>
-                </section>
-                <img id='image' src='/assets/hero.jpg' alt=''/>
-            </div>
+            <section id='main__hero'>
+                <h1>Procards</h1>
+                <p>Сервис для быстрого запоминания любого материала с помощью флеш-карточек</p>
+            </section>
             <section id='main__wrapper'>
                 <h2>C флеш-карточками твое обучение станет эффективнее</h2>
                 <section className='main__info'>

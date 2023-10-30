@@ -1,9 +1,11 @@
 @import 'styles/light-colors.scss';
-@import 'styles/vars.scss';
 @import 'styles/dark-theme';
 @import 'assets/fonts/fonts.css';
 
-$border-radius: .3rem;
+$border-radius: .2rem;
+$width: clamp(900px, 65vw, 1200px);
+$card-list-height: min(72vh, 645px);
+$header-horizontal-padding: 25px;
 
 @mixin centred-flexbox {
   display: flex;
@@ -106,11 +108,13 @@ textarea {
   color: $light-text;
   padding: 0 15px;
   outline: none;
-  border: 1px solid $light-input-border;
-  border-radius: $border-radius;
+  border: 0;
+  border-bottom: 2px solid $light-border;
+  border-radius: 0;
   filter: drop-shadow(0 0.1rem 0.1rem $light-shadow);
   resize: none;
   transition: .3s;
+  background-color: transparent;
 
 
   &.invalid {
@@ -130,39 +134,93 @@ input[type='radio'] {
 
 
 .page-header {
-  display: flex;
-  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
   background: $light-header-background;
-  border-bottom: 1px solid $light-header-border;
-  height: 70px;
+  filter: drop-shadow(1px 1px 5px $light-header-border);
+  z-index: 100;
 }
 
-.header-wrapper {
-  @include centred-flexbox;
-  width: $width;
-}
+//.page-header {
+//  display: flex;
+//  justify-content: center;
+//  background: $light-header-background;
+//  border-bottom: 1px solid $light-header-border;
+//  height: 70px;
+//}
+
+//.header-wrapper {
+//  @include centred-flexbox;
+//  width: $width;
+//}
 
 .header-nav {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  height: 100%;
+  padding: 5dvh $header-horizontal-padding;
 }
 
-.header-nav__list {
-  display: flex;
-  column-gap: 30px;
+//.header-nav {
+//  display: flex;
+//  justify-content: space-between;
+//  align-items: center;
+//  width: 100%;
+//}
 
-  a.active {
-    text-decoration: underline;
-    text-underline-offset: 28px;
-    text-decoration-thickness: 3px;
+.header-nav__list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 60px;
+    width: 100%;
+  }
+
+  a.active::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    display: block;
+    width: calc(100% + 2 * $header-horizontal-padding);
+    height: 100%;
+    background-color: $light-background;
+  }
+
+  svg {
+    fill: $light-text;
+    transform: scale(1.1);
+    transition: .5s ease;
   }
 }
 
+//.header-nav__list {
+//  display: flex;
+//  column-gap: 30px;
+//
+//  a.active {
+//    text-decoration: underline;
+//    text-underline-offset: 28px;
+//    text-decoration-thickness: 3px;
+//  }
+//}
+
 .header-nav__buttons {
   display: flex;
-  column-gap: 10px;
+  flex-direction: column;
+  gap: 20px;
+  border-top: 2px solid $light-input-border;
+  padding-top: 20px;
 
   button,
   a {
@@ -178,6 +236,24 @@ input[type='radio'] {
   }
 }
 
+//.header-nav__buttons {
+//  display: flex;
+//  column-gap: 10px;
+//
+//  button,
+//  a {
+//    @include centred-flexbox;
+//    width: 26px;
+//    height: 26px;
+//  }
+//
+//  svg {
+//    color: $light-text;
+//    width: 100%;
+//    height: 100%;
+//  }
+//}
+
 #header-nav__buttons__signin {
   display: flex;
   column-gap: 10px;
@@ -188,10 +264,6 @@ input[type='radio'] {
   color: $light-text;
   background: transparent;
 
-}
-
-.header-logo {
-  font-weight: bold;
 }
 
 .page-main {
@@ -218,12 +290,13 @@ input[type='radio'] {
   column-gap: 8px;
 
   h3 {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 14px;
   }
 
   .head__text {
-    font-weight: 500;
+    font-weight: 400;
+    color: $light-second-text;
   }
 
   p {
@@ -231,34 +304,17 @@ input[type='radio'] {
   }
 }
 
-
-#image__wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#main__hero {
   width: 100vw;
   height: calc(100vh - 62px);
-  margin-top: -32px;
-}
-
-#image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(.5);
-}
-
-#main__hero {
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: $light-header-background;
+  justify-content: center;
   z-index: 2;
 
   h1 {
-    font-size: 80px;
+    font-size: 120px;
     margin-bottom: 20px;
     text-transform: uppercase;
   }
@@ -266,7 +322,6 @@ input[type='radio'] {
   p {
     font-size: 18px;
   }
-
 }
 
 #main__description {
@@ -274,7 +329,7 @@ input[type='radio'] {
 }
 
 #main__wrapper {
-  width: 85%;
+  width: max(100%, 995px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -344,6 +399,7 @@ input[type='radio'] {
 
 
 .cards-list__wrapper {
+  margin-top: 30px;
   width: 100%;
 
   &.empty {
@@ -362,20 +418,20 @@ input[type='radio'] {
 }
 
 .empty__search__message {
+  height: $card-list-height;
   display: none;
-  height: 590px;
   align-items: center;
   justify-content: center;
 }
 
 
 .cards-list {
+  width: 100%;
+  height: $card-list-height;
   display: grid;
-  grid-template-columns: repeat(5, 222px);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 15px;
-  width: 100%;
-  height: 580px;
 
   li.editor {
     position: relative;
@@ -390,17 +446,22 @@ input[type='radio'] {
 
 .search {
   position: relative;
-  width: 698px;
-  margin: 0 auto;
+  //width: calc($width / 2 - 7.5px);
+  width: 100%;
 
   input {
     width: 100%;
-    padding: 0 50px;
+    padding: 0 50px 10px;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 2px solid $light-input-border;
+    font-size: 14px;
   }
 
   svg {
     position: absolute;
-    top: 11px;
+    top: 5px;
     left: 16px;
     width: 22px;
     color: $light-second-text;
@@ -479,7 +540,8 @@ li:has(.card) {
   top: 0;
   right: 0;
   padding: 10px;
-  transition: .5s;
+  transition: .3s;
+  z-index: 1;
 
   svg {
     color: $light-text;
@@ -624,7 +686,7 @@ li:has(.card) {
 .account__info {
   display: flex;
   column-gap: 20px;
-  height: 150px;
+  height: 120px;
 
   img {
     height: 100%;
@@ -701,7 +763,7 @@ li:has(.card) {
 .statistic-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 280px);
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
   gap: 20px;
   margin-top: 30px;
 }
@@ -711,19 +773,35 @@ li:has(.card) {
   align-items: center;
   column-gap: 20px;
   width: 100%;
-  height: 84px;
+  height: 140px;
   background: $light-user-card;
   filter: drop-shadow(0 0.125rem 0.25rem $light-shadow);
   border-radius: $border-radius;
-  padding: 20px;
+  padding: 30px;
 
   svg {
     fill: $light-text
   }
+
+  section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.statistic__label__key {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-width: 50%;
 }
 
 .statistic__label__value {
-  font-size: 18px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 40px;
 }
 
 .deck-info__wrapper {
@@ -828,14 +906,12 @@ li:has(.card) {
   left: 0;
   @include centred-flexbox;
   background: rgba(0, 0, 0, .6);
-  z-index: 10;
+  z-index: 100;
   animation: react-confirm-alert-fadeIn .4s forwards !important;
 }
 
 .modal__wrapper {
-  width: 35vw;
-  min-width: 500px;
-  max-width: 600px;
+  width: 600px;
   padding: 70px;
   background: $light-header-background;
   border-radius: .4rem;
@@ -1192,6 +1268,7 @@ li:has(.card) {
 .react-confirm-alert-overlay {
   background: rgba(0, 0, 0, .6) !important;
   animation: react-confirm-alert-fadeIn .4s forwards !important;
+  z-index: 9999 !important;
 }
 
 .react-confirm-alert-body {
@@ -1213,6 +1290,10 @@ li:has(.card) {
       background: $light-text !important;
     }
   }
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background-color: $light-text !important;
 }
 
 .hidden {

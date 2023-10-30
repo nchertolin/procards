@@ -22,24 +22,26 @@ function Decks() {
     if (isLoading || !data) return <Loading/>
 
     return (
-        <div className={`cards-list__wrapper ${!data.length ? 'empty' : ''}`}>
+        <>
             <Navigation parentText='Выберите колоду'/>
-            <Search
-                setPage={setPage}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                placeholder='Найти колоды'
-            />
-            <ul className='cards-list'>
-                {sliced.map(content => <Card key={content.deckId} content={content}/>)}
-            </ul>
-            <p className='empty__search__message'>Колоды не найдены.</p>
-            <Pagination
-                page={page}
-                setPage={setPage}
-                amount={getPagesAmount(data.length)}
-            />
-        </div>
+            <div className={`cards-list__wrapper ${!data.length ? 'empty' : ''}`}>
+                <Search
+                    setPage={setPage}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    placeholder='Найти колоды'
+                />
+                <ul className='cards-list'>
+                    {sliced.map(content => <Card key={content.deckId} content={content}/>)}
+                </ul>
+                <p className='empty__search__message'>Колоды не найдены.</p>
+                <Pagination
+                    page={page}
+                    setPage={setPage}
+                    amount={getPagesAmount(data.length)}
+                />
+            </div>
+        </>
     )
 }
 

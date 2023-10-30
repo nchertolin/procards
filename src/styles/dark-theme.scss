@@ -10,8 +10,7 @@ body.dark {
   input,
   textarea {
     color: $dark-text;
-    background: $dark-input;
-    border: 0;
+    border-color: $dark-border;
 
     &::placeholder {
       color: $dark-text;
@@ -31,29 +30,30 @@ body.dark {
 
   .page-header {
     background: $dark-header-background;
-    border: 0;
+    filter: none;
   }
 
-  .header-wrapper {
-    &.main {
-      .header-nav__buttons {
-        svg path {
-          fill: $dark-background;
-        }
+  .header-nav__list {
+    a.active::before {
+      background-color: $dark-background;
+    }
 
-        a svg path {
-          fill: none;
-          stroke: $dark-background;
-        }
-      }
+    svg {
+      fill: $dark-text
     }
   }
 
 
   .header-nav__buttons {
+    border-color: $dark-header-border;
+
     svg {
       color: $dark-text;
     }
+  }
+
+  .head__text__block .head__text {
+    color: $dark-second-text;
   }
 
   #main__about {
@@ -129,6 +129,10 @@ body.dark {
   }
 
   .search {
+    input {
+      border-color: $dark-border;
+    }
+
     svg {
       fill: $dark-second-text;
     }
@@ -231,5 +235,18 @@ body.dark {
         background: $dark-text !important;
       }
     }
+  }
+
+  .Toastify__toast-theme--colored.Toastify__toast--success {
+    color: $dark-background !important;
+    background: $dark-text !important;
+  }
+
+  .Toastify__progress-bar--success {
+    background: $dark-background !important;
+  }
+
+  .Toastify__close-button {
+    color: $dark-background !important;
   }
 }

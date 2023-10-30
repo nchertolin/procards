@@ -5,9 +5,9 @@ const IS_DARK_MODE = localStorage.getItem('dark-theme') === 'true';
 
 const AVATARS_AMOUNT = 31;
 const AMOUNT_ON_PAGE = {
-    DECKS: 20,
-    DECKS_EDITOR: 19,
-    CARDS_EDITOR: 19
+    DECKS: 16,
+    DECKS_EDITOR: 15,
+    CARDS_EDITOR: 15
 }
 
 export {

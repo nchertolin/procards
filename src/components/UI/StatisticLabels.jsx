@@ -1,20 +1,13 @@
 import React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import PeopleIcon from '@mui/icons-material/People';
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 
 
 function CardsViewedStatisticLabel({data}) {
     return (
         <div className='statistic__label'>
-            <DashboardIcon fontSize='large'/>
             <section>
-                <p>Карточек просмотрено</p>
+                <p className='statistic__label__key'>Карточек просмотрено</p>
                 <h4 className='statistic__label__value'>{data}</h4>
             </section>
-
         </div>
     );
 }
@@ -22,9 +15,8 @@ function CardsViewedStatisticLabel({data}) {
 function CardsCreatedStatisticLabel({data}) {
     return (
         <div className='statistic__label'>
-            <DashboardCustomizeIcon fontSize='large'/>
             <section>
-                <p>Карточек создано</p>
+                <p className='statistic__label__key'>Карточек создано</p>
                 <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
@@ -34,9 +26,8 @@ function CardsCreatedStatisticLabel({data}) {
 function ScoreStatisticLabel({data}) {
     return (
         <div className='statistic__label'>
-            <TrendingUpIcon fontSize='large'/>
             <section>
-                <p>Рейтинг</p>
+                <p className='statistic__label__key'>Рейтинг</p>
                 <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
@@ -46,9 +37,8 @@ function ScoreStatisticLabel({data}) {
 function HoursStatisticLabel({data}) {
     return (
         <div className='statistic__label'>
-            <AccessTimeFilledIcon fontSize='large'/>
             <section>
-                <p>Часов за учебой</p>
+                <p className='statistic__label__key'>Часов за учебой</p>
                 <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
@@ -58,9 +48,8 @@ function HoursStatisticLabel({data}) {
 function PeopleStatisticLabel({data}) {
     return (
         <div className='statistic__label'>
-            <PeopleIcon fontSize={"large"}/>
             <section>
-                <p>Количество участников</p>
+                <p className='statistic__label__key'>Количество участников</p>
                 <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
@@ -70,9 +59,8 @@ function PeopleStatisticLabel({data}) {
 function CardsCountStatisticLabel({data}) {
     return (
         <div className='statistic__label'>
-            <DashboardIcon fontSize='large'/>
             <section>
-                <p>Количество карточек</p>
+                <p className='statistic__label__key'>Количество карточек</p>
                 <h4 className='statistic__label__value'>{data}</h4>
             </section>
         </div>
