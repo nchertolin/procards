@@ -1,55 +1,46 @@
 import React, {useState} from 'react';
-import {clickOutsideHandler} from '../../util';
+import {clickOutsideHandler, getImagesList} from '../../js/utils';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useForm} from 'react-hook-form';
 import {useCreateCard, useImage} from '../../hooks/useEditorDeck';
 import {useParams} from 'react-router-dom';
+import {AddImageButton, ResetImageButton} from "../UI/ImageInputs";
+import TrainingCard from "../TrainingCard";
+import {CARD_SIDE_TEXT_OPTIONS} from "../../js/validationOptions";
+
 
 export default function AddCardForm() {
     const {deckId} = useParams();
     const {setAddCardFormOpened} = useContext(FormsContext);
-    const {register, formState: {errors,}, handleSubmit, watch, reset, getValues} = useForm();
+    const {register, formState: {errors}, handleSubmit, watch, reset, getValues} = useForm();
     const {isLoading, createCard} = useCreateCard(setAddCardFormOpened);
     const {isLoading: isLoading1, addImage} = useImage();
     const [side, setSide] = useState(true);
-    const [hasFrontImage, setFrontImg] = useState(false);
-    const [hasBackImage, setBackImg] = useState(false);
+    const imagesList = getImagesList(watch('frontImg'), watch('backImg'));
 
     const onSubmit = async (data) => {
         const cardId = await createCard({...data, deckId});
         if (cardId) {
-            if (hasFrontImage && watch('frontImg')[0]) {
+            if (imagesList[0]) {
                 const formData = new FormData();
-                formData.append('file', watch('frontImg')[0])
+                formData.append('file', getValues('frontImg')[0])
                 addImage({cardId, formData, side: true});
             }
-            if (hasBackImage && watch('backImg')[0]) {
+            if (imagesList[1]) {
                 const formData = new FormData();
-                formData.append('file', watch('backImg')[0]);
+                formData.append('file', getValues('backImg')[0]);
                 addImage({cardId, formData, side: false})
             }
         }
     };
 
-    const flip = e => {
-        e.stopPropagation();
-        setSide(!side);
-        e.target.parentElement.classList.toggle('flipped')
-    };
-
     const closeModal = e => clickOutsideHandler(e, '.modal__wrapper',
         setAddCardFormOpened);
 
-    const resetImage = isFront => {
-        if (isFront) {
-            setFrontImg(false);
-            reset({frontImg: undefined, frontSide: getValues('frontSide')});
-        } else {
-            setBackImg(false);
-            reset({backImg: undefined, backSide: getValues('backSide')});
-        }
-    };
+    const onImageReset = isFront => isFront
+        ? reset({frontImg: null, backImg: getValues('backImg'), frontSide: getValues('frontSide')})
+        : reset({frontImg: getValues('frontImg'), backImg: null, backSide: getValues('backSide')});
 
 
     return (
@@ -60,48 +51,37 @@ export default function AddCardForm() {
                     <h3>Новая карточка</h3>
                     <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
                         <label>
-                            <textarea placeholder='Лицевая сторона' className={errors?.frontSide ? 'invalid' : ''}
-                                      {...register('frontSide', {
-                                          required: 'Обязательноe поле.',
-                                          pattern: {
-                                              value: /^(?=^.{1,800}$)/,
-                                              message: 'Максимум 800 символов.'
-                                          }
-                                      })} />
+                            <textarea className={errors?.frontSide ? 'invalid' : ''}
+                                      {...register('frontSide', CARD_SIDE_TEXT_OPTIONS)}
+                                      placeholder='Лицевая сторона'
+                            />
                             {errors?.frontSide && <p className='error'>{errors?.frontSide.message}</p>}
                         </label>
-                        {hasFrontImage
-                            ? <div className='file__wrapper'>
-                                <input type="file" className='file' {...register('frontImg')} />
-                                <button type='button' className='error' onClick={() => resetImage(true)}>
-                                    Сбросить
-                                </button>
-                            </div>
-                            : <button type='button' onClick={() => setFrontImg(true)} className='add__image__btn'>
-                                Добавить изображение
-                            </button>}
+                        {imagesList[0]
+                            ? <ResetImageButton onClick={() => onImageReset(true)}/>
+                            : <label>
+                                <AddImageButton/>
+                                <input type="file" className='file'
+                                       {...register('frontImg')}
+                                       accept='image/*'
+                                />
+                            </label>}
                         <label>
-                            <textarea placeholder='Обратная сторона' className={errors?.backSide ? 'invalid' : ''}
-                                      {...register('backSide',
-                                          {
-                                              required: 'Обязательноe поле.',
-                                              pattern: {
-                                                  value: /^(?=^.{1,800}$)/,
-                                                  message: 'Максимум 800 символов.'
-                                              }
-                                          })} />
+                            <textarea className={errors?.backSide ? 'invalid' : ''}
+                                      {...register('backSide', CARD_SIDE_TEXT_OPTIONS)}
+                                      placeholder='Обратная сторона'
+                            />
                             {errors?.backSide && <p className='error'>{errors?.backSide.message}</p>}
                         </label>
-                        {hasBackImage
-                            ? <div className='file__wrapper'>
-                                <input type="file" className='file' {...register('backImg')} />
-                                <button type='button' className='error' onClick={() => resetImage(false)}>
-                                    Сбросить
-                                </button>
-                            </div>
-                            : <button type='button' onClick={() => setBackImg(true)} className='add__image__btn'>
-                                Добавить изображение
-                            </button>}
+                        {imagesList[1]
+                            ? <ResetImageButton onClick={() => onImageReset(false)}/>
+                            : <label>
+                                <AddImageButton/>
+                                <input type="file" className='file'
+                                       {...register('backImg')}
+                                       accept='image/*'
+                                />
+                            </label>}
                         <button type='submit' className='modal_submit main__btn'
                                 disabled={isLoading || isLoading1}>
                             Сохранить
@@ -109,18 +89,12 @@ export default function AddCardForm() {
                     </form>
                 </div>
                 <div className='modal__card__wrapper'>
-                    <button className='card training__card'
-                            onClick={(e) => {
-                                setSide(!side);
-                                e.target.classList.toggle('flipped')
-                            }}>
-                        {watch(side ? 'frontImg' : 'backImg') && watch(side ? 'frontImg' : 'backImg')[0]
-                            ? <img className='card__image'
-                                   src={URL.createObjectURL(watch(side ? 'frontImg' : 'backImg')[0])}
-                                   alt="" onClick={flip}
-                            />
-                            : <p className='card__text' onClick={flip}>{watch(side ? 'frontSide' : 'backSide')}</p>}
-                    </button>
+                    <TrainingCard
+                        card={{frontSide: watch('frontSide'), backSide: watch('backSide')}}
+                        images={imagesList}
+                        side={side}
+                        setSide={setSide}
+                    />
                     <p>Нажатие на карточку перевернет ее.</p>
                 </div>
             </div>

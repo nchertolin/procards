@@ -1,34 +1,28 @@
-import axios from 'axios';
-import { SERVER_URL, userId } from '../util';
+import $url from "../api/api";
+import {userId} from "../js/consts";
 
 
-const url = axios.create({
-   baseURL: `${SERVER_URL}/users/`,
-   withCredentials: true,
-   headers: {
-      'Access-Control-Allow-Origin': '*'
-   }
-});
+const END_POINT = 'users';
 
 const UserService = {
-   async getStatistics(id) {
-      const response = await url.get('preview', { params: { userId: id } });
-      return response.data;
-   },
+    async getStatistics(id) {
+        const response = await $url.get(`${END_POINT}/preview`, {params: {userId: id}});
+        return response.data;
+    },
 
-   async getInfo(id) {
-      const response = await url.get('profile', { params: { userId: id } });
+    async getInfo(id) {
+        const response = await $url.get(`${END_POINT}/profile`, {params: {userId: id}});
 
-      return response.data;
-   },
+        return response.data;
+    },
 
-   async editInfo(data) {
-      return await url.patch('profile', { userId, ...data })
-   },
+    async editInfo(data) {
+        return await $url.patch(`${END_POINT}/profile`, {userId, ...data})
+    },
 
-   async editPassword({ oldPassword, newPassword }) {
-      return await url.patch('password', { userId, oldPassword, newPassword })
-   },
+    async editPassword({oldPassword, newPassword}) {
+        return await $url.patch(`${END_POINT}/password`, {userId, oldPassword, newPassword})
+    }
 }
 
-export { UserService }
+export {UserService}

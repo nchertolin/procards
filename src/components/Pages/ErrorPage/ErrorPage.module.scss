@@ -1,0 +1,57 @@
+@import '../../../styles/light-colors';
+@import '../../../styles/dark-colors';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 50px;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 30px;
+    width: 50%;
+
+    h1 {
+      font-size: 100px;
+      text-decoration: none;
+    }
+
+    p {
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+
+  svg {
+    width: 50%;
+    height: 40%;
+  }
+
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .3rem;
+  padding: 12px 60px;
+}
+
+.dark {
+  .button {
+    color: $dark-background;
+    background-color: $dark-text;
+  }
+}

@@ -1,35 +1,28 @@
-import axios from 'axios';
-import {SERVER_URL, userId} from '../util';
+import $url from "../api/api";
+import {userId} from "../js/consts";
 
 
-const url = axios.create({
-    baseURL: `${SERVER_URL}/decks/`,
-    withCredentials: true,
-    headers: {
-        'Access-Control-Allow-Origin': '*'
-    }
-});
+const END_POINT = 'decks';
 
 const LearningDeckService = {
     async getDecks(searchQuery) {
-        const response = await url.get('', {params: {userId, searchQuery}});
+        const response = await $url.get(END_POINT, {params: {userId, searchQuery}});
 
         return response.data.decks;
     },
 
     async getDeck(id) {
-        const response = await url.get('deck', {params: {userId, deckId: id}});
+        const response = await $url.get(`${END_POINT}/deck`, {params: {userId, deckId: id}});
         return response.data
     },
 
     async addDeck({deckId, password}) {
-        return await url.post('add', {userId, deckId, password})
+        return await $url.post(`${END_POINT}/add`, {userId, deckId, password})
     },
 
     async deleteDeck(deckId) {
-        return await url.delete('remove', {data: {userId, deckId}})
-    },
-
+        return await $url.delete(`${END_POINT}/remove`, {data: {userId, deckId}})
+    }
 }
 
 export {LearningDeckService}

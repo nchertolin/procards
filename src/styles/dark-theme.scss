@@ -1,0 +1,264 @@
+@import 'dark-colors';
+
+body.dark {
+  background: $dark-background;
+  color: $dark-text;
+}
+
+.dark {
+
+  input,
+  textarea {
+    color: $dark-text;
+    border-color: $dark-border;
+
+    &::placeholder {
+      color: $dark-text;
+      opacity: .5;
+    }
+
+  }
+
+  input[type='radio'] {
+    accent-color: grey;
+  }
+
+  .delete__btn {
+    color: $dark-text;
+    border-color: $dark-text;
+  }
+
+  .page-header {
+    background: $dark-header-background;
+    filter: none;
+  }
+
+  .header-nav__list {
+    a.active::before {
+      background-color: $dark-background;
+    }
+
+    svg {
+      fill: $dark-text
+    }
+  }
+
+
+  .header-nav__buttons {
+    border-color: $dark-border;
+
+    svg {
+      color: $dark-text;
+    }
+  }
+
+  .head__text__block .head__text {
+    color: $dark-second-text;
+  }
+
+  #main__about {
+    color: $dark-text;
+  }
+
+  .leaderboard {
+    color: $dark-text;
+
+    li:hover {
+      filter: drop-shadow(0 0.125rem 0.25rem $dark-darker-shadow);
+    }
+  }
+
+  .leaderboard__title {
+    color: $dark-second-text;
+  }
+
+  .leaderboard__leader {
+    background: $dark-user-card;
+  }
+
+  .deck-info__owner {
+    background-color: $dark-header-background;
+
+    img {
+      background-color: $light-header-background;
+    }
+  }
+
+  .avatar {
+    filter: drop-shadow(0 0.125rem 0.25rem $dark-darker-shadow);
+  }
+
+  .card {
+    color: $dark-text;
+    background: $dark-user-card;
+    filter: drop-shadow(0 0.125rem 0.25rem $dark-shadow);
+
+    &.other {
+      background: $dark-other-card;
+    }
+  }
+
+  .training__card {
+    color: $dark-text;
+    filter: none;
+    background: $dark-user-card;
+
+    &.flipped {
+      background: $dark-other-card;
+    }
+  }
+
+  .training__card__shadow {
+    filter: drop-shadow(0 0.125rem 0.25rem $dark-shadow);
+  }
+
+  .pagination__button {
+    color: $dark-text;
+    border-color: $dark-pagination-border;
+
+    &.active {
+      color: $dark-user-card;
+      background: $dark-text;
+      border-color: $dark-text;
+    }
+  }
+
+  .main__btn {
+    color: $dark-background;
+    background: $dark-text;
+  }
+
+  .card-settings svg {
+    color: $dark-text;
+  }
+
+  .statistic__label {
+    background: $dark-input;
+
+    svg {
+      fill: $dark-text;
+    }
+  }
+
+  .search {
+    input {
+      border-color: $dark-border;
+    }
+
+    svg {
+      fill: $dark-second-text;
+    }
+  }
+
+  li:has(.card):hover::after {
+    background: $dark-text;
+  }
+
+  .training-empty {
+    a {
+      color: $dark-background;
+    }
+  }
+
+  .signin {
+    a, p {
+      color: $dark-text;
+    }
+
+    p.error {
+      color: red;
+    }
+  }
+
+  .avatar-radio__wrapper label:has(input[type='radio']:checked) {
+    border-color: red;
+  }
+
+  .training-empty {
+    a {
+      color: $dark-text;
+    }
+  }
+
+  .loading {
+    border-color: $dark-text;
+  }
+
+  .modal__wrapper {
+    background: $dark-background;
+
+    .add__image__btn {
+      color: $dark-text;
+    }
+
+    .file {
+      background: transparent;
+    }
+
+    .file__wrapper button {
+      color: $dark-text;
+    }
+  }
+
+  .invalid {
+    border-color: red;
+  }
+
+  .copy-link {
+    color: $dark-background;
+    background: $dark-disabled-input;
+    border: 0;
+  }
+
+  .copy-link__icon__wrapper {
+    background: $dark-header-background;
+    border: 0;
+
+    svg {
+      color: $dark-text;
+    }
+  }
+
+  .page-footer {
+    background: $dark-header-background;
+    filter: none;
+  }
+
+  .footer__copyright__wrapper {
+    border-top: 1px solid $dark-header-border;
+  }
+
+  .react-confirm-alert-body {
+    background: $dark-background !important;
+    box-shadow: none !important;
+    color: $dark-second-text;
+
+    h1 {
+      color: $dark-text;
+    }
+
+    button {
+      color: $dark-text !important;
+      background: transparent !important;
+      border: 1px solid $dark-text !important;
+
+      &:first-child {
+        color: $dark-background !important;
+        background: $dark-text !important;
+      }
+    }
+  }
+
+  .Toastify__toast-theme--colored.Toastify__toast--success {
+    color: $dark-background !important;
+    background: $dark-text !important;
+  }
+
+  .Toastify__progress-bar--success {
+    background: $dark-background !important;
+  }
+
+  .Toastify__close-button {
+    color: $dark-background !important;
+  }
+}

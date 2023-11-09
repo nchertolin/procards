@@ -1,15 +1,13 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {EditorDeckService} from '../services/editorDecksService';
-import {getErrorDataWithoutUserId, notifySuccess} from "../util";
-import {tryRefreshToken} from "../services/authService";
+import {notifySuccess} from "../js/utils";
 
 
 const useEditorDecks = (searchQuery) => {
-    const {isLoading, data, refetch} = useQuery(
+    const {isLoading, data} = useQuery(
         ['editor-decks', searchQuery],
         async () => await EditorDeckService.getDecks(searchQuery),
         {
-            onError: error => tryRefreshToken(error, refetch),
             keepPreviousData: true,
         },
     );
@@ -29,12 +27,7 @@ const useCreateDeck = (reset, setOpened) => {
                 setOpened(false)
                 reset();
                 return deckId;
-            },
-            onError: error => tryRefreshToken(
-                error,
-                null,
-                () => createDeck(getErrorDataWithoutUserId(error))
-            )
+            }
         }
     );
 
@@ -51,12 +44,7 @@ const useEditDeck = (setOpened) => {
                 notifySuccess('Колода изменена');
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
-            },
-            onError: error => tryRefreshToken(
-                error,
-                null,
-                () => editDeck(getErrorDataWithoutUserId(error))
-            )
+            }
         }
     );
 
@@ -72,12 +60,7 @@ const useEditDeckPassword = (setOpened) => {
             onSuccess: () => {
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
-            },
-            onError: error => tryRefreshToken(
-                error,
-                null,
-                () => editPassword(getErrorDataWithoutUserId(error))
-            )
+            }
         }
     );
 
@@ -94,13 +77,6 @@ const useDeleteDeck = (setOpened) => {
                 notifySuccess('Колода удалена');
                 queryClient.invalidateQueries(['editor-decks']);
                 setOpened(false);
-            },
-            onError: error => {
-                tryRefreshToken(
-                    error,
-                    null,
-                    () => deleteDeck(getErrorDataWithoutUserId(error).deckId)
-                )
             }
         }
     );

@@ -1,11 +1,11 @@
 import React from 'react';
-import {clickOutsideHandler, notifySuccess, ORIGIN} from '../../util';
+import {clickOutsideHandler, generateInviteLink, showConfirmAlert} from '../../js/utils';
 import {useForm} from 'react-hook-form';
 import {useContext} from 'react';
 import {FormsContext} from '../../providers/FormsProvider';
 import {useDeleteDeck, useEditDeck, useEditDeckPassword} from '../../hooks/useEditorDecks';
-import {CopyToClipboard} from "react-copy-to-clipboard/src";
-import {confirmAlert} from 'react-confirm-alert';
+import CopyLinkElement from "../UI/CopyLinkElement";
+import {DECK_OPTIONS} from "../../js/validationOptions";
 
 export default function EditDeckForm() {
     const {setEditFormOpened, selectedDeck} = useContext(FormsContext);
@@ -17,7 +17,6 @@ export default function EditDeckForm() {
             description: selectedDeck.description,
         }
     });
-    const inviteUrl = `${ORIGIN}/learn/add/${selectedDeck.deckId}`
     const {isLoading, editDeck} = useEditDeck(setEditFormOpened);
     const {isLoading: isLoading2, editPassword} = useEditDeckPassword(setEditFormOpened);
     const {isLoading: isLoading1, deleteDeck} = useDeleteDeck(setEditFormOpened);
@@ -33,35 +32,24 @@ export default function EditDeckForm() {
         }
     };
 
-    const onDelete = () => confirmAlert({
-        title: 'Подтвердите удаление',
-        message: 'Вы действительно хотите удалить колоду?',
-        buttons: [
-            {label: 'Да', onClick: () => deleteDeck(selectedDeck.deckId)},
-            {label: 'Отмена'}
-        ]
-    });
-
-    const onCopy = () => notifySuccess('Ссылка на приглашение скопирована');
+    const onDelete = () => showConfirmAlert(
+        'Вы действительно хотите удалить колоду?',
+        () => deleteDeck(selectedDeck.deckId)
+    );
 
     const closeModal = e => clickOutsideHandler(e, '.modal__wrapper', setEditFormOpened);
 
+
     return (
-        <div className='modal'
-             onClick={closeModal}>
+        <div className='modal' onClick={closeModal}>
             <div className='modal__wrapper'>
                 <h3>Редактировать колоду</h3>
                 <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
                     <label>
-                        <input type="text" placeholder='Название колоды'
-                               className={errors?.name ? 'invalid' : ''}
-                               {...register('name', {
-                                   required: 'Обязательное поле.',
-                                   maxLength: {
-                                       value: 40,
-                                       message: 'Максимальная длина 40 символов'
-                                   }
-                               })} />
+                        <input type="text" className={errors?.name ? 'invalid' : ''}
+                               {...register('name', DECK_OPTIONS.NAME)}
+                               placeholder='Название колоды'
+                        />
                         {errors?.name && <p className='error'>{errors?.name.message}</p>}
                     </label>
                     <div className='privacy'>
@@ -76,34 +64,30 @@ export default function EditDeckForm() {
                     </div>
                     {
                         watch('isPrivate') === 'false' &&
-                        <label>
-                            <input type="text"
-                                   placeholder='Новый пароль колоды'
-                                   className={errors?.password ? 'invalid' : ''}
-                                   {...register('password', {
-                                       required: {
-                                           value: selectedDeck.isPrivate.toString() !== watch('isPrivate'),
-                                           message: 'Обязательное поле.'
-                                       },
-                                       pattern: {
-                                           value: /^(?=^.{2,100}$)/,
-                                           message: 'Минимум 2 символа.'
-                                       },
-                                       disabled: watch('isPrivate') === 'true'
-                                   })} />
-                            <i>Оставьте поле пустым, если желаете сохранить текущий пароль</i>
-                            {errors?.password && <p className='error'>{errors?.password.message}</p>}
-                        </label>
+                        <>
+                            <label>
+                                <input type="text" className={errors?.password ? 'invalid' : ''}
+                                       title='Оставьте поле пустым, если желаете сохранить текущий пароль'
+                                       {...register('password', {
+                                           ...DECK_OPTIONS.PASSWORD,
+                                           required: {
+                                               value: watch('isPrivate') !== selectedDeck.isPrivate.toString(),
+                                               message: 'Обязательноe поле.'
+                                           },
+                                           disabled: watch('isPrivate') === 'true'
+                                       })}
+                                       placeholder='Новый пароль колоды'
+                                />
+                                {errors?.password && <p className='error'>{errors?.password.message}</p>}
+                            </label>
+                            <CopyLinkElement inviteUrl={generateInviteLink(selectedDeck.deckId)}/>
+                        </>
                     }
                     <label>
-                        <textarea className={errors?.description ? 'invalid' : ''} placeholder='Описание'
-                                  {...register('description', {
-                                      required: 'Обязательное поле.',
-                                      maxLength: {
-                                          value: 300,
-                                          message: 'Максимальная длина 300 символов'
-                                      }
-                                  })}  />
+                        <textarea className={errors?.description ? 'invalid' : ''}
+                                  {...register('description', DECK_OPTIONS.DESCRIPTIONS)}
+                                  placeholder='Описание'
+                        />
                         {errors?.description && <p className='error'>{errors?.description.message}</p>}
                     </label>
                     <div className='modal__buttons'>
@@ -117,12 +101,6 @@ export default function EditDeckForm() {
                             Удалить
                         </button>
                     </div>
-                    {watch('isPrivate') === 'false' &&
-                        <CopyToClipboard text={inviteUrl} onCopy={onCopy}>
-                            <button type='button' className='modal_submit main__btn' disabled={isLoading1}>
-                                Скопировать ссылку для приглашения участников
-                            </button>
-                        </CopyToClipboard>}
                 </form>
             </div>
         </div>

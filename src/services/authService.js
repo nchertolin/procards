@@ -1,64 +1,33 @@
-import axios from 'axios'
-import {SERVER_URL, redirectToSignInPage, reloadPage, userId, notifyError} from '../util'
+import $url from "../api/api";
+import {redirectToSignInPage, reloadPage} from '../js/utils';
+import {userId} from '../js/consts';
 
-const url = axios.create({
-    baseURL: `${SERVER_URL}/account/`,
-    withCredentials: true,
-    headers: {
-        'Access-Control-Allow-Origin': '*'
-    }
-});
 
-const tryRefreshToken = (error, refetch, mutate, data) => {
-    if (error.response?.status === 401) {
-        console.clear();
-        AuthService.refresh(refetch, mutate, data);
-    } else {
-        notifyError(error);
-    }
-};
-
-const tryRefreshTokenWithoutAction = error => {
-    if (error.response?.status === 401) {
-        console.clear();
-        AuthService.refresh();
-    } else {
-        notifyError(error);
-    }
-};
-
+const END_POINT = 'account';
 
 const AuthService = {
     async signIn(data) {
-        const response = await url.post('login', data);
+        const response = await $url.post(`${END_POINT}/login`, data);
         return response.data.id
     },
 
     async signUp(data) {
-        const response = await url.post('register', data);
+        const response = await $url.post(`${END_POINT}/register`, data);
         return response.data.id
     },
 
     async recovery(data, isLoginSent) {
-        return await url.post(`recovery${isLoginSent ? '/code' : ''}`, data);
+        return await $url.post(`${END_POINT}/recovery${isLoginSent ? '/code' : ''}`, data);
     },
 
     async setNewPassword(data) {
-        return await url.post('recovery/newpass', data)
+        return await $url.post(`${END_POINT}/recovery/newpass`, data)
     },
 
-    async refresh(refetch, mutate) {
+    async refresh() {
+        console.clear();
         try {
-            const response = await url.post('refres', {userId});
-            if (response?.status >= 200 && response?.status <= 399) {
-                if (refetch) {
-                    refetch();
-                } else if (mutate) {
-                    mutate();
-                }
-            } else {
-                this.logout();
-            }
+            await $url.post(`${END_POINT}/refresh`, {userId});
         } catch (error) {
             this.logout();
         }
@@ -72,4 +41,5 @@ const AuthService = {
     },
 };
 
-export {AuthService, tryRefreshToken, tryRefreshTokenWithoutAction};
+
+export {AuthService};
