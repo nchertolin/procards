@@ -16,13 +16,16 @@ export default function Pagination({page, setPage, amount}) {
             <button className='pagination__button' onClick={previousPage}>
                 <NavigateBeforeIcon/>
             </button>
-            {
-                pages.slice(startIndex, endIndex).map(numberOfPage =>
-                    <button key={numberOfPage} className={`pagination__button ${page === numberOfPage ? 'active' : ''}`}
-                            onClick={goToPage(numberOfPage)}>
-                        {numberOfPage}
-                    </button>)
-            }
+            <section className='pagination__pages'>
+                {
+                    pages.slice(startIndex, endIndex).map(numberOfPage =>
+                        <button key={numberOfPage}
+                                className={`pagination__button ${page === numberOfPage ? 'active' : ''}`}
+                                onClick={goToPage(numberOfPage)}>
+                            {numberOfPage}
+                        </button>)
+                }
+            </section>
             <button className='pagination__button' onClick={nextPage}>
                 <NavigateNextIcon/>
             </button>

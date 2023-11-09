@@ -6,6 +6,7 @@ import TrainingCard from "../TrainingCard";
 import TrainingGradesList from "../UI/TrainingGradesList";
 import {Link} from "react-router-dom";
 import {CardWithoutLink} from "../Card";
+import Typed from 'react-typed';
 
 export default function Main() {
     const {isLoading, data} = useGlobalStatistics();
@@ -22,8 +23,13 @@ export default function Main() {
     return (
         <>
             <section id='main__hero'>
-                <h1>Procards</h1>
-                <p>Сервис для быстрого запоминания любого материала с помощью флеш-карточек</p>
+                <h1 className='hero__text'>Совершенствуй знания с помощью&nbsp;
+                    <b>
+                        <Typed typeSpeed={40} backSpeed={30} loop
+                               strings={['флеш-карточек', 'учебных колод', 'интервального повторения', 'PROCARDS']}
+                        />
+                    </b>
+                </h1>
             </section>
             <section id='main__wrapper'>
                 <h2>C флеш-карточками твое обучение станет эффективнее</h2>
@@ -64,8 +70,8 @@ export default function Main() {
                         </p>
                     </section>
                     <ul>
-                        <CardWithoutLink deckName='Английский язык' isOwner={false}/>
-                        <CardWithoutLink deckName='География' isOwner={true}/>
+                        <CardWithoutLink deckName='Английский язык' isOwner={true}/>
+                        <CardWithoutLink deckName='География' isOwner={false}/>
                     </ul>
                 </section>
                 <section id='main__leaders__wrapper'>

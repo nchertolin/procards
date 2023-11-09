@@ -9,11 +9,9 @@ export default function Search({setPage, searchQuery, setSearchQuery, placeholde
 
 
     return (
-        <div className='search__wrapper'>
-            <div className='search'>
-                <input type="text" placeholder={placeholder} value={searchQuery} onChange={search}/>
-                <SearchIcon/>
-            </div>
+        <div className='search'>
+            <input type="text" placeholder={placeholder} value={searchQuery} onChange={search}/>
+            <SearchIcon/>
         </div>
     )
 }

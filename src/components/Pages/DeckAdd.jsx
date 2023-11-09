@@ -17,7 +17,7 @@ function DeckAdd() {
         <div className='add__deck__wrapper'>
             <Navigation parentText='Добавить колоду'/>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <h2>Введите предоставленный вам пароль колоды</h2>
+                <h2>Требуется пароль колоды</h2>
                 <label>
                     <input type="password" disabled={isLoading} autoFocus
                            className={errors?.password ? 'invalid' : ''}

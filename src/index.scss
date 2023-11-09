@@ -3,8 +3,8 @@
 @import 'assets/fonts/fonts.css';
 
 $border-radius: .2rem;
-$width: clamp(900px, 65vw, 1200px);
-$card-list-height: min(72vh, 645px);
+$width: clamp(1100px, 75vw, 1300px);
+$card-list-height: calc(100% - 300px);
 $header-horizontal-padding: 25px;
 
 @mixin centred-flexbox {
@@ -28,7 +28,17 @@ body {
   margin: 0 auto;
   color: $light-text;
   overflow-x: hidden;
+  overscroll-behavior: none;
   transition: .3s;
+}
+
+
+::placeholder {
+  color: $light-second-text;
+}
+
+::-ms-input-placeholder {
+  color: $light-second-text;
 }
 
 button, input, textarea {
@@ -84,6 +94,7 @@ button {
   background: $light-text;
   font-weight: 500;
   border-radius: $border-radius;
+  padding: 12px 32px;
   height: 44px;
 }
 
@@ -106,7 +117,7 @@ input,
 textarea {
   height: 44px;
   color: $light-text;
-  padding: 0 15px;
+  padding: 0;
   outline: none;
   border: 0;
   border-bottom: 2px solid $light-border;
@@ -137,40 +148,22 @@ input[type='radio'] {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100dvh;
+  height: 100vh;
+  display: flex;
+  align-items: center;
   background: $light-header-background;
   filter: drop-shadow(1px 1px 5px $light-header-border);
   z-index: 100;
 }
-
-//.page-header {
-//  display: flex;
-//  justify-content: center;
-//  background: $light-header-background;
-//  border-bottom: 1px solid $light-header-border;
-//  height: 70px;
-//}
-
-//.header-wrapper {
-//  @include centred-flexbox;
-//  width: $width;
-//}
 
 .header-nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
-  padding: 5dvh $header-horizontal-padding;
+  height: 90%;
+  padding: 0 $header-horizontal-padding;
 }
-
-//.header-nav {
-//  display: flex;
-//  justify-content: space-between;
-//  align-items: center;
-//  width: 100%;
-//}
 
 .header-nav__list {
   width: 100%;
@@ -179,12 +172,13 @@ input[type='radio'] {
   align-items: center;
 
   a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
     height: 60px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 20px;
   }
 
   a.active::before {
@@ -192,34 +186,34 @@ input[type='radio'] {
     position: absolute;
     z-index: -1;
     display: block;
-    width: calc(100% + 2 * $header-horizontal-padding);
+    width: calc(100% + 2 * $header-horizontal-padding + 1px);
     height: 100%;
+    transform: translateX(-$header-horizontal-padding);
     background-color: $light-background;
+  }
+
+  p {
+    font-weight: 500;
+    display: none;
   }
 
   svg {
     fill: $light-text;
-    transform: scale(1.1);
     transition: .5s ease;
   }
-}
 
-//.header-nav__list {
-//  display: flex;
-//  column-gap: 30px;
-//
-//  a.active {
-//    text-decoration: underline;
-//    text-underline-offset: 28px;
-//    text-decoration-thickness: 3px;
-//  }
-//}
+  &:hover {
+    p {
+      display: block;
+    }
+  }
+}
 
 .header-nav__buttons {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border-top: 2px solid $light-input-border;
+  border-top: 2px solid $light-border;
   padding-top: 20px;
 
   button,
@@ -236,24 +230,6 @@ input[type='radio'] {
   }
 }
 
-//.header-nav__buttons {
-//  display: flex;
-//  column-gap: 10px;
-//
-//  button,
-//  a {
-//    @include centred-flexbox;
-//    width: 26px;
-//    height: 26px;
-//  }
-//
-//  svg {
-//    color: $light-text;
-//    width: 100%;
-//    height: 100%;
-//  }
-//}
-
 #header-nav__buttons__signin {
   display: flex;
   column-gap: 10px;
@@ -268,13 +244,14 @@ input[type='radio'] {
 
 .page-main {
   position: relative;
+  width: $width;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 130px);
-  width: $width;
-  margin: 30px auto 100px;
+  margin: 0 auto 100px;
+  padding: 5vh 0;
 
   h1 {
     margin-bottom: 20px;
@@ -283,11 +260,11 @@ input[type='radio'] {
 
 .head__text__block {
   position: absolute;
-  top: 0;
+  top: 15px;
   left: 0;
   display: flex;
   align-items: center;
-  column-gap: 8px;
+  column-gap: 10px;
 
   h3 {
     font-weight: 500;
@@ -304,20 +281,21 @@ input[type='radio'] {
   }
 }
 
+.hero__text {
+  font-weight: 400;
+  font-size: 70px;
+  margin-bottom: 20px;
+  width: 995px;
+  line-height: 1;
+}
+
 #main__hero {
-  width: 100vw;
-  height: calc(100vh - 62px);
+  width: 995px;
+  height: 40dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  z-index: 2;
-
-  h1 {
-    font-size: 120px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
+  padding-top: 10%;
 
   p {
     font-size: 18px;
@@ -329,7 +307,6 @@ input[type='radio'] {
 }
 
 #main__wrapper {
-  width: max(100%, 995px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -399,8 +376,12 @@ input[type='radio'] {
 
 
 .cards-list__wrapper {
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  height: 90vh;
+
 
   &.empty {
     .pagination {
@@ -438,32 +419,21 @@ input[type='radio'] {
   }
 }
 
-.search__wrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 40px;
-}
-
 .search {
   position: relative;
-  //width: calc($width / 2 - 7.5px);
   width: 100%;
 
   input {
     width: 100%;
-    padding: 0 50px 10px;
-    background-color: transparent;
-    border: 0;
-    border-radius: 0;
-    border-bottom: 2px solid $light-input-border;
-    font-size: 14px;
+    padding: 0 40px 20px 0;
+    border-bottom: 2px solid $light-border;
+    font-size: 18px;
   }
 
   svg {
     position: absolute;
-    top: 5px;
-    left: 16px;
-    width: 22px;
+    bottom: 20px;
+    right: 0;
     color: $light-second-text;
     opacity: .8;
   }
@@ -555,7 +525,6 @@ li:has(.card) {
   row-gap: 70px;
   align-items: center;
   justify-content: center;
-  margin: 50px 0;
 }
 
 .training-empty {
@@ -591,8 +560,8 @@ li:has(.card) {
 
 .training__card {
   position: relative;
-  width: 700px;
-  height: 450px;
+  width: $width;
+  height: 65vh;
   background: $light-user-card;
   border-radius: .4rem;
   perspective: 600px;
@@ -646,17 +615,18 @@ li:has(.card) {
 }
 
 .account__wrapper {
-  max-width: 580px;
+  width: 580px;
   display: flex;
   flex-direction: column;
   margin: 50px 0;
 
   label {
+    width: 100%;
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     margin-bottom: 30px;
-    width: 550px;
+    font-weight: 500;
   }
 
   input {
@@ -672,12 +642,20 @@ li:has(.card) {
 }
 
 .account-edit__form__head {
-  font-size: 22px;
+  font-size: 24px;
   margin: 50px 0 30px;
 }
 
-#account__login, #account__name {
+#account__name {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+#account__login {
   margin-bottom: 5px;
+}
+
+#account__login, #account__name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -686,7 +664,7 @@ li:has(.card) {
 .account__info {
   display: flex;
   column-gap: 20px;
-  height: 120px;
+  height: 160px;
 
   img {
     height: 100%;
@@ -773,7 +751,7 @@ li:has(.card) {
   align-items: center;
   column-gap: 20px;
   width: 100%;
-  height: 140px;
+  height: 150px;
   background: $light-user-card;
   filter: drop-shadow(0 0.125rem 0.25rem $light-shadow);
   border-radius: $border-radius;
@@ -795,6 +773,8 @@ li:has(.card) {
   bottom: 0;
   left: 0;
   max-width: 50%;
+  font-size: 16px;
+  line-height: .95;
 }
 
 .statistic__label__value {
@@ -805,48 +785,74 @@ li:has(.card) {
 }
 
 .deck-info__wrapper {
-  width: 100%;
+  width: 60%;
 
   h2 {
+    font-size: 18px;
     margin-bottom: 10px;
+  }
+
+  .statistic-grid {
+    grid-template-columns: 2fr 1fr;
   }
 }
 
 .deck-info__row {
-  margin: 30px 0;
+  margin: 40px 0;
 }
 
-.deck-info__leaderboard__head {
-  margin: 80px 0 30px !important;
+.deck-info__row__first {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 20px;
 }
 
+.deck-info__owner {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  padding: 30px;
+  background-color: $light-header-background;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius;
+
+  img {
+    width: 80px;
+    border-radius: $border-radius;
+    margin-bottom: 10px;
+  }
+}
+
+.deck-info__leaderboard__head__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 30px;
+}
 
 .leaderboard {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
   color: $light-text;
-  margin: 0 auto 40px;
+  margin: 20px auto 0;
+  align-items: flex-end;
+}
 
-  li {
-    transition: .3s ease-in-out;
-
-    &:hover {
-      transform: translateY(-5px);
-      filter: drop-shadow(0 0.125rem 0.25rem $light-shadow);
-    }
-  }
+.leaderboard li, .deck-info__owner {
+  filter: drop-shadow(0 0.125rem 0.25rem $light-shadow);
 }
 
 .leaderboard__leader {
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: 80px 6fr 1fr;
   width: 100%;
   height: 70px;
   background: $light-user-card;
   border-radius: $border-radius;
-  padding: 0 5%;
+  padding: 0 30px;
 
   & > div {
     display: flex;
@@ -857,6 +863,28 @@ li:has(.card) {
     font-size: 16px;
     font-weight: 500;
   }
+}
+
+.leaderboard__title {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 80px 6fr 1fr;
+  padding: 0 30px;
+  color: $light-second-text;
+}
+
+
+.leader__name__wrapper {
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+}
+
+.leader__avatar {
+  width: 40px;
+  height: 40px;
+  background-color: $light-background;
+  border-radius: $border-radius;
 }
 
 .deck-info__cards-amount {
@@ -1033,7 +1061,7 @@ li:has(.card) {
   left: 0;
   @include centred-flexbox;
   background: $light-header-background;
-  border-top: 1px solid $light-header-border;
+  filter: drop-shadow(1px 1px 5px $light-header-border);
 }
 
 .footer__wrapper {
@@ -1131,8 +1159,7 @@ li:has(.card) {
 
 .pagination {
   display: flex;
-  justify-content: center;
-  column-gap: 10px;
+  justify-content: space-between;
   margin: 50px 0 0;
 
   p {
@@ -1146,12 +1173,17 @@ li:has(.card) {
   }
 }
 
+.pagination__pages {
+  display: flex;
+  column-gap: 15px;
+}
+
 .pagination__button {
   @include centred-flexbox;
   width: 34px;
   height: 34px;
   border: 1px solid $light-text;
-  border-radius: 50%;
+  border-radius: $border-radius;
   color: $light-text;
   font-weight: 500;
 
@@ -1187,8 +1219,8 @@ li:has(.card) {
 
 .add__deck__wrapper {
 
-  h1 {
-    text-decoration: none;
+  h2 {
+    font-size: 42px;
   }
 
   form {
@@ -1203,6 +1235,7 @@ li:has(.card) {
       row-gap: 10px;
     }
   }
+
 }
 
 .copy-link {

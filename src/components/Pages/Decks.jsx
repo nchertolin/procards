@@ -23,7 +23,7 @@ function Decks() {
 
     return (
         <>
-            <Navigation parentText='Выберите колоду'/>
+            {/*<Navigation parentText='Выберите колоду'/>*/}
             <div className={`cards-list__wrapper ${!data.length ? 'empty' : ''}`}>
                 <Search
                     setPage={setPage}

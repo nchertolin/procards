@@ -45,7 +45,7 @@ body.dark {
 
 
   .header-nav__buttons {
-    border-color: $dark-header-border;
+    border-color: $dark-border;
 
     svg {
       color: $dark-text;
@@ -68,8 +68,20 @@ body.dark {
     }
   }
 
+  .leaderboard__title {
+    color: $dark-second-text;
+  }
+
   .leaderboard__leader {
     background: $dark-user-card;
+  }
+
+  .deck-info__owner {
+    background-color: $dark-header-background;
+
+    img {
+      background-color: $light-header-background;
+    }
   }
 
   .avatar {
@@ -189,7 +201,7 @@ body.dark {
   }
 
   .invalid {
-    border: 1px solid red;
+    border-color: red;
   }
 
   .copy-link {
@@ -209,7 +221,7 @@ body.dark {
 
   .page-footer {
     background: $dark-header-background;
-    border-top: 0;
+    filter: none;
   }
 
   .footer__copyright__wrapper {

@@ -27,7 +27,7 @@ function DecksEditor() {
 
     return (
         <>
-            <Navigation parentText='Редактор колод'/>
+            {/*<Navigation parentText='Редактор колод'/>*/}
             <div className='cards-list__wrapper'>
                 <Search
                     setPage={setPage}

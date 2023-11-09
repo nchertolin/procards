@@ -5,10 +5,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LoginIcon from '@mui/icons-material/Login';
-import HomeIcon from '@mui/icons-material/Home';
-import SchoolIcon from '@mui/icons-material/School';
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
+import DashboardCustomizeRoundedIcon from '@mui/icons-material/DashboardCustomizeRounded';
+import VolunteerActivismRoundedIcon from '@mui/icons-material/VolunteerActivismRounded';
 
 
 export default function Header() {
@@ -23,10 +23,22 @@ export default function Header() {
         <header className='page-header'>
             <div className='header-nav'>
                 <nav className='header-nav__list'>
-                    <NavLink to=''><HomeIcon/></NavLink>
-                    <NavLink to='learn'><SchoolIcon/></NavLink>
-                    <NavLink to='editor'><DashboardCustomizeIcon/></NavLink>
-                    <NavLink to='donate'><VolunteerActivismIcon/></NavLink>
+                    <NavLink to=''>
+                        <HomeRoundedIcon/>
+                        <p>Главная</p>
+                    </NavLink>
+                    <NavLink to='learn'>
+                        <SchoolRoundedIcon/>
+                        <p>Обучение</p>
+                    </NavLink>
+                    <NavLink to='editor'>
+                        <DashboardCustomizeRoundedIcon/>
+                        <p>Редактор</p>
+                    </NavLink>
+                    <NavLink to='donate'>
+                        <VolunteerActivismRoundedIcon/>
+                        <p>Поддержать</p>
+                    </NavLink>
                 </nav>
                 <div className='header-nav__buttons'>
                     {

@@ -30,7 +30,7 @@ function User() {
                      alt='аватар'
                 />
                 <div>
-                    <h1 id='account__name'>@{user?.login}</h1>
+                    <h1 id='account__name'>{user?.login}</h1>
                     <p>{user?.location}</p>
                 </div>
 
